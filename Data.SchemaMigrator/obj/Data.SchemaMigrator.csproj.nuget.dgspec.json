@@ -1,0 +1,141 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/christophehvd/Repos/Surfrider-database/Data.SchemaMigrator/Data.SchemaMigrator.csproj": {}
+  },
+  "projects": {
+    "/Users/christophehvd/Repos/Surfrider-database/Data.SchemaMigrator/Data.SchemaMigrator.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/christophehvd/Repos/Surfrider-database/Data.SchemaMigrator/Data.SchemaMigrator.csproj",
+        "projectName": "Data.SchemaMigrator",
+        "projectPath": "/Users/christophehvd/Repos/Surfrider-database/Data.SchemaMigrator/Data.SchemaMigrator.csproj",
+        "packagesPath": "/Users/christophehvd/.nuget/packages/",
+        "outputPath": "/Users/christophehvd/Repos/Surfrider-database/Data.SchemaMigrator/obj/",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "/Users/christophehvd/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.0": {
+            "projectReferences": {
+              "/Users/christophehvd/Repos/Surfrider-database/library/library.csproj": {
+                "projectPath": "/Users/christophehvd/Repos/Surfrider-database/library/library.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.0": {
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[3.1.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools.DotNet": {
+              "target": "Package",
+              "version": "[2.0.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.102/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/christophehvd/Repos/Surfrider-database/library/library.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/christophehvd/Repos/Surfrider-database/library/library.csproj",
+        "projectName": "library",
+        "projectPath": "/Users/christophehvd/Repos/Surfrider-database/library/library.csproj",
+        "packagesPath": "/Users/christophehvd/.nuget/packages/",
+        "outputPath": "/Users/christophehvd/Repos/Surfrider-database/library/obj/",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "/Users/christophehvd/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "dependencies": {
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[12.0.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.102/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
