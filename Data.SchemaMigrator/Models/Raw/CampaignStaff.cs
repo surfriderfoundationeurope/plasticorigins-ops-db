@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Data.SchemaMigrator.Models
+namespace Data.SchemaMigrator.Models.Raw
 {
     public partial class CampaignStaff
     {
@@ -10,7 +10,7 @@ namespace Data.SchemaMigrator.Models
         public bool? IsStaff { get; set; }
         public bool? HasBeenTrained { get; set; }
 
-        public virtual Campaign1 Campaign { get; set; }
-        public virtual User1 User { get; set; }
+        public virtual Campaign Campaign { get; set; }
+        public virtual User User { get; set; }
     }
 }

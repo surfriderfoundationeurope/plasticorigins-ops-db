@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Data.SchemaMigrator.Models
+namespace Data.SchemaMigrator.Models.Raw
 {
-    public partial class Campaign1
+    public partial class Campaign
     {
-        public Campaign1()
+        public Campaign()
         {
             CampaignImageAssoc = new HashSet<CampaignImageAssoc>();
             CampaignStaff = new HashSet<CampaignStaff>();
@@ -26,8 +26,8 @@ namespace Data.SchemaMigrator.Models
         public bool TracedRiverSide { get; set; }
         public Guid? UserId { get; set; }
 
-        public virtual River1 River { get; set; }
-        public virtual User1 User { get; set; }
+        public virtual River River { get; set; }
+        public virtual User User { get; set; }
         public virtual ICollection<CampaignImageAssoc> CampaignImageAssoc { get; set; }
         public virtual ICollection<CampaignStaff> CampaignStaff { get; set; }
         public virtual ICollection<Trash> Trash { get; set; }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Data.SchemaMigrator.Models
+namespace Data.SchemaMigrator.Models.Bi
 {
     public partial class Logs
     {

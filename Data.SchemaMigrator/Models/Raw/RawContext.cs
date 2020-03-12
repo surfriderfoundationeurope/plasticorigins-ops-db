@@ -2,31 +2,27 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Data.SchemaMigrator.Models
+namespace Data.SchemaMigrator.Models.Raw
 {
-    public partial class SurfriderDbContext : DbContext
+    public partial class RawContext : DbContext
     {
-        public SurfriderDbContext()
+        public RawContext()
         {
         }
 
-        public SurfriderDbContext(DbContextOptions<SurfriderDbContext> options)
+        public RawContext(DbContextOptions<RawContext> options)
             : base(options)
         {
         }
 
         public virtual DbSet<Campaign> Campaign { get; set; }
-        public virtual DbSet<Campaign1> Campaign1 { get; set; }
         public virtual DbSet<CampaignImageAssoc> CampaignImageAssoc { get; set; }
         public virtual DbSet<CampaignStaff> CampaignStaff { get; set; }
         public virtual DbSet<Images> Images { get; set; }
-        public virtual DbSet<Logs> Logs { get; set; }
         public virtual DbSet<River> River { get; set; }
-        public virtual DbSet<River1> River1 { get; set; }
         public virtual DbSet<Trash> Trash { get; set; }
         public virtual DbSet<TrashType> TrashType { get; set; }
         public virtual DbSet<User> User { get; set; }
-        public virtual DbSet<User1> User1 { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -41,15 +37,6 @@ namespace Data.SchemaMigrator.Models
         {
             modelBuilder.Entity<Campaign>(entity =>
             {
-                entity.ToTable("Campaign", "bi");
-
-                entity.Property(e => e.Id).ValueGeneratedNever();
-            });
-
-            modelBuilder.Entity<Campaign1>(entity =>
-            {
-                entity.ToTable("Campaign");
-
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.IsAidriven).HasColumnName("IsAIDriven");
@@ -64,12 +51,12 @@ namespace Data.SchemaMigrator.Models
                 entity.Property(e => e.RiverId).HasColumnType("numeric(8, 0)");
 
                 entity.HasOne(d => d.River)
-                    .WithMany(p => p.Campaign1)
+                    .WithMany(p => p.Campaign)
                     .HasForeignKey(d => d.RiverId)
                     .HasConstraintName("FK__Campaign__RiverI__282DF8C2");
 
                 entity.HasOne(d => d.User)
-                    .WithMany(p => p.Campaign1)
+                    .WithMany(p => p.Campaign)
                     .HasForeignKey(d => d.UserId)
                     .HasConstraintName("FK__Campaign__UserId__2B0A656D");
             });
@@ -142,38 +129,10 @@ namespace Data.SchemaMigrator.Models
                     .IsUnicode(false);
             });
 
-            modelBuilder.Entity<Logs>(entity =>
-            {
-                entity.ToTable("Logs", "bi");
-
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
-                entity.Property(e => e.Status)
-                    .IsRequired()
-                    .HasMaxLength(10)
-                    .IsUnicode(false);
-            });
-
             modelBuilder.Entity<River>(entity =>
-            {
-                entity.ToTable("River", "bi");
-
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
-                entity.Property(e => e.MeanDensityOfLitter).HasColumnType("decimal(18, 0)");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(255)
-                    .IsUnicode(false);
-            });
-
-            modelBuilder.Entity<River1>(entity =>
             {
                 entity.HasKey(e => e.Cid)
                     .HasName("PK__River__C1F8DC59ACD56E3A");
-
-                entity.ToTable("River");
 
                 entity.Property(e => e.Cid)
                     .HasColumnName("CID")
@@ -242,15 +201,6 @@ namespace Data.SchemaMigrator.Models
 
             modelBuilder.Entity<User>(entity =>
             {
-                entity.ToTable("User", "bi");
-
-                entity.Property(e => e.Id).ValueGeneratedNever();
-            });
-
-            modelBuilder.Entity<User1>(entity =>
-            {
-                entity.ToTable("User");
-
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.Email)

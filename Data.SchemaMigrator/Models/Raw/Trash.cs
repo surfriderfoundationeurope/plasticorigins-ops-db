@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Data.SchemaMigrator.Models
+namespace Data.SchemaMigrator.Models.Raw
 {
     public partial class Trash
     {
@@ -16,7 +16,7 @@ namespace Data.SchemaMigrator.Models
         public Guid? RelatedImageId { get; set; }
         public decimal? Aiversion1 { get; set; }
 
-        public virtual Campaign1 Campaign { get; set; }
+        public virtual Campaign Campaign { get; set; }
         public virtual Images RelatedImage { get; set; }
         public virtual TrashType TrashType { get; set; }
     }

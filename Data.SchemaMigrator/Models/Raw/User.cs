@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Data.SchemaMigrator.Models
+namespace Data.SchemaMigrator.Models.Raw
 {
-    public partial class User1
+    public partial class User
     {
-        public User1()
+        public User()
         {
-            Campaign1 = new HashSet<Campaign1>();
+            Campaign = new HashSet<Campaign>();
             CampaignStaff = new HashSet<CampaignStaff>();
         }
 
@@ -21,7 +21,7 @@ namespace Data.SchemaMigrator.Models
         public string Experience { get; set; }
         public bool IsDeleted { get; set; }
 
-        public virtual ICollection<Campaign1> Campaign1 { get; set; }
+        public virtual ICollection<Campaign> Campaign { get; set; }
         public virtual ICollection<CampaignStaff> CampaignStaff { get; set; }
     }
 }
