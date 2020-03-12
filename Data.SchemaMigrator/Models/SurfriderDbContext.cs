@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Data.SchemaMigrator.Models
 {
-    public partial class DbContext : DbContext
+    public partial class SurfriderDbContext : DbContext
     {
-        public DbContext()
+        public SurfriderDbContext()
         {
         }
 
-        public DbContext(DbContextOptions<DbContext> options)
+        public SurfriderDbContext(DbContextOptions<SurfriderDbContext> options)
             : base(options)
         {
         }
