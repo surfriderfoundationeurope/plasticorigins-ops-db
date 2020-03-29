@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "library", "library\library.csproj", "{7D9A7006-2AF9-4365-A2A3-1DA8DFD03FE2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test-library", "test-library\test-library.csproj", "{E019344D-5838-4632-BBED-EA9BA1CB5AC0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data.SchemaMigrator", "Data.SchemaMigrator\Data.SchemaMigrator.csproj", "{AE3E1397-4931-415C-9B7B-BB88BF5D1C04}"
 EndProject
 Global

@@ -1,8 +1,0 @@
-/Users/christophehvd/Repos/Surfrider-database/library/bin/Debug/netstandard2.0/library.deps.json
-/Users/christophehvd/Repos/Surfrider-database/library/bin/Debug/netstandard2.0/library.dll
-/Users/christophehvd/Repos/Surfrider-database/library/bin/Debug/netstandard2.0/library.pdb
-/Users/christophehvd/Repos/Surfrider-database/library/obj/Debug/netstandard2.0/library.csprojAssemblyReference.cache
-/Users/christophehvd/Repos/Surfrider-database/library/obj/Debug/netstandard2.0/library.AssemblyInfoInputs.cache
-/Users/christophehvd/Repos/Surfrider-database/library/obj/Debug/netstandard2.0/library.AssemblyInfo.cs
-/Users/christophehvd/Repos/Surfrider-database/library/obj/Debug/netstandard2.0/library.dll
-/Users/christophehvd/Repos/Surfrider-database/library/obj/Debug/netstandard2.0/library.pdb

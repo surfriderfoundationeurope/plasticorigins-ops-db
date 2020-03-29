@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\library\library.csproj" />
   </ItemGroup>
 
   <ItemGroup>
