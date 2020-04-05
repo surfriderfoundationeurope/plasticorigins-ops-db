@@ -1,0 +1,8 @@
+Data.SchemaMigrator/obj/Data.SchemaMigrator.csproj.EntityFrameworkCore.targets
+obj/Raw.EntityFrameworkCore.targets
+.vs/Surfrider-database/xs/UserPrefs.xml
+**/*.sql
+**/bin/*
+**/obj/*
+**/.vs/*
+*.dll

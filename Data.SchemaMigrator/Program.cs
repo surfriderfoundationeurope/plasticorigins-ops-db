@@ -1,7 +1,4 @@
-﻿using System;
-using static System.Console;
-
-namespace Data.SchemaMigrator
+﻿namespace Data.SchemaMigrator
 {
     class Program
     {
@@ -10,3 +7,4 @@ namespace Data.SchemaMigrator
         }
     }
 }
+
