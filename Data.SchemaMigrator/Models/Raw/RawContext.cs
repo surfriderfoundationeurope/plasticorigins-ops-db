@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 
 namespace Data.SchemaMigrator.Models.Raw
 {
@@ -15,6 +16,12 @@ namespace Data.SchemaMigrator.Models.Raw
         {
         }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+            var rawContextCs = configuration.GetConnectionString("RawDatabase");
+            optionsBuilder.UseSqlServer(rawContextCs);
+        }
         public virtual DbSet<Campaign> Campaign { get; set; }
         public virtual DbSet<CampaignImageAssoc> CampaignImageAssoc { get; set; }
         public virtual DbSet<CampaignStaff> CampaignStaff { get; set; }
@@ -23,16 +30,7 @@ namespace Data.SchemaMigrator.Models.Raw
         public virtual DbSet<Trash> Trash { get; set; }
         public virtual DbSet<TrashType> TrashType { get; set; }
         public virtual DbSet<User> User { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=tcp:dev-trashroulette.database.windows.net,1433;Initial Catalog=dev-trashroulette;Persist Security Info=False;User ID=SurfriderAdmin;Password=PlastiqueEnFolie!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
-            }
-        }
-
+       
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Campaign>(entity =>
