@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
 
 namespace Data.SchemaMigrator.Models.Raw
@@ -18,8 +17,13 @@ namespace Data.SchemaMigrator.Models.Raw
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-            var rawContextCs = configuration.GetConnectionString("RawDatabase");
+            //var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+            var configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.local.json")
+                .AddAzureAppConfiguration(Environment.GetEnvironmentVariable("AzureSQLServerConnectionString"))
+                .Build();
+            
+            var rawContextCs = configuration["SurfriderDb:AzureSQLServer"];
             optionsBuilder.UseSqlServer(rawContextCs);
         }
         public virtual DbSet<Campaign> Campaign { get; set; }
