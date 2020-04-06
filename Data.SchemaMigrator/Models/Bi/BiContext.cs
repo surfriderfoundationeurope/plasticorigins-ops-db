@@ -23,7 +23,7 @@ namespace Data.SchemaMigrator.Models.Bi
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+            var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.local.json").Build();
             var biContextCs = configuration.GetConnectionString("BiDatabase");
             optionsBuilder.UseSqlServer(biContextCs);
         }
