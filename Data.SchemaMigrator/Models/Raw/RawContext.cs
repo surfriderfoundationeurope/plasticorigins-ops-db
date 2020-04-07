@@ -23,7 +23,7 @@ namespace Data.SchemaMigrator.Models.Raw
                 .AddAzureAppConfiguration(Environment.GetEnvironmentVariable("AzureSQLServerConnectionString"))
                 .Build();
             
-            var rawContextCs = configuration["SurfriderDb:AzureSQLServer"];
+            var rawContextCs = configuration["SurfriderDb:AzureSQLServer"] ?? configuration.GetConnectionString("RawDatabase");
             optionsBuilder.UseSqlServer(rawContextCs);
         }
         public virtual DbSet<Campaign> Campaign { get; set; }
