@@ -14,7 +14,9 @@ Every database table is represented by a C# class.
 
 Everytime we need to make some changes over the database schema, we need to create a EFCore "Migration"
 > dotnet ef migrations add NameOfMyMigration
+
 This will create a Migration class that describes our changes over the database.
+
 Then update the db according to this migration
 > dotnet ef database update
 
