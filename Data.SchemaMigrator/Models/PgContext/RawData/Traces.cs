@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Data.SchemaMigrator.Models.PgContext
+namespace Data.SchemaMigrator.Models.PgContext.RawData
 {
     public partial class Traces
     {

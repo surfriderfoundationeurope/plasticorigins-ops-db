@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Data.SchemaMigrator.Models.PgContext
+namespace Data.SchemaMigrator.Models.PgContext.RawData
 {
     public partial class Pg_RawDataContext : DbContext
     {

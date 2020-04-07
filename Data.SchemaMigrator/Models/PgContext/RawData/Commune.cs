@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using NetTopologySuite.Geometries;
 
-namespace Data.SchemaMigrator.Models.PgContext
+namespace Data.SchemaMigrator.Models.PgContext.RawData
 {
     public partial class Commune
     {
