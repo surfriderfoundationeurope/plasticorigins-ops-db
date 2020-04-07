@@ -17,13 +17,7 @@ namespace Data.SchemaMigrator.Models.Raw
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.local.json")
-                .AddAzureAppConfiguration(Environment.GetEnvironmentVariable("AzureSQLServerConnectionString"))
-                .Build();
-            
-            var rawContextCs = configuration["SurfriderDb:AzureSQLServer"] ?? configuration.GetConnectionString("RawDatabase");
+            var rawContextCs = Program.GetConnectionString();
             optionsBuilder.UseSqlServer(rawContextCs);
         }
         public virtual DbSet<Campaign> Campaign { get; set; }

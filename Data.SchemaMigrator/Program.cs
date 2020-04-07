@@ -10,12 +10,22 @@ namespace Data.SchemaMigrator
     {
         static void Main(string[] args)
         {
-            var configuration = new ConfigurationBuilder().
-            AddAzureAppConfiguration(Environment.GetEnvironmentVariable("AzureSQLServerConnectionString"))
-            .Build();
             
-            var rawContextCs = configuration["SurfriderDb:AzureSQLServer"];
-            Console.WriteLine(rawContextCs ?? "Hello world!");
+            Console.WriteLine(GetConnectionString());
+        }
+
+        public static string GetConnectionString(){
+            if(Environment.GetEnvironmentVariable("AzureConnectionString") != null) {
+                var configuration = new ConfigurationBuilder()
+                .AddAzureAppConfiguration(Environment.GetEnvironmentVariable("AzureConnectionString"))
+                .Build();
+                return configuration["SurfriderDb:AzureSQLServer"];
+            }else {
+                var configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.local.json")
+                .Build();
+                return configuration.GetConnectionString("PostgreSql");
+            }
         }
     }
 }
