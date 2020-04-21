@@ -4,6 +4,7 @@ create table bi.trash_river (
 
 						  id 						SERIAL primary key,
 						  id_ref_trash_fk	 		uuid NOT null references campaign.trash(id) ,
+						  id_ref_campaign_fk	 								uuid NOT null references campaign.campaign(id) ,
 						  id_ref_river_fk 			int NOT null references referential.river(id) ,
 						  trash_the_geom  			geometry not null,
 						  river_the_geom  			geometry not null,
@@ -11,16 +12,19 @@ create table bi.trash_river (
 						  distance_river_trash   	float not null,
 						  projection_trash_river_the_geom geometry not null,
 						  importance 				integer,
+						  river_name				text,
 						  createdon 				timestamp
 
 						  );
+
 ----------------------------------------------------------------------------------------------------------------------------------
-/*
+
 drop table if exists bi.trajectory_point_river;
 create table bi.trajectory_point_river (
 
 						  id 											SERIAL primary key,
 						  id_ref_trajectory_point_fk	 				uuid NOT null references campaign.trajectory_point(id) ,
+						  id_ref_campaign_fk	 								uuid NOT null references campaign.campaign(id) ,
 						  id_ref_river_fk 								int NOT null references referential.river(id) ,
 						  trajectory_point_the_geom  					geometry not null,
 						  river_the_geom  								geometry not null,
@@ -28,6 +32,7 @@ create table bi.trajectory_point_river (
 						  distance_river_trajectory_point   			float not null,
 						  projection_trajectory_point_river_the_geom	geometry not null,
 						  importance 									integer,
+						  river_name										text,
 						  createdon 									timestamp
 
 						  );
@@ -69,3 +74,9 @@ create table if not exists bi.campaign (
 	createdon timestamp
 
     );
+
+
+
+
+/* Ajouter le script de la table campaign_river */
+/* ajouter le script de la table river */
