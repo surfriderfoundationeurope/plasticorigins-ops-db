@@ -24,3 +24,7 @@ Example :
 Then update the db according to this migration
 > dotnet ef database update
 
+## Scaffolding
+Scaffolding is the fact or reverse engineer an existing database. This is the way we used to create our entities, as the database already existed.
+To target a particular database schema, we run the following command : 
+> dotnet-ef dbcontext scaffold "My Connection String" Npgsql.EntityFrameworkCore.PostgreSQL -o OutputDir -c ContextName --schema SchemaName
