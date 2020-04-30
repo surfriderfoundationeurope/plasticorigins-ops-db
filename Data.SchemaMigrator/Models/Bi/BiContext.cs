@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 
 namespace Data.SchemaMigrator.Models.Bi
 {
@@ -22,11 +23,9 @@ namespace Data.SchemaMigrator.Models.Bi
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=tcp:dev-trashroulette.database.windows.net,1433;Initial Catalog=dev-trashroulette;Persist Security Info=False;User ID=SurfriderAdmin;Password=PlastiqueEnFolie!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
-            }
+            var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.local.json").Build();
+            var biContextCs = configuration.GetConnectionString("BiDatabase");
+            optionsBuilder.UseSqlServer(biContextCs);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

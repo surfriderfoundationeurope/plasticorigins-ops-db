@@ -1,5 +1,8 @@
 ﻿using System;
-using static System.Console;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.AzureAppConfiguration;
 
 namespace Data.SchemaMigrator
 {
@@ -7,6 +10,13 @@ namespace Data.SchemaMigrator
     {
         static void Main(string[] args)
         {
+            var configuration = new ConfigurationBuilder().
+            AddAzureAppConfiguration(Environment.GetEnvironmentVariable("AzureSQLServerConnectionString"))
+            .Build();
+            
+            var rawContextCs = configuration["SurfriderDb:AzureSQLServer"];
+            Console.WriteLine(rawContextCs ?? "Hello world!");
         }
     }
 }
+
