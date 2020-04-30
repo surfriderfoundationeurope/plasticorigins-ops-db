@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 
 namespace Data.SchemaMigrator.Models.PgContext.Referential
 {
@@ -24,11 +25,9 @@ namespace Data.SchemaMigrator.Models.PgContext.Referential
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseNpgsql("Server=surfrider-geodata.postgres.database.azure.com;Database=postgres;Port=5432;User Id=SurfriderAdmin@surfrider-geodata;Password=PlastiqueEnFolie!;Ssl Mode=Require;", x => x.UseNetTopologySuite());
-            }
+             var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.local.json").Build();
+            var cs = configuration.GetConnectionString("PostgreSql");
+            optionsBuilder.UseNpgsql(cs, x=> x.UseNetTopologySuite());
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

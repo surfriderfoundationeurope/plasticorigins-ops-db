@@ -1,6 +1,5 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Data.SchemaMigrator.Models.PgContext.Campaign
 {
@@ -25,11 +24,9 @@ namespace Data.SchemaMigrator.Models.PgContext.Campaign
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseNpgsql("Server=surfrider-geodata.postgres.database.azure.com;Database=postgres;Port=5432;User Id=SurfriderAdmin@surfrider-geodata;Password=PlastiqueEnFolie!;Ssl Mode=Require;", x => x.UseNetTopologySuite());
-            }
+            var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.local.json").Build();
+            var cs = configuration.GetConnectionString("PostgreSql");
+            optionsBuilder.UseNpgsql(cs, x=> x.UseNetTopologySuite());
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -37,9 +34,9 @@ namespace Data.SchemaMigrator.Models.PgContext.Campaign
             modelBuilder.HasPostgresExtension("pg_buffercache")
                 .HasPostgresExtension("pg_stat_statements")
                 .HasPostgresExtension("pgcrypto")
-                .HasPostgresExtension("pgrouting")
                 .HasPostgresExtension("postgis")
                 .HasPostgresExtension("postgis_topology")
+                .HasPostgresExtension("pgrouting")
                 .HasPostgresExtension("uuid-ossp");
 
             modelBuilder.Entity<Campaign>(entity =>

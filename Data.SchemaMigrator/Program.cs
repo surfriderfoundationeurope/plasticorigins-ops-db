@@ -1,4 +1,5 @@
 ﻿using System;
+using Data.SchemaMigrator.Models.PgContext.Campaign;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
@@ -11,7 +12,6 @@ namespace Data.SchemaMigrator
         static void Main(string[] args)
         {
             
-            Console.WriteLine(GetConnectionString());
         }
 
         public static string GetConnectionString(){
