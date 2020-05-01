@@ -16,6 +16,8 @@ namespace Data.SchemaMigrator.Models.PgContext.Campaign
 
         public virtual DbSet<Campaign> Campaign { get; set; }
         public virtual DbSet<Image> Image { get; set; }
+        
+        #pragma warning disable CS0114
         public virtual DbSet<Model> Model { get; set; }
         public virtual DbSet<TrajectoryPoint> TrajectoryPoint { get; set; }
         public virtual DbSet<Trash> Trash { get; set; }
