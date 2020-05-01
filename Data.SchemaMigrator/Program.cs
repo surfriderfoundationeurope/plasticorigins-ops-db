@@ -1,9 +1,11 @@
 ﻿using System;
-using Data.SchemaMigrator.Models.PgContext.Campaign;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+using System.Threading.Tasks;
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
+using Microsoft.Azure.KeyVault;
+using Microsoft.Azure.KeyVault.Models;
+using Microsoft.Azure.Services.AppAuthentication;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.AzureAppConfiguration;
 
 namespace Data.SchemaMigrator
 {
@@ -11,21 +13,32 @@ namespace Data.SchemaMigrator
     {
         static void Main(string[] args)
         {
-            
+            Console.WriteLine(GetConnectionString()); // for developement purpose only. Allow us to check which connection string is retrieved
         }
 
-        public static string GetConnectionString(){
-            if(Environment.GetEnvironmentVariable("AzureConnectionString") != null) {
-                var configuration = new ConfigurationBuilder()
-                .AddAzureAppConfiguration(Environment.GetEnvironmentVariable("AzureConnectionString"))
-                .Build();
-                return configuration["SurfriderDb:AzureSQLServer"];
-            }else {
-                var configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.local.json")
-                .Build();
+        public static string GetConnectionString()
+        {
+            var configuration = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.local.json")
+            .Build();
+
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Local")
+                return GetKeyVaultConnectionString("db-plastico-dev-connectionstring");
+            else
                 return configuration.GetConnectionString("PostgreSql");
-            }
+        }
+
+        // https://docs.microsoft.com/en-us/azure/key-vault/secrets/quick-create-net
+        public static string GetKeyVaultConnectionString(string secretName)
+        {
+
+            string keyVaultName = Environment.GetEnvironmentVariable("KEY_VAULT_NAME");
+            var kvUri = "https://" + keyVaultName + ".vault.azure.net";
+
+            var client = new SecretClient(new Uri(kvUri), new DefaultAzureCredential());
+
+            KeyVaultSecret secret = client.GetSecret(secretName);
+            return secret.Value;
         }
     }
 }
