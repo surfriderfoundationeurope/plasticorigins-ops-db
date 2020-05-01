@@ -23,10 +23,10 @@ namespace Data.SchemaMigrator
             .AddJsonFile("appsettings.local.json")
             .Build();
 
-            if (configuration.GetSection("AppSettings").GetValue<string>("ASPNETCORE_ENVIRONMENT") == "Development")
-                return configuration.GetConnectionString("PostgreSql");
-            else
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
                 return GetKeyVaultConnectionString("db-plastico-dev-connectionstring");
+            else
+                return configuration.GetConnectionString("PostgreSql");
         }
 
         // https://docs.microsoft.com/en-us/azure/key-vault/secrets/quick-create-net
