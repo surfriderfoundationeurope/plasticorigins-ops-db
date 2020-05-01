@@ -23,7 +23,7 @@ namespace Data.SchemaMigrator
             .AddJsonFile("appsettings.local.json")
             .Build();
 
-            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Local")
                 return GetKeyVaultConnectionString("db-plastico-dev-connectionstring");
             else
                 return configuration.GetConnectionString("PostgreSql");
