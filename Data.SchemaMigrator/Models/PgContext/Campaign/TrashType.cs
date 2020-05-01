@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Data.SchemaMigrator.Models.Raw
+namespace Data.SchemaMigrator.Models.PgContext.Campaign
 {
     public partial class TrashType
     {
@@ -10,8 +10,9 @@ namespace Data.SchemaMigrator.Models.Raw
             Trash = new HashSet<Trash>();
         }
 
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string Type { get; set; }
+        public string Brand { get; set; }
 
         public virtual ICollection<Trash> Trash { get; set; }
     }

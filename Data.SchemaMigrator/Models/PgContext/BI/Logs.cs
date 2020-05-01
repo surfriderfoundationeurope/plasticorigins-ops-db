@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Data.SchemaMigrator.Models.Bi
+namespace Data.SchemaMigrator.Models.PgContext.BI
 {
     public partial class Logs
     {
