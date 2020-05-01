@@ -13,8 +13,7 @@ namespace Data.SchemaMigrator
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(GetConnectionString());
-
+            Console.WriteLine(GetConnectionString()); // for developement purpose only. Allow us to check which connection string is retrieved
         }
 
         public static string GetConnectionString()
