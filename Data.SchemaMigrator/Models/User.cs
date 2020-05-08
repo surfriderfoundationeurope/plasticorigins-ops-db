@@ -22,6 +22,8 @@ namespace Data.SchemaMigrator.Models
         public string Experience { get; set; }
         public bool Isdeleted { get; set; }
         public DateTime? Createdon { get; set; }
+        public DateTime? LastLoggedOn { get; set; }
+        public string Nickname { get; set; }
 
         public virtual ICollection<Campaign_Campaign> Campaigns_Campaign { get; set; }
         public virtual ICollection<ImagesForLabelling> UserImagesForLabellings { get; set; }
