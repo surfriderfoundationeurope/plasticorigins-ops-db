@@ -79,7 +79,30 @@ Example :
 Then update the db according to this migration
 > dotnet ef database update
 
+## How to edit the database/tables/columns?
+
+1. Create a new git branch (never work directly on master)
+
+2. Edit the entities (= tables) the say you want. They are stored in Models folder.
+
+3. Edit the PlasticoDbContext.cs file. It represents the whole database and links all the entities (= tables) together.
+
+4. When all edit is done, generate the corresponding Migration with command below : 
+
+   > dotnet ef migrations add initPublicSchema --context PlasticoDbContext -o Migrations
+
+5. If everything looks fine, create the pull request.
+
+6. As soon as the PR is merged, the build pipeline (Azure DevOps) will generate the migration script (sql) and pass it to the Release pipeline.
+
+   Another way of doing it is by executing the migration directly from your local computer via command below : 
+
+   > dotnet ef database update
+
+   EF.Core will detect automatically which migrations it needs to run (only the one not runned already).
+
 ## Scaffolding
+
 Scaffolding is the fact or reverse engineer an existing database. This is the way we used to create our entities, as the database already existed.
 To target a particular database schema, we run the following command : 
 > dotnet-ef dbcontext scaffold "My Connection String" Npgsql.EntityFrameworkCore.PostgreSQL -o OutputDir -c ContextName --schema SchemaName
