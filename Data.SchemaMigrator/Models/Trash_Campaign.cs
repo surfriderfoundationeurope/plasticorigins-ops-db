@@ -21,7 +21,7 @@ namespace Data.SchemaMigrator.Models
         public DateTime? Createdon { get; set; }
 
         public virtual Campaign_Campaign IdRefCampaignFkNavigation { get; set; }
-        public virtual Image IdRefImageFkNavigation { get; set; }
+        public virtual Media IdRefImageFkNavigation { get; set; }
         public virtual AiModel IdRefModelFkNavigation { get; set; }
         public virtual TrashType IdRefTrashTypeFkNavigation { get; set; }
     }
