@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Data.SchemaMigrator.Models.PgContext.Label;
 
 namespace Data.SchemaMigrator.Models.PgContext.Campaign
 {
@@ -15,5 +16,6 @@ namespace Data.SchemaMigrator.Models.PgContext.Campaign
         public string Brand { get; set; }
 
         public virtual ICollection<Trash> Trash { get; set; }
+        public virtual ICollection<BoundingBoxes> TrashTypeBoundingBoxesNavigation { get; set; }
     }
 }

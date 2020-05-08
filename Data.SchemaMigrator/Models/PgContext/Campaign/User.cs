@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Data.SchemaMigrator.Models.PgContext.Label;
 
 namespace Data.SchemaMigrator.Models.PgContext.Campaign
 {
@@ -22,5 +23,7 @@ namespace Data.SchemaMigrator.Models.PgContext.Campaign
         public DateTime? Createdon { get; set; }
 
         public virtual ICollection<Campaign> Campaign { get; set; }
+        public virtual ICollection<ImagesForLabelling> ImagesForLabellings { get; set; }
+        public virtual ICollection<BoundingBoxes> UserBoundingBoxesNavigation { get; set; }
     }
 }
