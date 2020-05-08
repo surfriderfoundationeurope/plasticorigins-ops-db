@@ -7,7 +7,7 @@ namespace Data.SchemaMigrator.Models
     {
         public Campaign_Campaign()
         {
-            Image = new HashSet<Image>();
+            Image = new HashSet<Media>();
             TrajectoryPoints_Campaign = new HashSet<TrajectoryPoint_Campaign>();
             Trash1 = new HashSet<Trash_Campaign>();
         }
@@ -25,7 +25,7 @@ namespace Data.SchemaMigrator.Models
 
         public virtual AiModel IdRefModelFkNavigation { get; set; }
         public virtual User IdRefUserFkNavigation { get; set; }
-        public virtual ICollection<Image> Image { get; set; }
+        public virtual ICollection<Media> Image { get; set; }
         public virtual ICollection<TrajectoryPoint_Campaign> TrajectoryPoints_Campaign { get; set; }
         public virtual ICollection<Trash_Campaign> Trash1 { get; set; }
     }
