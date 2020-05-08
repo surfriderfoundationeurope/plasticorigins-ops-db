@@ -1525,6 +1525,10 @@ namespace Data.SchemaMigrator.Models
 
                 entity.Property(e => e.Lastname).HasColumnName("lastname");
 
+                entity.Property(e => e.LastLoggedOn).HasColumnName("lastloggedon");
+
+                entity.Property(e => e.Nickname).HasColumnName("nickname");
+
                 entity.Property(e => e.Passwordhash).HasColumnName("passwordhash");
 
                 entity.Property(e => e.Yearofbirth)
