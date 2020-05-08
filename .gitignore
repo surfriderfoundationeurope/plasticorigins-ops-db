@@ -3,3 +3,5 @@
 **/obj/*
 **/.vs/*
 **/*.dll
+**/appsettings.*.json
+appsettings.local.json

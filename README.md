@@ -67,12 +67,13 @@ To do that, cf https://docs.microsoft.com/en-us/azure/azure-app-configuration/qu
 Every database table is represented by a C# class.
 
 Everytime we need to make some changes over the database schema, we need to create a EFCore "Migration"
-> dotnet ef migrations add NameOfMyMigration --context MyDbContext -o WhereMyContextIsStored
+> dotnet ef migrations add NameOfMyMigration --context MyDbContext -o WhereMyMigrationWillBeStored
 
 This will create a Migration class that describes our changes over the database.
-Note that we precise which context we are working on, and where to store the Migration files. For the sake of simplicity, we will organize Migrations folders the same way we organize contexts.
+Note that all tables of all schema are stored in the Models folder. Same for migrations, all stored under Migrations folder.
 Example : 
-> dotnet ef migrations add initPublicSchema --context Pg_PublicDataContext -o Migrations/Pg/Public
+
+> dotnet ef migrations add initPublicSchema --context PlasticoDbContext -o Migrations
 
 
 Then update the db according to this migration
