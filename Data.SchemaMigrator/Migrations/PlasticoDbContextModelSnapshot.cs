@@ -159,6 +159,54 @@ namespace Data.SchemaMigrator.Migrations
                     b.ToTable("bassin_versant_topographique","raw_data");
                 });
 
+            modelBuilder.Entity("Data.SchemaMigrator.Models.BoundingBoxes", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("uuid_generate_v4()");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnName("createdon")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("Height")
+                        .HasColumnName("height")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("IdCreatorFk")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("IdRefImagesForLabelling")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("IdRefTrashTypeFk")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("LocationX")
+                        .HasColumnName("locationX")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("LocationY")
+                        .HasColumnName("locationY")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Width")
+                        .HasColumnName("width")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdCreatorFk");
+
+                    b.HasIndex("IdRefImagesForLabelling");
+
+                    b.HasIndex("IdRefTrashTypeFk");
+
+                    b.ToTable("bounding_boxes","label");
+                });
+
             modelBuilder.Entity("Data.SchemaMigrator.Models.CampaignRiver", b =>
                 {
                     b.Property<int>("Id")
@@ -781,6 +829,51 @@ namespace Data.SchemaMigrator.Migrations
                     b.HasIndex("IdRefTrajectoryPointsFk");
 
                     b.ToTable("image","campaign");
+                });
+
+            modelBuilder.Entity("Data.SchemaMigrator.Models.ImagesForLabelling", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("uuid_generate_v4()");
+
+                    b.Property<string>("BlobName")
+                        .HasColumnName("blob_name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ContainerUrl")
+                        .HasColumnName("container_url")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Context")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnName("createdon")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Filename")
+                        .HasColumnName("filename")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("IdCreatorFk")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ImageQuality")
+                        .HasColumnName("image_quality")
+                        .HasColumnType("text");
+
+                    b.Property<string>("View")
+                        .HasColumnName("view")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdCreatorFk");
+
+                    b.ToTable("images_for_labelling","label");
                 });
 
             modelBuilder.Entity("Data.SchemaMigrator.Models.LimiteTerreMer", b =>
@@ -2285,15 +2378,39 @@ namespace Data.SchemaMigrator.Migrations
                     b.ToTable("user","campaign");
                 });
 
+            modelBuilder.Entity("Data.SchemaMigrator.Models.BoundingBoxes", b =>
+                {
+                    b.HasOne("Data.SchemaMigrator.Models.User", "Creator")
+                        .WithMany("UserBoundingBoxesNavigation")
+                        .HasForeignKey("IdCreatorFk")
+                        .HasConstraintName("id_creator_fk")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Data.SchemaMigrator.Models.ImagesForLabelling", "ImageForLabelling")
+                        .WithMany("ImagesForLabellingBoundingBoxesNavigation")
+                        .HasForeignKey("IdRefImagesForLabelling")
+                        .HasConstraintName("id_ref_images_for_labelling_fk")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Data.SchemaMigrator.Models.TrashType", "TrashType")
+                        .WithMany("TrashTypeBoundingBoxesNavigation")
+                        .HasForeignKey("IdRefTrashTypeFk")
+                        .HasConstraintName("id_ref_trash_type_fk")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Data.SchemaMigrator.Models.Campaign_Campaign", b =>
                 {
                     b.HasOne("Data.SchemaMigrator.Models.AiModel", "IdRefModelFkNavigation")
-                        .WithMany("Campaign1")
+                        .WithMany("Campaigns_Campaign")
                         .HasForeignKey("IdRefModelFk")
                         .HasConstraintName("campaign_id_ref_model_fk_fkey");
 
                     b.HasOne("Data.SchemaMigrator.Models.User", "IdRefUserFkNavigation")
-                        .WithMany("Campaign1")
+                        .WithMany("Campaigns_Campaign")
                         .HasForeignKey("IdRefUserFk")
                         .HasConstraintName("campaign_id_ref_user_fk_fkey");
                 });
@@ -2317,6 +2434,16 @@ namespace Data.SchemaMigrator.Migrations
                         .WithMany("Image")
                         .HasForeignKey("IdRefTrajectoryPointsFk")
                         .HasConstraintName("image_id_ref_trajectory_points_fk_fkey");
+                });
+
+            modelBuilder.Entity("Data.SchemaMigrator.Models.ImagesForLabelling", b =>
+                {
+                    b.HasOne("Data.SchemaMigrator.Models.User", "Creator")
+                        .WithMany("UserImagesForLabellings")
+                        .HasForeignKey("IdCreatorFk")
+                        .HasConstraintName("id_creator_fk")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Data.SchemaMigrator.Models.LimitsLandSea", b =>

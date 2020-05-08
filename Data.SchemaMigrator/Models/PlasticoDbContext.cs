@@ -56,12 +56,14 @@ namespace Data.SchemaMigrator.Models
         public virtual DbSet<TrashType> TrashType { get; set; }
         public virtual DbSet<TronconHydrographique> TronconHydrographique { get; set; }
         public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<ImagesForLabelling> ImagesForLabelling { get; set; }
+        public virtual DbSet<BoundingBoxes> BoundingBoxes { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-           var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.local.json").Build();
+            var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.local.json").Build();
             var cs = configuration.GetConnectionString("PostgreSql");
-            optionsBuilder.UseNpgsql(cs, x=> x.UseNetTopologySuite());
+            optionsBuilder.UseNpgsql(cs, x => x.UseNetTopologySuite());
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -240,12 +242,12 @@ namespace Data.SchemaMigrator.Models
                 entity.Property(e => e.Riverside).HasColumnName("riverside");
 
                 entity.HasOne(d => d.IdRefModelFkNavigation)
-                    .WithMany(p => p.Campaign1)
+                    .WithMany(p => p.Campaigns_Campaign)
                     .HasForeignKey(d => d.IdRefModelFk)
                     .HasConstraintName("campaign_id_ref_model_fk_fkey");
 
                 entity.HasOne(d => d.IdRefUserFkNavigation)
-                    .WithMany(p => p.Campaign1)
+                    .WithMany(p => p.Campaigns_Campaign)
                     .HasForeignKey(d => d.IdRefUserFk)
                     .HasConstraintName("campaign_id_ref_user_fk_fkey");
             });
@@ -558,7 +560,7 @@ namespace Data.SchemaMigrator.Models
                     .HasConstraintName("image_id_ref_trajectory_points_fk_fkey");
             });
 
-           
+
             modelBuilder.Entity<LimiteTerreMer>(entity =>
             {
                 entity.HasNoKey();
@@ -766,7 +768,7 @@ namespace Data.SchemaMigrator.Models
                 entity.Property(e => e.Toponyme).HasColumnName("toponyme");
             });
 
-            
+
             modelBuilder.Entity<PlanDEau>(entity =>
             {
                 entity.HasNoKey();
@@ -1037,7 +1039,7 @@ namespace Data.SchemaMigrator.Models
                 entity.Property(e => e.B).HasColumnName("b");
             });
 
-           
+
 
             modelBuilder.Entity<ToponymieHydrographie>(entity =>
             {
@@ -1530,6 +1532,68 @@ namespace Data.SchemaMigrator.Models
                     .HasColumnType("date");
             });
 
+            modelBuilder.Entity<ImagesForLabelling>(entity =>
+            {
+                entity.ToTable("images_for_labelling", "label");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasDefaultValueSql("uuid_generate_v4()");
+
+                entity.Property(e => e.CreatedOn).HasColumnName("createdon");
+
+                entity.Property(e => e.Filename).HasColumnName("filename");
+
+                entity.Property(e => e.View).HasColumnName("view");
+
+                entity.Property(e => e.ImageQuality).HasColumnName("image_quality");
+
+                entity.Property(e => e.ContainerUrl).HasColumnName("container_url");
+
+                entity.Property(e => e.BlobName).HasColumnName("blob_name");
+
+                // Déclaration des FK 
+                entity.HasOne(d => d.Creator)
+                    .WithMany(p => p.UserImagesForLabellings)
+                    .HasForeignKey(d => d.IdCreatorFk)
+                    .HasConstraintName("id_creator_fk");
+            });
+
+            modelBuilder.Entity<BoundingBoxes>(entity =>
+           {
+               entity.ToTable("bounding_boxes", "label");
+
+               entity.Property(e => e.Id)
+                   .HasColumnName("id")
+                   .HasDefaultValueSql("uuid_generate_v4()");
+
+               entity.Property(e => e.CreatedOn).HasColumnName("createdon");
+
+               entity.Property(e => e.LocationX).HasColumnName("locationX");
+
+               entity.Property(e => e.LocationY).HasColumnName("locationY");
+
+               entity.Property(e => e.Width).HasColumnName("width");
+
+               entity.Property(e => e.Height).HasColumnName("height");
+
+
+                // Déclaration des FK 
+                entity.HasOne(d => d.Creator)
+                   .WithMany(p => p.UserBoundingBoxesNavigation)
+                   .HasForeignKey(d => d.IdCreatorFk)
+                   .HasConstraintName("id_creator_fk");
+
+               entity.HasOne(d => d.TrashType)
+                   .WithMany(p => p.TrashTypeBoundingBoxesNavigation)
+                   .HasForeignKey(d => d.IdRefTrashTypeFk)
+                   .HasConstraintName("id_ref_trash_type_fk");
+
+               entity.HasOne(d => d.ImageForLabelling)
+                   .WithMany(p => p.ImagesForLabellingBoundingBoxesNavigation)
+                   .HasForeignKey(d => d.IdRefImagesForLabelling)
+                   .HasConstraintName("id_ref_images_for_labelling_fk");
+           });
             OnModelCreatingPartial(modelBuilder);
         }
 

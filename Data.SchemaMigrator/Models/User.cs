@@ -7,7 +7,9 @@ namespace Data.SchemaMigrator.Models
     {
         public User()
         {
-            Campaign1 = new HashSet<Campaign_Campaign>();
+            Campaigns_Campaign = new HashSet<Campaign_Campaign>();
+            UserImagesForLabellings = new HashSet<ImagesForLabelling>();
+            UserBoundingBoxesNavigation = new HashSet<BoundingBoxes>();
         }
 
         public Guid Id { get; set; }
@@ -21,6 +23,8 @@ namespace Data.SchemaMigrator.Models
         public bool Isdeleted { get; set; }
         public DateTime? Createdon { get; set; }
 
-        public virtual ICollection<Campaign_Campaign> Campaign1 { get; set; }
+        public virtual ICollection<Campaign_Campaign> Campaigns_Campaign { get; set; }
+        public virtual ICollection<ImagesForLabelling> UserImagesForLabellings { get; set; }
+        public virtual ICollection<BoundingBoxes> UserBoundingBoxesNavigation { get; set; }
     }
 }

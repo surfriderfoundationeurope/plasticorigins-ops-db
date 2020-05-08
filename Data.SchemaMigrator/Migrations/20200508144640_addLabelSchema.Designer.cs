@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.SchemaMigrator.Migrations
 {
     [DbContext(typeof(PlasticoDbContext))]
-    [Migration("20200508140311_initInitial")]
-    partial class initInitial
+    [Migration("20200508144640_addLabelSchema")]
+    partial class addLabelSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -159,6 +159,54 @@ namespace Data.SchemaMigrator.Migrations
                         .HasColumnType("text");
 
                     b.ToTable("bassin_versant_topographique","raw_data");
+                });
+
+            modelBuilder.Entity("Data.SchemaMigrator.Models.BoundingBoxes", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("uuid_generate_v4()");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnName("createdon")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("Height")
+                        .HasColumnName("height")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("IdCreatorFk")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("IdRefImagesForLabelling")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("IdRefTrashTypeFk")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("LocationX")
+                        .HasColumnName("locationX")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("LocationY")
+                        .HasColumnName("locationY")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Width")
+                        .HasColumnName("width")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdCreatorFk");
+
+                    b.HasIndex("IdRefImagesForLabelling");
+
+                    b.HasIndex("IdRefTrashTypeFk");
+
+                    b.ToTable("bounding_boxes","label");
                 });
 
             modelBuilder.Entity("Data.SchemaMigrator.Models.CampaignRiver", b =>
@@ -785,51 +833,49 @@ namespace Data.SchemaMigrator.Migrations
                     b.ToTable("image","campaign");
                 });
 
-            modelBuilder.Entity("Data.SchemaMigrator.Models.Layer", b =>
+            modelBuilder.Entity("Data.SchemaMigrator.Models.ImagesForLabelling", b =>
                 {
-                    b.Property<int>("TopologyId")
-                        .HasColumnName("topology_id")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("uuid_generate_v4()");
 
-                    b.Property<int>("LayerId")
-                        .HasColumnName("layer_id")
-                        .HasColumnType("integer");
+                    b.Property<string>("BlobName")
+                        .HasColumnName("blob_name")
+                        .HasColumnType("text");
 
-                    b.Property<int?>("ChildId")
-                        .HasColumnName("child_id")
-                        .HasColumnType("integer");
+                    b.Property<string>("ContainerUrl")
+                        .HasColumnName("container_url")
+                        .HasColumnType("text");
 
-                    b.Property<string>("FeatureColumn")
-                        .IsRequired()
-                        .HasColumnName("feature_column")
-                        .HasColumnType("character varying");
+                    b.Property<string>("Context")
+                        .HasColumnType("text");
 
-                    b.Property<int>("FeatureType")
-                        .HasColumnName("feature_type")
-                        .HasColumnType("integer");
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnName("createdon")
+                        .HasColumnType("timestamp without time zone");
 
-                    b.Property<int>("Level")
-                        .HasColumnName("level")
-                        .HasColumnType("integer");
+                    b.Property<string>("Filename")
+                        .HasColumnName("filename")
+                        .HasColumnType("text");
 
-                    b.Property<string>("SchemaName")
-                        .IsRequired()
-                        .HasColumnName("schema_name")
-                        .HasColumnType("character varying");
+                    b.Property<Guid>("IdCreatorFk")
+                        .HasColumnType("uuid");
 
-                    b.Property<string>("TableName")
-                        .IsRequired()
-                        .HasColumnName("table_name")
-                        .HasColumnType("character varying");
+                    b.Property<string>("ImageQuality")
+                        .HasColumnName("image_quality")
+                        .HasColumnType("text");
 
-                    b.HasKey("TopologyId", "LayerId")
-                        .HasName("layer_pkey");
+                    b.Property<string>("View")
+                        .HasColumnName("view")
+                        .HasColumnType("text");
 
-                    b.HasIndex("SchemaName", "TableName", "FeatureColumn")
-                        .IsUnique()
-                        .HasName("layer_schema_name_table_name_feature_column_key");
+                    b.HasKey("Id");
 
-                    b.ToTable("layer","topology");
+                    b.HasIndex("IdCreatorFk");
+
+                    b.ToTable("images_for_labelling","label");
                 });
 
             modelBuilder.Entity("Data.SchemaMigrator.Models.LimiteTerreMer", b =>
@@ -1131,144 +1177,6 @@ namespace Data.SchemaMigrator.Migrations
                         .HasAnnotation("Npgsql:IndexMethod", "gist");
 
                     b.ToTable("noeud_hydrographique","raw_data");
-                });
-
-            modelBuilder.Entity("Data.SchemaMigrator.Models.PgBuffercache", b =>
-                {
-                    b.Property<int?>("Bufferid")
-                        .HasColumnName("bufferid")
-                        .HasColumnType("integer");
-
-                    b.Property<bool?>("Isdirty")
-                        .HasColumnName("isdirty")
-                        .HasColumnType("boolean");
-
-                    b.Property<int?>("PinningBackends")
-                        .HasColumnName("pinning_backends")
-                        .HasColumnType("integer");
-
-                    b.Property<long?>("Relblocknumber")
-                        .HasColumnName("relblocknumber")
-                        .HasColumnType("bigint");
-
-                    b.Property<uint?>("Reldatabase")
-                        .HasColumnName("reldatabase")
-                        .HasColumnType("oid");
-
-                    b.Property<uint?>("Relfilenode")
-                        .HasColumnName("relfilenode")
-                        .HasColumnType("oid");
-
-                    b.Property<short?>("Relforknumber")
-                        .HasColumnName("relforknumber")
-                        .HasColumnType("smallint");
-
-                    b.Property<uint?>("Reltablespace")
-                        .HasColumnName("reltablespace")
-                        .HasColumnType("oid");
-
-                    b.Property<short?>("Usagecount")
-                        .HasColumnName("usagecount")
-                        .HasColumnType("smallint");
-
-                    b.ToTable("pg_buffercache");
-                });
-
-            modelBuilder.Entity("Data.SchemaMigrator.Models.PgStatStatements", b =>
-                {
-                    b.Property<double?>("BlkReadTime")
-                        .HasColumnName("blk_read_time")
-                        .HasColumnType("double precision");
-
-                    b.Property<double?>("BlkWriteTime")
-                        .HasColumnName("blk_write_time")
-                        .HasColumnType("double precision");
-
-                    b.Property<long?>("Calls")
-                        .HasColumnName("calls")
-                        .HasColumnType("bigint");
-
-                    b.Property<uint?>("Dbid")
-                        .HasColumnName("dbid")
-                        .HasColumnType("oid");
-
-                    b.Property<long?>("LocalBlksDirtied")
-                        .HasColumnName("local_blks_dirtied")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("LocalBlksHit")
-                        .HasColumnName("local_blks_hit")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("LocalBlksRead")
-                        .HasColumnName("local_blks_read")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("LocalBlksWritten")
-                        .HasColumnName("local_blks_written")
-                        .HasColumnType("bigint");
-
-                    b.Property<double?>("MaxTime")
-                        .HasColumnName("max_time")
-                        .HasColumnType("double precision");
-
-                    b.Property<double?>("MeanTime")
-                        .HasColumnName("mean_time")
-                        .HasColumnType("double precision");
-
-                    b.Property<double?>("MinTime")
-                        .HasColumnName("min_time")
-                        .HasColumnType("double precision");
-
-                    b.Property<string>("Query")
-                        .HasColumnName("query")
-                        .HasColumnType("text");
-
-                    b.Property<long?>("Queryid")
-                        .HasColumnName("queryid")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("Rows")
-                        .HasColumnName("rows")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("SharedBlksDirtied")
-                        .HasColumnName("shared_blks_dirtied")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("SharedBlksHit")
-                        .HasColumnName("shared_blks_hit")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("SharedBlksRead")
-                        .HasColumnName("shared_blks_read")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("SharedBlksWritten")
-                        .HasColumnName("shared_blks_written")
-                        .HasColumnType("bigint");
-
-                    b.Property<double?>("StddevTime")
-                        .HasColumnName("stddev_time")
-                        .HasColumnType("double precision");
-
-                    b.Property<long?>("TempBlksRead")
-                        .HasColumnName("temp_blks_read")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("TempBlksWritten")
-                        .HasColumnName("temp_blks_written")
-                        .HasColumnType("bigint");
-
-                    b.Property<double?>("TotalTime")
-                        .HasColumnName("total_time")
-                        .HasColumnType("double precision");
-
-                    b.Property<uint?>("Userid")
-                        .HasColumnName("userid")
-                        .HasColumnType("oid");
-
-                    b.ToTable("pg_stat_statements");
                 });
 
             modelBuilder.Entity("Data.SchemaMigrator.Models.PlanDEau", b =>
@@ -1695,40 +1603,6 @@ namespace Data.SchemaMigrator.Migrations
                         .HasColumnType("text");
 
                     b.ToTable("test2");
-                });
-
-            modelBuilder.Entity("Data.SchemaMigrator.Models.Topology", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasColumnType("integer")
-                        .HasDefaultValueSql("nextval('topology_id_seq'::regclass)");
-
-                    b.Property<bool>("Hasz")
-                        .HasColumnName("hasz")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnName("name")
-                        .HasColumnType("character varying");
-
-                    b.Property<double>("Precision")
-                        .HasColumnName("precision")
-                        .HasColumnType("double precision");
-
-                    b.Property<int>("Srid")
-                        .HasColumnName("srid")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique()
-                        .HasName("topology_name_key");
-
-                    b.ToTable("topology","topology");
                 });
 
             modelBuilder.Entity("Data.SchemaMigrator.Models.ToponymieHydrographie", b =>
@@ -2506,6 +2380,30 @@ namespace Data.SchemaMigrator.Migrations
                     b.ToTable("user","campaign");
                 });
 
+            modelBuilder.Entity("Data.SchemaMigrator.Models.BoundingBoxes", b =>
+                {
+                    b.HasOne("Data.SchemaMigrator.Models.User", "Creator")
+                        .WithMany("UserBoundingBoxesNavigation")
+                        .HasForeignKey("IdCreatorFk")
+                        .HasConstraintName("id_creator_fk")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Data.SchemaMigrator.Models.ImagesForLabelling", "ImageForLabelling")
+                        .WithMany("ImagesForLabellingBoundingBoxesNavigation")
+                        .HasForeignKey("IdRefImagesForLabelling")
+                        .HasConstraintName("id_ref_images_for_labelling_fk")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Data.SchemaMigrator.Models.TrashType", "TrashType")
+                        .WithMany("TrashTypeBoundingBoxesNavigation")
+                        .HasForeignKey("IdRefTrashTypeFk")
+                        .HasConstraintName("id_ref_trash_type_fk")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Data.SchemaMigrator.Models.Campaign_Campaign", b =>
                 {
                     b.HasOne("Data.SchemaMigrator.Models.AiModel", "IdRefModelFkNavigation")
@@ -2540,12 +2438,13 @@ namespace Data.SchemaMigrator.Migrations
                         .HasConstraintName("image_id_ref_trajectory_points_fk_fkey");
                 });
 
-            modelBuilder.Entity("Data.SchemaMigrator.Models.Layer", b =>
+            modelBuilder.Entity("Data.SchemaMigrator.Models.ImagesForLabelling", b =>
                 {
-                    b.HasOne("Data.SchemaMigrator.Models.Topology", "Topology")
-                        .WithMany("Layer")
-                        .HasForeignKey("TopologyId")
-                        .HasConstraintName("layer_topology_id_fkey")
+                    b.HasOne("Data.SchemaMigrator.Models.User", "Creator")
+                        .WithMany("UserImagesForLabellings")
+                        .HasForeignKey("IdCreatorFk")
+                        .HasConstraintName("id_creator_fk")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
