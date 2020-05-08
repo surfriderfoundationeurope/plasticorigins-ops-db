@@ -32,7 +32,7 @@ namespace Data.SchemaMigrator.Models
         public virtual DbSet<Media> Image { get; set; }
         public virtual DbSet<LimiteTerreMer> LimiteTerreMer { get; set; }
         public virtual DbSet<LimitsLandSea> LimitsLandSea { get; set; }
-        public virtual DbSet<Logs> Logs { get; set; }
+        public virtual DbSet<Bi_Log> Bi_Logs { get; set; }
         public virtual DbSet<AiModel> AiModel { get; set; }
         public virtual DbSet<Municipality> Municipality { get; set; }
         public virtual DbSet<NoeudHydrographique> NoeudHydrographique { get; set; }
@@ -508,7 +508,7 @@ namespace Data.SchemaMigrator.Models
 
             modelBuilder.Entity<Media>(entity =>
             {
-                entity.ToTable("medias", "campaign");
+                entity.ToTable("media", "campaign");
 
                 entity.HasIndex(e => e.IdRefCampaignFk);
 
@@ -644,13 +644,21 @@ namespace Data.SchemaMigrator.Models
                     .HasConstraintName("limits_land_sea_id_ref_country_fk_fkey");
             });
 
-            modelBuilder.Entity<Logs>(entity =>
+            modelBuilder.Entity<Bi_Log>(entity =>
             {
-                entity.ToTable("logs", "bi");
+                entity.ToTable("bi", "logs");
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
                     .ValueGeneratedNever();
+
+                entity.Property(e => e.CampaignId)
+                    .HasColumnName("campaign_id");  
+                        
+                entity.HasOne(d => d.BiLogs_Campaign_CampaignFKNavigation)
+                    .WithMany(p => p.Bi_Logs)
+                    .HasForeignKey(d => d.CampaignId)
+                    .HasConstraintName("bi_log_id_ref_campaign_campaign_fkey");
 
                 entity.Property(e => e.ElapsedTime).HasColumnName("elapsed_time");
 
@@ -664,8 +672,68 @@ namespace Data.SchemaMigrator.Models
 
                 entity.Property(e => e.Status)
                     .IsRequired()
+                    .HasDefaultValue("HARD_FAIL")
                     .HasColumnName("status");
+
+                entity.Property(e => e.Reason).HasColumnName("reason");
+                
+                entity.Property(e => e.ScriptVersion).HasColumnName("script_version");
+
+                entity.Property(e => e.FailedStep).HasColumnName("failed_step");
             });
+
+            modelBuilder.Entity<Etl_Log>(entity =>
+            {
+                entity.ToTable("etl", "logs");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.CampaignId)
+                    .HasColumnName("campaign_id");
+                
+                entity.Property(e => e.MediaId)
+                    .HasColumnName("media_id");
+
+                entity.Property(e => e.MediaName)
+                    .HasColumnName("media_name");
+
+                entity.HasOne(d => d.EtlLogs_Campaign_CampaignFKNavigation)
+                    .WithMany(p => p.Etl_Logs)
+                    .HasForeignKey(d => d.CampaignId)
+                    .HasConstraintName("etl_log_id_ref_campaign_campaign_fkey");
+                
+                entity.HasOne(d => d.EtlLogs_MediaFKNavigation)
+                    .WithMany(p => p.EtlLogs)
+                    .HasForeignKey(d => d.MediaId)
+                    .HasConstraintName("etl_log_id_ref_media_fkey");
+
+                entity.Property(e => e.ElapsedTime).HasColumnName("elapsed_time");
+
+                entity.Property(e => e.FinishedOn)
+                    .HasColumnName("finished_on")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.InitiatedOn)
+                    .HasColumnName("initiated_on")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.Status)
+                    .IsRequired()
+                    .HasDefaultValue("HARD_FAIL")
+                    .HasColumnName("status");
+                
+                entity.Property(e => e.MediaName)
+                    .IsRequired()
+                    .HasColumnName("media_name");
+
+                entity.Property(e => e.Reason).HasColumnName("reason");
+                
+                entity.Property(e => e.ScriptVersion).HasColumnName("script_version");
+            });
+
+          
 
             modelBuilder.Entity<AiModel>(entity =>
             {

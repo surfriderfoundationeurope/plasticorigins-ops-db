@@ -9,6 +9,7 @@ namespace Data.SchemaMigrator.Models
         public Media()
         {
             Trash1 = new HashSet<Trash_Campaign>();
+            EtlLogs = new HashSet<Etl_Log>();
         }
 
         public Guid Id { get; set; }
@@ -26,5 +27,6 @@ namespace Data.SchemaMigrator.Models
         public virtual Campaign_Campaign IdRefCampaignFkNavigation { get; set; }
         public virtual TrajectoryPoint_Campaign IdRefTrajectoryPointsFkNavigation { get; set; }
         public virtual ICollection<Trash_Campaign> Trash1 { get; set; }
+        public virtual ICollection<Etl_Log> EtlLogs { get; set; }
     }
 }

@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.SchemaMigrator.Migrations
 {
     [DbContext(typeof(PlasticoDbContext))]
-    [Migration("20200508153310_renameTableImageToMedia")]
-    partial class renameTableImageToMedia
+    [Migration("20200508171018_createLogSchema")]
+    partial class createLogSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -159,6 +159,54 @@ namespace Data.SchemaMigrator.Migrations
                         .HasColumnType("text");
 
                     b.ToTable("bassin_versant_topographique","raw_data");
+                });
+
+            modelBuilder.Entity("Data.SchemaMigrator.Models.Bi_Log", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnName("id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CampaignId")
+                        .HasColumnName("campaign_id")
+                        .HasColumnType("uuid");
+
+                    b.Property<double?>("ElapsedTime")
+                        .HasColumnName("elapsed_time")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("FailedStep")
+                        .HasColumnName("failed_step")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("FinishedOn")
+                        .HasColumnName("finished_on")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime>("InitiatedOn")
+                        .HasColumnName("initiated_on")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Reason")
+                        .HasColumnName("reason")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ScriptVersion")
+                        .HasColumnName("script_version")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("status")
+                        .HasColumnType("text")
+                        .HasDefaultValue("HARD_FAIL");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CampaignId");
+
+                    b.ToTable("bi","logs");
                 });
 
             modelBuilder.Entity("Data.SchemaMigrator.Models.BoundingBoxes", b =>
@@ -773,6 +821,61 @@ namespace Data.SchemaMigrator.Migrations
                     b.ToTable("epci","raw_data");
                 });
 
+            modelBuilder.Entity("Data.SchemaMigrator.Models.Etl_Log", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnName("id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CampaignId")
+                        .HasColumnName("campaign_id")
+                        .HasColumnType("uuid");
+
+                    b.Property<double?>("ElapsedTime")
+                        .HasColumnName("elapsed_time")
+                        .HasColumnType("double precision");
+
+                    b.Property<DateTime>("FinishedOn")
+                        .HasColumnName("finished_on")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime>("InitiatedOn")
+                        .HasColumnName("initiated_on")
+                        .HasColumnType("date");
+
+                    b.Property<Guid>("MediaId")
+                        .HasColumnName("media_id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("MediaName")
+                        .IsRequired()
+                        .HasColumnName("media_name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Reason")
+                        .HasColumnName("reason")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ScriptVersion")
+                        .HasColumnName("script_version")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("status")
+                        .HasColumnType("text")
+                        .HasDefaultValue("HARD_FAIL");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CampaignId");
+
+                    b.HasIndex("MediaId");
+
+                    b.ToTable("etl","logs");
+                });
+
             modelBuilder.Entity("Data.SchemaMigrator.Models.ImagesForLabelling", b =>
                 {
                     b.Property<Guid>("Id")
@@ -949,34 +1052,6 @@ namespace Data.SchemaMigrator.Migrations
                         .HasAnnotation("Npgsql:IndexMethod", "gist");
 
                     b.ToTable("limits_land_sea","referential");
-                });
-
-            modelBuilder.Entity("Data.SchemaMigrator.Models.Logs", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnName("id")
-                        .HasColumnType("uuid");
-
-                    b.Property<double?>("ElapsedTime")
-                        .HasColumnName("elapsed_time")
-                        .HasColumnType("double precision");
-
-                    b.Property<DateTime>("FinishedOn")
-                        .HasColumnName("finished_on")
-                        .HasColumnType("date");
-
-                    b.Property<DateTime>("InitiatedOn")
-                        .HasColumnName("initiated_on")
-                        .HasColumnType("date");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnName("status")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("logs","bi");
                 });
 
             modelBuilder.Entity("Data.SchemaMigrator.Models.Media", b =>
@@ -2388,6 +2463,16 @@ namespace Data.SchemaMigrator.Migrations
                     b.ToTable("user","campaign");
                 });
 
+            modelBuilder.Entity("Data.SchemaMigrator.Models.Bi_Log", b =>
+                {
+                    b.HasOne("Data.SchemaMigrator.Models.Campaign_Campaign", "BiLogs_Campaign_CampaignFKNavigation")
+                        .WithMany("Bi_Logs")
+                        .HasForeignKey("CampaignId")
+                        .HasConstraintName("bi_log_id_ref_campaign_campaign_fkey")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Data.SchemaMigrator.Models.BoundingBoxes", b =>
                 {
                     b.HasOne("Data.SchemaMigrator.Models.User", "Creator")
@@ -2431,6 +2516,23 @@ namespace Data.SchemaMigrator.Migrations
                         .WithMany("Department")
                         .HasForeignKey("IdRefStateFk")
                         .HasConstraintName("department_id_ref_state_fk_fkey");
+                });
+
+            modelBuilder.Entity("Data.SchemaMigrator.Models.Etl_Log", b =>
+                {
+                    b.HasOne("Data.SchemaMigrator.Models.Campaign_Campaign", "EtlLogs_Campaign_CampaignFKNavigation")
+                        .WithMany("Etl_Logs")
+                        .HasForeignKey("CampaignId")
+                        .HasConstraintName("etl_log_id_ref_campaign_campaign_fkey")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Data.SchemaMigrator.Models.Media", "EtlLogs_MediaFKNavigation")
+                        .WithMany("EtlLogs")
+                        .HasForeignKey("MediaId")
+                        .HasConstraintName("etl_log_id_ref_media_fkey")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Data.SchemaMigrator.Models.ImagesForLabelling", b =>
