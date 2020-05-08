@@ -4,9 +4,9 @@ using System.Collections;
 
 namespace Data.SchemaMigrator.Models
 {
-    public partial class Image
+    public partial class Media
     {
-        public Image()
+        public Media()
         {
             Trash1 = new HashSet<Trash_Campaign>();
         }

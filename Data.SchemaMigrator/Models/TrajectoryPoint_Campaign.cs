@@ -8,7 +8,7 @@ namespace Data.SchemaMigrator.Models
     {
         public TrajectoryPoint_Campaign()
         {
-            Image = new HashSet<Image>();
+            Image = new HashSet<Media>();
         }
 
         public Guid Id { get; set; }
@@ -24,6 +24,6 @@ namespace Data.SchemaMigrator.Models
         public DateTime? Createdon { get; set; }
 
         public virtual Campaign_Campaign IdRefCampaignFkNavigation { get; set; }
-        public virtual ICollection<Image> Image { get; set; }
+        public virtual ICollection<Media> Image { get; set; }
     }
 }
