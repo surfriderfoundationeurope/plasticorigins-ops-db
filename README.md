@@ -20,7 +20,7 @@ Edit the PlasticoDbContext.cs file. It represents the whole database and links a
 
 When all edit is done, generate the corresponding Migration with command below :
 
-dotnet ef migrations add initPublicSchema --context PlasticoDbContext -o Migrations
+dotnet ef migrations add PlaceHereNameOfMigration --context PlasticoDbContext -o Migrations
 
 If everything looks fine, create the pull request.
 
