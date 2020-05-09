@@ -1,3 +1,15 @@
+# Schema
+
+<insert database schema image>
+
+Logs : all log entries have default status = HARD_FAIL
+
+We define 3 different status : 
+
+* SUCCESS
+* GRACEFULL_FAIL : we know the reason why it failed
+* HARD_FAIL : something unexpected happened
+
 # Database description
 ## How to edit the database/tables/columns?
 Create a new git branch (never work directly on master)
