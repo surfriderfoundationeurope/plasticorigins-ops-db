@@ -1,5 +1,24 @@
 # Database description
+## How to edit the database/tables/columns?
+Create a new git branch (never work directly on master)
 
+Edit the entities (= tables) the say you want. They are stored in Models folder.
+
+Edit the PlasticoDbContext.cs file. It represents the whole database and links all the entities (= tables) together.
+
+When all edit is done, generate the corresponding Migration with command below :
+
+dotnet ef migrations add initPublicSchema --context PlasticoDbContext -o Migrations
+
+If everything looks fine, create the pull request.
+
+As soon as the PR is merged, the build pipeline (Azure DevOps) will generate the migration script (sql) and pass it to the Release pipeline.
+
+Another way of doing it is by executing the migration directly from your local computer via command below :
+
+dotnet ef database update
+
+EF.Core will detect automatically which migrations it needs to run (only the one not runned already).
 ## Access management
 | Role name            | PRIVILEGES  | Group name       | Users            |
 |  ----------------| ---------------  | -------- | -------- |
