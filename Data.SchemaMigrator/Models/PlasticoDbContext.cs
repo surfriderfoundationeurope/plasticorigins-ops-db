@@ -29,7 +29,7 @@ namespace Data.SchemaMigrator.Models
         public virtual DbSet<Department> Department { get; set; }
         public virtual DbSet<DetailHydrographique> DetailHydrographique { get; set; }
         public virtual DbSet<Epci> Epci { get; set; }
-        public virtual DbSet<Media> Image { get; set; }
+        public virtual DbSet<Media> Media { get; set; }
         public virtual DbSet<LimiteTerreMer> LimiteTerreMer { get; set; }
         public virtual DbSet<LimitsLandSea> LimitsLandSea { get; set; }
         public virtual DbSet<Logs> Logs { get; set; }
@@ -508,7 +508,7 @@ namespace Data.SchemaMigrator.Models
 
             modelBuilder.Entity<Media>(entity =>
             {
-                entity.ToTable("medias", "campaign");
+                entity.ToTable("media", "campaign");
 
                 entity.HasIndex(e => e.IdRefCampaignFk);
 
