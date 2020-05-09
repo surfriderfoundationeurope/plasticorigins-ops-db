@@ -1036,7 +1036,7 @@ namespace Data.SchemaMigrator.Migrations
 
                     b.HasIndex("IdRefTrajectoryPointsFk");
 
-                    b.ToTable("media","campaign");
+                    b.ToTable("medias","campaign");
                 });
 
             modelBuilder.Entity("Data.SchemaMigrator.Models.Municipality", b =>
