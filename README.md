@@ -139,36 +139,105 @@ To target a particular database schema, we run the following command :
 > dotnet-ef dbcontext scaffold "My Connection String" Npgsql.EntityFrameworkCore.PostgreSQL -o OutputDir -c ContextName --schema SchemaName
 
 # Description of DB content
-## BI schema
+### BI schema
 
-| Tables            | Fields                   | Type    | Unit   | What it is                                                   |
-| ----------------- | ------------------------ | ------- | ------ | ------------------------------------------------------------ |
-| bi.campaign       | id                       |         |        |                                                              |
-|                   | id_ref_campaign_fk       |         |        | Campaign ID                                                  |
-|                   | locomotion               | txt     |        | How the data was collected (by foot, kayak, drone, etc.)     |
-|                   | isaidriven               | bool    |        | If wastes have been detected and counted using AI or observed by a human observator |
-|                   | remark                   | txt     |        | Remarks sent by the user after data collection               |
-|                   | id_ref_user_fk           |         |        | ID of the user who has collected the data                    |
-|                   | riverside                |         |        | River bank monitored (either right or left). The right river bank is at your right when looking downstream. |
-|                   | container_url            |         |        | Container where raw data are stored (video and/or GPX files) |
-|                   | blob_name                |         |        | Blob storage where raw data are stored (video and/or GPX files) |
-|                   | id_re_model_fk           |         |        | ID that indicates AI version used together with BI scripts version |
-|                   | start_date               | Date    |        |                                                              |
-|                   | end_date                 | Date    |        |                                                              |
-|                   | start_point              |         |        |                                                              |
-|                   | end_point                |         |        |                                                              |
-|                   | total_distance           |         | meters |                                                              |
-|                   | avg_speed                |         |        |                                                              |
-|                   | duration                 |         |        |                                                              |
-|                   | start_point_distance_sea |         |        |                                                              |
-|                   | end_point_distance_sea   |         |        |                                                              |
-|                   | trash_count              | integer |        |                                                              |
-|                   | distance_start_end       |         |        |                                                              |
-|                   | createdon                |         |        |                                                              |
-| bi.campaign_river | id                       |         |        |                                                              |
-|                   | id_ref_campaign_fk       |         |        | Campaign ID                                                  |
-|                   | river_name               | txt     |        | River name                                                   |
-|                   | distance                 |         | meters | Distance monitored on each river                             |
-|                   | the_geom                 |         |        |                                                              |
-|                   | createdon                |         |        |                                                              |
-|                   |                          |         |        |                                                              |
+| Tables                    | Fields                                     | Type        | Unit      | What it is                                                   |
+| ------------------------- | ------------------------------------------ | ----------- | --------- | ------------------------------------------------------------ |
+| bi.campaign               | id                                         |             |           |                                                              |
+|                           | id_ref_campaign_fk                         | foreign key |           | Campaign ID                                                  |
+|                           | locomotion                                 | text        |           | How the data was collected (by foot, kayak, drone, etc.)     |
+|                           | isaidriven                                 | yes/no      |           | Whether wastes have been detected and counted using AI or observed by human observators |
+|                           | remark                                     | text        |           | Remarks sent by users after data collection                  |
+|                           | id_ref_user_fk                             | foreign key |           | ID of the user who has collected the data                    |
+|                           | riverside                                  | right/left  |           | River bank monitored (either right or left). The right river bank is at your right when looking downstream. |
+|                           | container_url                              |             |           | Container where raw data are stored (video and/or GPX files) |
+|                           | blob_name                                  |             |           | Blob storage where raw data are stored (video and/or GPX files) |
+|                           | id_re_model_fk                             | foreign key |           | ID that indicates AI version used together with BI scripts version |
+|                           | start_date                                 | date        |           | Start date and time of the campaign                          |
+|                           | end_date                                   | date        |           | End date and time of the campaign                            |
+|                           | start_point                                | list ?      |           | Lat/Lon where the campaign has started                       |
+|                           | end_point                                  | list ?      |           | Lat/Lon where the campaign has ended                         |
+|                           | total_distance                             | numeric     | meters    | Distance traveled during the campaign (projected on river segment) |
+|                           | avg_speed                                  | numeric     | m/s       | Average displacement speed during the campaign               |
+|                           | duration                                   | numeric     | seconds ? | Duration of the campaign                                     |
+|                           | start_point_distance_sea                   | numeric     | meters    | Distance from the start point of the campaign to the river estuary |
+|                           | end_point_distance_sea                     | numeric     | meters    | Distance from the end point of the campaign to the river estuary |
+|                           | trash_count                                | integer     |           | Number of trash counted during the campaign                  |
+|                           | distance_start_end                         | numeric     | meters    | Distance traveled during the campaign (real distance traveled including zigzags if any) |
+|                           | createdon                                  | date        |           | Date of the campaign                                         |
+| bi.campaign_river         | id                                         |             |           |                                                              |
+|                           | id_ref_campaign_fk                         | foreign key |           | Campaign ID                                                  |
+|                           | river_name                                 | text        |           | River name                                                   |
+|                           | distance                                   | numeric     | meters    | Distance monitored on each river                             |
+|                           | the_geom                                   |             |           | River segment/track                                          |
+|                           | createdon                                  | date        |           | ?                                                            |
+| bi.river                  | name                                       | text        |           | River name                                                   |
+|                           | the_geom                                   |             |           | River segment/track                                          |
+|                           | length                                     | numeric     | meters    | River length                                                 |
+|                           | count_unique_trash                         | integer     |           | Sum of all trash counted on this river exept ... ?           |
+|                           | count_trash                                | integer     |           | Sum of all trash counted on this river                       |
+| bi.trajectory_point       | id                                         |             |           |                                                              |
+|                           | the_geom                                   |             |           | Segment corresponding to the monitoring                      |
+|                           | id_ref_campaign_fk                         | foreign key |           | Campaign ID                                                  |
+|                           | elevation                                  | numeric     | meters    | Elevation given for each track point of the campaign         |
+|                           | distance                                   | numeric     | meters    | Distance between track points ???                            |
+|                           | time_diff                                  | numeric     | seconds   | Time difference between track points ???                     |
+|                           | speed                                      | numeric     | m/s       | Speed between track points                                   |
+|                           | lat                                        | numeric     |           | Latitude for each track points                               |
+|                           | lon                                        | numeric     |           | Longitude for each track points                              |
+|                           | createdon                                  | date        |           | Date of the campaign ?                                       |
+| bi.trajectory_point_river | id                                         |             |           |                                                              |
+|                           | id_ref_trajectory_point_fk                 | foreign key |           | ID of trajectory point                                       |
+|                           | id_ref_campaign_fk                         | foreign key |           | Campaign ID                                                  |
+|                           | id_ref_river_fk                            | foreign key |           | River ID                                                     |
+|                           | trajectory_point_the_geom                  |             |           | Segment corresponding to the monitoring projected on river   |
+|                           | river_the_geom                             |             |           | Segment/track of river                                       |
+|                           | closest_point_the_geom                     |             |           | For a given trajectory point of a campaign, the closest point on a river segment |
+|                           | distance_river_trajectory_point            |             |           | Distance between trajectory point and closest point on a river segment |
+|                           | projection_trajectory_point_river_the_geom |             |           | ???                                                          |
+|                           | importance                                 | integer     |           | [Classic stream order](https://en.wikipedia.org/wiki/Stream_order#Classic_stream_order) |
+|                           | river_name                                 | text        |           | River name                                                   |
+|                           | createdon                                  | date        |           | Date of the campaign ???                                     |
+| bi.trash                  | id                                         |             |           |                                                              |
+|                           | id_ref_campaign_fk                         | foreign key |           | Campaign ID                                                  |
+|                           | the_geom                                   |             |           | GPS coordinates for each trash                               |
+|                           | elevation                                  | numeric     | meters    | Elevation for each trash represented by a GPS point          |
+|                           | id_ref_trash_type_fk                       | foreign key |           | Trash type ID                                                |
+|                           | precision                                  | numeric     | meters    | Precision of GPS                                             |
+|                           | id_ref_model_fk                            | foreign key |           | ID that indicates AI version used together with BI scripts version |
+|                           | id_ref_image_fk                            | foreign key |           | Image ID                                                     |
+|                           | time                                       | date        |           | Date of the campaign                                         |
+|                           | createdon                                  | date        |           | ???                                                          |
+|                           | frame_2_box                                | list        |           | Give the number of frames on which the same trash is observed. This field looks like - Frame2box = {1: [200, 230, 402, 450], 3: [200, 240, 300, 345]} |
+|                           | lon                                        | numeric     |           | Longitude of each trash                                      |
+|                           | lat                                        | numeric     |           | Latitude of each trash                                       |
+|                           | municipality_code                          | integer     |           | Municipality on which the trash was detected                 |
+|                           | municipality_name                          | text        |           | Municipality on which the trash was detected                 |
+|                           | department_code                            | integer     |           | Department on which the trash was detected                   |
+|                           | department_name                            | text        |           | Department on which the trash was detected                   |
+|                           | state_code                                 | integer     |           | State on which the trash was detected                        |
+|                           | state_name                                 | text        |           | State on which the trash was detected                        |
+|                           | country_code                               | integer     |           | Country on which the trash was detected                      |
+|                           | country_name                               | text        |           | Country on which the trash was detected                      |
+|                           | distance_to_sea                            | numeric     | meters    | Distance between a given trash and the estuary               |
+|                           | path_to_sea_the_geom                       |             |           | Segment of river between a given trash and the estuary       |
+| bi.trash_river            | id                                         |             |           |                                                              |
+|                           | id_ref_trash_fk                            | foreign key |           | Trash ID                                                     |
+|                           | id_ref_campaign_fk                         | foreign key |           | Campaign ID                                                  |
+|                           | id_ref_river_fk                            | foreign key |           | River ID                                                     |
+|                           | trash_the_geom                             |             |           | GPS coordinates for each trash                               |
+|                           | river_the_geom                             |             |           | Segment/track of river                                       |
+|                           | closest_point_the_geom                     |             |           | For a given trash point of a campaign, the closest point on a river segment |
+|                           | distance_river_trash                       |             |           | Distance between a trash and the closest point on a river segment |
+|                           | projection_trash_river_the_geom            |             |           |                                                              |
+|                           | importance                                 | integer     |           | [Classic stream order](https://en.wikipedia.org/wiki/Stream_order#Classic_stream_order) |
+|                           | river_name                                 | text        |           | River name                                                   |
+|                           | createdon                                  | date        |           | ???                                                          |
+| bi.trash_type             | id                                         |             |           |                                                              |
+|                           | name                                       | text        |           | Trash types currently used by AI model                       |
+| bi.user                   | id_ref_user_fk                             |             |           | ID user                                                      |
+|                           | nickname                                   | text        |           | User Nickname                                                |
+|                           | trash_count                                | integer     |           | Total number of trash observed/detected by a user            |
+|                           | total_distance                             | numeric     | meters    | Total distance traveled by a given user                      |
+|                           | total_duration                             | numeric     | seconds ? | Total duration of monitoring for a given user                |
+|                           | lastloggedon                               | date        |           | Last login of a given user                                   |
