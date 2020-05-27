@@ -137,3 +137,38 @@ Then update the db according to this migration
 Scaffolding is the fact or reverse engineer an existing database. This is the way we used to create our entities, as the database already existed.
 To target a particular database schema, we run the following command : 
 > dotnet-ef dbcontext scaffold "My Connection String" Npgsql.EntityFrameworkCore.PostgreSQL -o OutputDir -c ContextName --schema SchemaName
+
+# Description of DB content
+## BI schema
+
+| Tables            | Fields                   | Type    | Unit   | What it is                                                   |
+| ----------------- | ------------------------ | ------- | ------ | ------------------------------------------------------------ |
+| bi.campaign       | id                       |         |        |                                                              |
+|                   | id_ref_campaign_fk       |         |        | Campaign ID                                                  |
+|                   | locomotion               | txt     |        | How the data was collected (by foot, kayak, drone, etc.)     |
+|                   | isaidriven               | bool    |        | If wastes have been detected and counted using AI or observed by a human observator |
+|                   | remark                   | txt     |        | Remarks sent by the user after data collection               |
+|                   | id_ref_user_fk           |         |        | ID of the user who has collected the data                    |
+|                   | riverside                |         |        | River bank monitored (either right or left). The right river bank is at your right when looking downstream. |
+|                   | container_url            |         |        | Container where raw data are stored (video and/or GPX files) |
+|                   | blob_name                |         |        | Blob storage where raw data are stored (video and/or GPX files) |
+|                   | id_re_model_fk           |         |        | ID that indicates AI version used together with BI scripts version |
+|                   | start_date               | Date    |        |                                                              |
+|                   | end_date                 | Date    |        |                                                              |
+|                   | start_point              |         |        |                                                              |
+|                   | end_point                |         |        |                                                              |
+|                   | total_distance           |         | meters |                                                              |
+|                   | avg_speed                |         |        |                                                              |
+|                   | duration                 |         |        |                                                              |
+|                   | start_point_distance_sea |         |        |                                                              |
+|                   | end_point_distance_sea   |         |        |                                                              |
+|                   | trash_count              | integer |        |                                                              |
+|                   | distance_start_end       |         |        |                                                              |
+|                   | createdon                |         |        |                                                              |
+| bi.campaign_river | id                       |         |        |                                                              |
+|                   | id_ref_campaign_fk       |         |        | Campaign ID                                                  |
+|                   | river_name               | txt     |        | River name                                                   |
+|                   | distance                 |         | meters | Distance monitored on each river                             |
+|                   | the_geom                 |         |        |                                                              |
+|                   | createdon                |         |        |                                                              |
+|                   |                          |         |        |                                                              |
