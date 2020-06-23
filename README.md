@@ -10,6 +10,11 @@ We define 3 different status :
 * GRACEFULL_FAIL : we know the reason why it failed
 * HARD_FAIL : something unexpected happened
 
+# Database configuration
+Several extension need to be installed on our PostGre SQL database : 
+* postgis
+* postgis_topology
+* pg_routing
 # Database description
 ## How to edit the database/tables/columns?
 Create a new git branch (never work directly on master)
