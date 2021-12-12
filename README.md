@@ -149,7 +149,7 @@ Then update the db according to this migration
 
 1. Create a new git branch (never work directly on master)
 
-2. Edit the entities (= tables) the say you want. They are stored in Models folder.
+2. Edit the entities (= tables) the way you want. They are stored in Models folder.
 
 3. Edit the PlasticoDbContext.cs file. It represents the whole database and links all the entities (= tables) together.
 
