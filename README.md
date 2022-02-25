@@ -1,14 +1,12 @@
-# Schema
+<h1 align="left">Plastic Origins OPS DB</h1>
 
-<insert database schema image>
+<a href="https://www.plasticorigins.eu/"><img width="80px" src="https://github.com/surfriderfoundationeurope/The-Plastic-Origins-Project/blob/master/assets/PlasticOrigins_logo.png" width="5%" height="5%" align="left" hspace="0" vspace="0"></a>
 
-Logs : all log entries have default status = HARD_FAIL
+  <p align="justify">Proudly Powered by <a href="https://surfrider.eu/">SURFRIDER Foundation Europe</a>, this open-source initiative is a part of the <a href="https://www.plasticorigins.eu/">PLASTIC ORIGINS</a> project - a citizen science project that uses AI to map plastic pollution in European rivers and share its data publicly. Browse the <a href="https://github.com/surfriderfoundationeurope/The-Plastic-Origins-Project">project repository</a> to know more about its initiatives and how you can get involved. Please consider starring :star: the project's repositories to show your interest and support. We rely on YOU for making this project a success and thank you in advance for your contributions.</p>
 
-We define 3 different status : 
+_________________
 
-* SUCCESS
-* GRACEFULL_FAIL : we know the reason why it failed
-* HARD_FAIL : something unexpected happened
+<!--- OPTIONAL: You can add badges and shields to reflect the current status of the project, the licence it uses and if any dependencies it uses are up-to-date. Plus they look pretty cool! You can find a list of badges or design your own at https://shields.io/ --->
 
 # Database configuration
 Several extension need to be installed on our PostGre SQL database : 
@@ -19,24 +17,47 @@ Several extension need to be installed on our PostGre SQL database :
 ## How to edit the database/tables/columns?
 Create a new git branch (never work directly on master)
 
-Edit the entities (= tables) the say you want. They are stored in Models folder.
+<!--- PLEASE check the following and COMPLETE using the following example: Welcome to **'Name'**, a `<utility/tool/feature>` that allows `<insert_target_audience>` to do `<action/task_it_does>`--->
+Welcome to **'Plastic Origins OPS DB'**, a database management (access, code, etc) that uses EF.Core to manage database directly from code.
 
-Edit the PlasticoDbContext.cs file. It represents the whole database and links all the entities (= tables) together.
+## Getting Started
+<!--- This section guides users through getting your code up and running on their own system.--->
 
-When all edit is done, generate the corresponding Migration with command below :
+### Prerequisites
 
-dotnet ef migrations add PlaceHereNameOfMigration --context PlasticoDbContext -o Migrations
+Before you begin, ensure you have met the following requirements:
+<!--- These are just EXAMPLE requirements copied from another project's repos: add or remove as required --->
+* You have installed [`.Net Core 3.1 or lastest`](https://dotnet.microsoft.com/download/dotnet/3.1)
+* You have installed the latest version of [`Azure Emulator`](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-emulator) if you want to use on your local machine
+* You have a `PostgreSQL 11.6 minimum` database for local use on your machine OR `Microsoft Azure PostgreSQL` (you can create a free account [here](https://azure.microsoft.com/fr-fr/services/postgresql/))
+* You have `Visul Studio 2019` (or latest version)
+  or you have latest version of `Visual code`.
 
-If everything looks fine, create the pull request.
+#### Technical stack
+<!--- These are just EXAMPLE copied from another project's repos: add or remove as required --->
+* Language: `C#`
+* Framework: `.Net Core`
+* Functionality : `Azure function`
+* Unit test framework: `XUnit`
 
-As soon as the PR is merged, the build pipeline (Azure DevOps) will generate the migration script (sql) and pass it to the Release pipeline.
+<!---The information below is copied from the current repo's README file: if not placed correctly, move to the appropriate section. --->
 
-Another way of doing it is by executing the migration directly from your local computer via command below :
+### Schema
 
-dotnet ef database update
+<insert database schema image>
 
-EF.Core will detect automatically which migrations it needs to run (only the one not runned already).
-## Access management
+Logs : all log entries have default status = HARD_FAIL
+
+We define 3 different status :
+
+* SUCCESS
+* GRACEFULL_FAIL : we know the reason why it failed
+* HARD_FAIL : something unexpected happened
+
+For more details, check `Plastic Origins database documentation` file.
+
+### Access management
+
 | Role name            | PRIVILEGES  | Group name       | Users            |
 |  ----------------| ---------------  | -------- | -------- |
 |r_reader | SELECT | g_reader |reader_user|
@@ -85,21 +106,26 @@ ALTER ROLE manager_user VALID UNTIL 'infinity' ;
 GRANT g_manager TO manager_user;
 ```
 
+### Installation
+<!--- TODO: It's a code block illustrating how to install. Include any system-specific information needed for installation. If there are multiple versions which the user may interface with, an updating section would be useful. Add Dependencies subsection if there are unusual dependencies or dependencies that must be manually installed.--->
 
+<!---The information below is copied from the current repo's README file: if not placed correctly, move to the appropriate section. --->
 
-# Code - EF.Core
+#### Setup the project
 
-## Goal
-Goal here is to manage database directly from code.
-
-## Setup the project
 The project can connect both to local and distant db. It first reads the connection strings contained in the appsettings.local.json file, then in your local environnement variable.
 
 You need to store your local db connection string to appsettings.local.json by replacing the existing.
 If you want to connect to distant db, do not store the connection string in the code. Instead, set the connection string in your environnement variable.
 To do that, cf https://docs.microsoft.com/en-us/azure/azure-app-configuration/quickstart-dotnet-core-app#build-and-run-the-app-locally
 
-## Principles
+### Usage
+<!---TODO: It's a code block illustrating common usage that might cover basic choices that may affect usage (for instance, if JavaScript, cover promises/callbacks, ES6). If CLI importable, code block indicating both import functionality and usage (if CLI functionality exists, add CLI subsection).If relevant, point to a runnable file for the usage code. In this section add run commands and examples you think users will find useful--->
+
+<!---The information below is copied from the current repo's README file: if not placed correctly, move to the appropriate section. --->
+
+#### Principles
+
 Every database table is represented by a C# class.
 
 Everytime we need to make some changes over the database schema, we need to create a EFCore "Migration"
@@ -107,19 +133,30 @@ Everytime we need to make some changes over the database schema, we need to crea
 
 This will create a Migration class that describes our changes over the database.
 Note that all tables of all schema are stored in the Models folder. Same for migrations, all stored under Migrations folder.
-Example : 
+Example :
 
 > dotnet ef migrations add initPublicSchema --context PlasticoDbContext -o Migrations -idempotent
-
 
 Then update the db according to this migration
 > dotnet ef database update
 
-## How to edit the database/tables/columns?
+<!--- If needed add here any Extra Sections (must have their own titles).Specifically, the Security section should be here if it wasn't important enough to be placed above.-->
+
+<!--- ### API references --->
+<!---TODO: Describe exported functions and objects. Describe signatures, return types, callbacks, and events. Cover types covered where not obvious. Describe caveats. If using an external API generator (like go-doc, js-doc, or so on), point to an external API.md file. This can be the only item in the section, if present. Add information or remove this section if not applicable.--->
+
+<!--- If an external API file is work in progress and/or you are planning to host API specification in the Swagger documentation, you can use the text below as EXAMPLE (add or remove as required): *SOON: To see API specification used by this repository browse to the Swagger documentation (currently not available).* -->
+
+## **Build and Test**
+<!---TODO: Describe and show how to build your code and run the tests. Add information or remove this section if not applicable. --->
+
+<!---The information below is copied from the current repo's README file: if not placed correctly, move to the appropriate section. --->
+
+### How to edit the database/tables/columns?
 
 1. Create a new git branch (never work directly on master)
 
-2. Edit the entities (= tables) the say you want. They are stored in Models folder.
+2. Edit the entities (= tables) the way you want. They are stored in Models folder.
 
 3. Edit the PlasticoDbContext.cs file. It represents the whole database and links all the entities (= tables) together.
 
@@ -137,112 +174,29 @@ Then update the db according to this migration
 
    EF.Core will detect automatically which migrations it needs to run (only the one not runned already).
 
-## Scaffolding
+### Scaffolding
 
 Scaffolding is the fact or reverse engineer an existing database. This is the way we used to create our entities, as the database already existed.
-To target a particular database schema, we run the following command : 
+To target a particular database schema, we run the following command :
+
 > dotnet-ef dbcontext scaffold "My Connection String" Npgsql.EntityFrameworkCore.PostgreSQL -o OutputDir -c ContextName --schema SchemaName
 
-# Description of DB content
-### BI schema
+## Contributing
 
-| Tables                    | Fields                                     | Type        | Unit      | What it is                                                   |
-| ------------------------- | ------------------------------------------ | ----------- | --------- | ------------------------------------------------------------ |
-| bi.campaign               | id                                         |             |           |                                                              |
-|                           | id_ref_campaign_fk                         | foreign key |           | Campaign ID                                                  |
-|                           | locomotion                                 | text        |           | How the data was collected (by foot, kayak, drone, etc.)     |
-|                           | isaidriven                                 | yes/no      |           | Whether wastes have been detected and counted using AI or observed by human observators |
-|                           | remark                                     | text        |           | Remarks sent by users after data collection                  |
-|                           | id_ref_user_fk                             | foreign key |           | ID of the user who has collected the data                    |
-|                           | riverside                                  | right/left  |           | River bank monitored (either right or left). The right river bank is at your right when looking downstream. |
-|                           | container_url                              |             |           | Container where raw data are stored (video and/or GPX files) |
-|                           | blob_name                                  |             |           | Blob storage where raw data are stored (video and/or GPX files) |
-|                           | id_re_model_fk                             | foreign key |           | ID that indicates AI version used together with BI scripts version |
-|                           | start_date                                 | date        |           | Start date and time of the campaign                          |
-|                           | end_date                                   | date        |           | End date and time of the campaign                            |
-|                           | start_point                                | list ?      |           | Lat/Lon where the campaign has started                       |
-|                           | end_point                                  | list ?      |           | Lat/Lon where the campaign has ended                         |
-|                           | total_distance                             | numeric     | meters    | Distance traveled during the campaign (projected on river segment) |
-|                           | avg_speed                                  | numeric     | m/s       | Average displacement speed during the campaign               |
-|                           | duration                                   | numeric     | seconds ? | Duration of the campaign                                     |
-|                           | start_point_distance_sea                   | numeric     | meters    | Distance from the start point of the campaign to the river estuary |
-|                           | end_point_distance_sea                     | numeric     | meters    | Distance from the end point of the campaign to the river estuary |
-|                           | trash_count                                | integer     |           | Number of trash counted during the campaign                  |
-|                           | distance_start_end                         | numeric     | meters    | Distance traveled during the campaign (real distance traveled including zigzags if any) |
-|                           | createdon                                  | date        |           | Date of the campaign                                         |
-| bi.campaign_river         | id                                         |             |           |                                                              |
-|                           | id_ref_campaign_fk                         | foreign key |           | Campaign ID                                                  |
-|                           | river_name                                 | text        |           | River name                                                   |
-|                           | distance                                   | numeric     | meters    | Distance monitored on each river                             |
-|                           | the_geom                                   |             |           | River segment/track                                          |
-|                           | createdon                                  | date        |           | ?                                                            |
-| bi.river                  | name                                       | text        |           | River name                                                   |
-|                           | the_geom                                   |             |           | River segment/track                                          |
-|                           | length                                     | numeric     | meters    | River length                                                 |
-|                           | count_unique_trash                         | integer     |           | Sum of all trash counted on this river exept ... ?           |
-|                           | count_trash                                | integer     |           | Sum of all trash counted on this river                       |
-| bi.trajectory_point       | id                                         |             |           |                                                              |
-|                           | the_geom                                   |             |           | Segment corresponding to the monitoring                      |
-|                           | id_ref_campaign_fk                         | foreign key |           | Campaign ID                                                  |
-|                           | elevation                                  | numeric     | meters    | Elevation given for each track point of the campaign         |
-|                           | distance                                   | numeric     | meters    | Distance between track points ???                            |
-|                           | time_diff                                  | numeric     | seconds   | Time difference between track points ???                     |
-|                           | speed                                      | numeric     | m/s       | Speed between track points                                   |
-|                           | lat                                        | numeric     |           | Latitude for each track points                               |
-|                           | lon                                        | numeric     |           | Longitude for each track points                              |
-|                           | createdon                                  | date        |           | Date of the campaign ?                                       |
-| bi.trajectory_point_river | id                                         |             |           |                                                              |
-|                           | id_ref_trajectory_point_fk                 | foreign key |           | ID of trajectory point                                       |
-|                           | id_ref_campaign_fk                         | foreign key |           | Campaign ID                                                  |
-|                           | id_ref_river_fk                            | foreign key |           | River ID                                                     |
-|                           | trajectory_point_the_geom                  |             |           | Segment corresponding to the monitoring projected on river   |
-|                           | river_the_geom                             |             |           | Segment/track of river                                       |
-|                           | closest_point_the_geom                     |             |           | For a given trajectory point of a campaign, the closest point on a river segment |
-|                           | distance_river_trajectory_point            |             |           | Distance between trajectory point and closest point on a river segment |
-|                           | projection_trajectory_point_river_the_geom |             |           | ???                                                          |
-|                           | importance                                 | integer     |           | [Classic stream order](https://en.wikipedia.org/wiki/Stream_order#Classic_stream_order) |
-|                           | river_name                                 | text        |           | River name                                                   |
-|                           | createdon                                  | date        |           | Date of the campaign ???                                     |
-| bi.trash                  | id                                         |             |           |                                                              |
-|                           | id_ref_campaign_fk                         | foreign key |           | Campaign ID                                                  |
-|                           | the_geom                                   |             |           | GPS coordinates for each trash                               |
-|                           | elevation                                  | numeric     | meters    | Elevation for each trash represented by a GPS point          |
-|                           | id_ref_trash_type_fk                       | foreign key |           | Trash type ID                                                |
-|                           | precision                                  | numeric     | meters    | Precision of GPS                                             |
-|                           | id_ref_model_fk                            | foreign key |           | ID that indicates AI version used together with BI scripts version |
-|                           | id_ref_image_fk                            | foreign key |           | Image ID                                                     |
-|                           | time                                       | date        |           | Date of the campaign                                         |
-|                           | createdon                                  | date        |           | ???                                                          |
-|                           | frame_2_box                                | list        |           | Give the number of frames on which the same trash is observed. This field looks like - Frame2box = {1: [200, 230, 402, 450], 3: [200, 240, 300, 345]} |
-|                           | lon                                        | numeric     |           | Longitude of each trash                                      |
-|                           | lat                                        | numeric     |           | Latitude of each trash                                       |
-|                           | municipality_code                          | integer     |           | Municipality on which the trash was detected                 |
-|                           | municipality_name                          | text        |           | Municipality on which the trash was detected                 |
-|                           | department_code                            | integer     |           | Department on which the trash was detected                   |
-|                           | department_name                            | text        |           | Department on which the trash was detected                   |
-|                           | state_code                                 | integer     |           | State on which the trash was detected                        |
-|                           | state_name                                 | text        |           | State on which the trash was detected                        |
-|                           | country_code                               | integer     |           | Country on which the trash was detected                      |
-|                           | country_name                               | text        |           | Country on which the trash was detected                      |
-|                           | distance_to_sea                            | numeric     | meters    | Distance between a given trash and the estuary               |
-|                           | path_to_sea_the_geom                       |             |           | Segment of river between a given trash and the estuary       |
-| bi.trash_river            | id                                         |             |           |                                                              |
-|                           | id_ref_trash_fk                            | foreign key |           | Trash ID                                                     |
-|                           | id_ref_campaign_fk                         | foreign key |           | Campaign ID                                                  |
-|                           | id_ref_river_fk                            | foreign key |           | River ID                                                     |
-|                           | trash_the_geom                             |             |           | GPS coordinates for each trash                               |
-|                           | river_the_geom                             |             |           | Segment/track of river                                       |
-|                           | closest_point_the_geom                     |             |           | For a given trash point of a campaign, the closest point on a river segment |
-|                           | distance_river_trash                       |             |           | Distance between a trash and the closest point on a river segment |
-|                           | projection_trash_river_the_geom            |             |           |                                                              |
-|                           | importance                                 | integer     |           | [Classic stream order](https://en.wikipedia.org/wiki/Stream_order#Classic_stream_order) |
-|                           | river_name                                 | text        |           | River name                                                   |
-|                           | createdon                                  | date        |           | ???                                                          |
-| bi.trash_type             | id                                         |             |           |                                                              |
-|                           | name                                       | text        |           | Trash types currently used by AI model                       |
-| bi.user                   | id_ref_user_fk                             |             |           | ID user                                                      |
-|                           | nickname                                   | text        |           | User Nickname                                                |
-|                           | trash_count                                | integer     |           | Total number of trash observed/detected by a user            |
-|                           | total_distance                             | numeric     | meters    | Total distance traveled by a given user                      |
-|                           | total_duration                             | numeric     | seconds ? | Total duration of monitoring for a given user                |
-|                           | lastloggedon                               | date        |           | Last login of a given user                                   |
+It's great to have you here! We welcome any help and thank you in advance for your contributions.
+
+* Feel free to **report a problem/bug** or **propose an improvement** by creating a [new issue](https://github.com/surfriderfoundationeurope/plasticorigins-ops-db/issues). Please document as much as possible the steps to reproduce your problem (even better with screenshots). If you think you discovered a security vulnerability, please contact directly our [Maintainers](##Maintainers).
+
+* Take a look at the [open issues](https://github.com/surfriderfoundationeurope/plasticorigins-ops-db/issues) labeled as `help wanted`, feel free to **comment** to share your ideas or **submit a** [**pull request**](https://github.com/surfriderfoundationeurope/plasticorigins-ops-db/pulls) if you feel that you can fix the issue yourself. Please document any relevant changes.
+
+## Maintainers
+
+If you experience any problems, please don't hesitate to ping:
+<!--- Need to check the full list of Maintainers and their GIThub contacts -->
+* [@ChristopheHvd](https://github.com/ChristopheHvd)
+
+Special thanks to all our [Contributors](https://github.com/orgs/surfriderfoundationeurope/people).
+
+## License
+
+We’re using the `MIT` License. For more details, check [`LICENSE`](https://github.com/surfriderfoundationeurope/plasticorigins-ops-db/blob/master/LICENSE) file.
