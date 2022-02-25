@@ -8,7 +8,14 @@ _________________
 
 <!--- OPTIONAL: You can add badges and shields to reflect the current status of the project, the licence it uses and if any dependencies it uses are up-to-date. Plus they look pretty cool! You can find a list of badges or design your own at https://shields.io/ --->
 
-<!--- TODO: Give a short introduction of product. Let this section explain the objectives or the motivation behind this product. Add a line of information text about what the product does. Your introduction should be around 2 or 3 sentences.--->
+# Database configuration
+Several extension need to be installed on our PostGre SQL database : 
+* postgis
+* postgis_topology
+* pg_routing
+# Database description
+## How to edit the database/tables/columns?
+Create a new git branch (never work directly on master)
 
 <!--- PLEASE check the following and COMPLETE using the following example: Welcome to **'Name'**, a `<utility/tool/feature>` that allows `<insert_target_audience>` to do `<action/task_it_does>`--->
 Welcome to **'Plastic Origins OPS DB'**, a database management (access, code, etc) that uses EF.Core to manage database directly from code.
