@@ -18,8 +18,6 @@ namespace Data.SchemaMigrator.Models
         public int Width { get; set; }
         public int Height { get; set; }
 
-        public virtual User Creator { get; set; }
-        public virtual TrashType TrashType { get; set; }
         public virtual ImagesForLabelling ImageForLabelling { get; set; }
     }
 }

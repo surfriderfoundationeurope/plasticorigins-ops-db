@@ -13,16 +13,12 @@ namespace Data.SchemaMigrator.Models
         public int IdRefTrashTypeFk { get; set; }
         public double? Precision { get; set; }
         public Guid? IdRefModelFk { get; set; }
-        public string BrandType { get; set; }
         public Guid? IdRefImageFk { get; set; }
         public DateTime? Time { get; set; }
-        public double? Lat { get; set; }
-        public double? Lon { get; set; }
         public DateTime? Createdon { get; set; }
-
+        public string Frame2Box { get; set; }
         public virtual Campaign_Campaign IdRefCampaignFkNavigation { get; set; }
         public virtual Media IdRefImageFkNavigation { get; set; }
         public virtual AiModel IdRefModelFkNavigation { get; set; }
-        public virtual TrashType IdRefTrashTypeFkNavigation { get; set; }
     }
 }

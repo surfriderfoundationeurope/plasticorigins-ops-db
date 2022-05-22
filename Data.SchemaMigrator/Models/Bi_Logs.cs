@@ -12,9 +12,7 @@ namespace Data.SchemaMigrator.Models
         public string Status { get; set; }
         public string Reason { get; set; }
         public string ScriptVersion { get; set; }
-        public string FailedStep { get; set; }     
-
-        public virtual Campaign_Campaign BiLogs_Campaign_CampaignFKNavigation { get; set; }
+        public string FailedStep { get; set; } 
 
     }
 }
