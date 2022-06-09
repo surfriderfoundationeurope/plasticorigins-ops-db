@@ -21,6 +21,7 @@ namespace Data.SchemaMigrator.Models
         public string Riverside { get; set; }
         public Guid? IdRefModelFk { get; set; }
         public DateTime? Createdon { get; set; }
+        public Boolean? HasBeenComputed { get; set; }
 
         public virtual AiModel IdRefModelFkNavigation { get; set; }
         public virtual User IdRefUserFkNavigation { get; set; }
