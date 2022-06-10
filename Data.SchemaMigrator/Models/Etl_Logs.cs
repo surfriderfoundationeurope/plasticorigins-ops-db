@@ -15,8 +15,8 @@ namespace Data.SchemaMigrator.Models
         public string Status { get; set; }
         public string Reason { get; set; }
         public string ScriptVersion { get; set; }
+        public string Container { get; set; }
         public virtual Campaign_Campaign EtlLogs_Campaign_CampaignFKNavigation { get; set; }
-        public virtual Media EtlLogs_MediaFKNavigation { get; set; }
 
     }
 }

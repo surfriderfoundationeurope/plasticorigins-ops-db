@@ -49,114 +49,48 @@ namespace Data.SchemaMigrator.Migrations
                     b.ToTable("model","campaign");
                 });
 
-            modelBuilder.Entity("Data.SchemaMigrator.Models.ArrondissementDepartemental", b =>
+            modelBuilder.Entity("Data.SchemaMigrator.Models.Basin", b =>
                 {
-                    b.Property<Geometry>("Geometry")
-                        .HasColumnName("geometry")
+                    b.Property<string>("BasinId")
+                        .HasColumnName("basin_id")
+                        .HasColumnType("text");
+
+                    b.Property<double>("AreaSquareKm")
+                        .HasColumnName("area_square_km")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("BasinName")
+                        .HasColumnName("basin_name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CountryCode")
+                        .HasColumnName("country_code")
+                        .HasColumnType("text");
+
+                    b.Property<string>("FeatureCollection")
+                        .HasColumnName("feature_collection")
+                        .HasColumnType("jsonb");
+
+                    b.Property<int>("FecCount")
+                        .HasColumnName("fec_count")
+                        .HasColumnType("integer");
+
+                    b.Property<Geometry>("TheGeom")
+                        .HasColumnName("the_geom")
                         .HasColumnType("geometry");
 
-                    b.Property<string>("Id")
-                        .HasColumnName("id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("InseeArr")
-                        .HasColumnName("insee_arr")
-                        .HasColumnType("text");
-
-                    b.Property<string>("InseeDep")
-                        .HasColumnName("insee_dep")
-                        .HasColumnType("text");
-
-                    b.Property<string>("InseeReg")
-                        .HasColumnName("insee_reg")
-                        .HasColumnType("text");
-
-                    b.ToTable("arrondissement_departemental","raw_data");
-                });
-
-            modelBuilder.Entity("Data.SchemaMigrator.Models.BassinVersantTopographique", b =>
-                {
-                    b.Property<string>("BFluvial")
-                        .HasColumnName("b_fluvial")
-                        .HasColumnType("text");
-
-                    b.Property<string>("BassHydro")
-                        .HasColumnName("bass_hydro")
-                        .HasColumnType("text");
-
-                    b.Property<string>("CodeBh")
-                        .HasColumnName("code_bh")
-                        .HasColumnType("text");
-
-                    b.Property<string>("CodeCarth")
-                        .HasColumnName("code_carth")
-                        .HasColumnType("text");
-
-                    b.Property<string>("CodeHydro")
-                        .HasColumnName("code_hydro")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Comment")
-                        .HasColumnName("comment")
-                        .HasColumnType("text");
-
-                    b.Property<string>("DateApp")
-                        .HasColumnName("date_app")
-                        .HasColumnType("text");
-
-                    b.Property<string>("DateConf")
-                        .HasColumnName("date_conf")
-                        .HasColumnType("text");
-
-                    b.Property<string>("DateCreat")
-                        .HasColumnName("date_creat")
-                        .HasColumnType("text");
-
-                    b.Property<string>("DateMaj")
-                        .HasColumnName("date_maj")
-                        .HasColumnType("text");
-
-                    b.Property<Geometry>("Geometry")
-                        .HasColumnName("geometry")
+                    b.Property<Geometry>("TheGeomBB")
+                        .HasColumnName("the_geom_bb")
                         .HasColumnType("geometry");
 
-                    b.Property<string>("Id")
-                        .HasColumnName("id")
-                        .HasColumnType("text");
+                    b.HasKey("BasinId");
 
-                    b.Property<string>("IdCEau")
-                        .HasColumnName("id_c_eau")
-                        .HasColumnType("text");
+                    b.HasIndex("AreaSquareKm");
 
-                    b.Property<string>("IdSource")
-                        .HasColumnName("id_source")
-                        .HasColumnType("text");
+                    b.HasIndex("TheGeomBB")
+                        .HasAnnotation("Npgsql:IndexMethod", "gist");
 
-                    b.Property<string>("Origine")
-                        .HasColumnName("origine")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PrecPlani")
-                        .HasColumnName("prec_plani")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Source")
-                        .HasColumnName("source")
-                        .HasColumnType("text");
-
-                    b.Property<string>("SrcCoord")
-                        .HasColumnName("src_coord")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Statut")
-                        .HasColumnName("statut")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Toponyme")
-                        .HasColumnName("toponyme")
-                        .HasColumnType("text");
-
-                    b.ToTable("bassin_versant_topographique","raw_data");
+                    b.ToTable("basin","referential");
                 });
 
             modelBuilder.Entity("Data.SchemaMigrator.Models.Bi_Log", b =>
@@ -202,7 +136,8 @@ namespace Data.SchemaMigrator.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CampaignId");
+                    b.HasIndex("CampaignId")
+                        .HasName("IX_bi_campaign_id");
 
                     b.ToTable("bi","logs");
                 });
@@ -224,20 +159,23 @@ namespace Data.SchemaMigrator.Migrations
                         .HasColumnType("integer");
 
                     b.Property<Guid>("IdCreatorFk")
+                        .HasColumnName("id_creator_fk")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("IdRefImagesForLabelling")
+                        .HasColumnName("id_ref_images_for_labelling")
                         .HasColumnType("uuid");
 
                     b.Property<int>("IdRefTrashTypeFk")
+                        .HasColumnName("id_ref_trash_type_fk")
                         .HasColumnType("integer");
 
                     b.Property<int>("LocationX")
-                        .HasColumnName("locationX")
+                        .HasColumnName("location_x")
                         .HasColumnType("integer");
 
                     b.Property<int>("LocationY")
-                        .HasColumnName("locationY")
+                        .HasColumnName("location_y")
                         .HasColumnType("integer");
 
                     b.Property<int>("Width")
@@ -246,11 +184,13 @@ namespace Data.SchemaMigrator.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdCreatorFk");
+                    b.HasIndex("IdCreatorFk")
+                        .HasName("IX_bounding_boxes_IdCreatorFk");
 
                     b.HasIndex("IdRefImagesForLabelling");
 
-                    b.HasIndex("IdRefTrashTypeFk");
+                    b.HasIndex("IdRefTrashTypeFk")
+                        .HasName("IX_bounding_boxes_IdRefTrashTypeFk");
 
                     b.ToTable("bounding_boxes","label");
                 });
@@ -271,16 +211,31 @@ namespace Data.SchemaMigrator.Migrations
                         .HasColumnName("distance")
                         .HasColumnType("numeric");
 
+                    b.Property<string>("FeatureCollection")
+                        .HasColumnName("feature_collection")
+                        .HasColumnType("jsonb");
+
                     b.Property<Guid?>("IdRefCampaignFk")
                         .HasColumnName("id_ref_campaign_fk")
                         .HasColumnType("uuid");
+
+                    b.Property<int?>("IdRefRiverFk")
+                        .HasColumnName("id_ref_river_fk")
+                        .HasColumnType("integer");
 
                     b.Property<string>("RiverName")
                         .HasColumnName("river_name")
                         .HasColumnType("text");
 
+                    b.Property<Geometry>("RiverTheGeom")
+                        .HasColumnType("geometry");
+
                     b.Property<Geometry>("TheGeom")
                         .HasColumnName("the_geom")
+                        .HasColumnType("geometry");
+
+                    b.Property<Geometry>("TheGeomRaw")
+                        .HasColumnName("the_geom_raw")
                         .HasColumnType("geometry");
 
                     b.HasKey("Id");
@@ -288,7 +243,7 @@ namespace Data.SchemaMigrator.Migrations
                     b.ToTable("campaign_river","bi");
                 });
 
-            modelBuilder.Entity("Data.SchemaMigrator.Models.Campaign_Bi", b =>
+            modelBuilder.Entity("Data.SchemaMigrator.Models.CampaignRiver_Bi_Temp", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -296,24 +251,67 @@ namespace Data.SchemaMigrator.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<DateTime?>("Createdon")
+                        .HasColumnName("createdon")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<decimal?>("Distance")
+                        .HasColumnName("distance")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("FeatureCollection")
+                        .HasColumnName("feature_collection")
+                        .HasColumnType("jsonb");
+
+                    b.Property<Guid?>("IdRefCampaignFk")
+                        .HasColumnName("id_ref_campaign_fk")
+                        .HasColumnType("uuid");
+
+                    b.Property<int?>("IdRefRiverFk")
+                        .HasColumnName("id_ref_river_fk")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid?>("PipelineId")
+                        .HasColumnName("pipeline_id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("RiverName")
+                        .HasColumnName("river_name")
+                        .HasColumnType("text");
+
+                    b.Property<Geometry>("RiverTheGeom")
+                        .HasColumnType("geometry");
+
+                    b.Property<Geometry>("TheGeom")
+                        .HasColumnName("the_geom")
+                        .HasColumnType("geometry");
+
+                    b.Property<Geometry>("TheGeomRaw")
+                        .HasColumnName("the_geom_raw")
+                        .HasColumnType("geometry");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("campaign_river","bi_temp");
+                });
+
+            modelBuilder.Entity("Data.SchemaMigrator.Models.Campaign_Bi", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasColumnType("uuid");
+
                     b.Property<int?>("AvgSpeed")
                         .HasColumnName("avg_speed")
                         .HasColumnType("integer");
 
-                    b.Property<string>("BlobName")
-                        .HasColumnName("blob_name")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ContainerUrl")
-                        .HasColumnName("container_url")
-                        .HasColumnType("text");
-
                     b.Property<DateTime?>("Createdon")
                         .HasColumnName("createdon")
-                        .HasColumnType("date");
+                        .HasColumnType("timestamp without time zone");
 
-                    b.Property<double?>("DistanceStartEnd")
-                        .HasColumnName("distance_start_end")
+                    b.Property<double?>("DistanceOnRiver")
+                        .HasColumnName("distance_on_river")
                         .HasColumnType("double precision");
 
                     b.Property<TimeSpan?>("Duration")
@@ -322,19 +320,11 @@ namespace Data.SchemaMigrator.Migrations
 
                     b.Property<DateTime?>("EndDate")
                         .HasColumnName("end_date")
-                        .HasColumnType("date");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Geometry>("EndPoint")
                         .HasColumnName("end_point")
                         .HasColumnType("geometry");
-
-                    b.Property<double?>("EndPointDistanceSea")
-                        .HasColumnName("end_point_distance_sea")
-                        .HasColumnType("double precision");
-
-                    b.Property<Guid?>("IdRefCampaignFk")
-                        .HasColumnName("id_ref_campaign_fk")
-                        .HasColumnType("uuid");
 
                     b.Property<Guid?>("IdRefModelFk")
                         .HasColumnName("id_ref_model_fk")
@@ -362,7 +352,107 @@ namespace Data.SchemaMigrator.Migrations
 
                     b.Property<DateTime?>("StartDate")
                         .HasColumnName("start_date")
-                        .HasColumnType("date");
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Geometry>("StartPoint")
+                        .HasColumnName("start_point")
+                        .HasColumnType("geometry");
+
+                    b.Property<double?>("TotalDistance")
+                        .HasColumnName("total_distance")
+                        .HasColumnType("double precision");
+
+                    b.Property<int?>("TrashCount")
+                        .HasColumnName("trash_count")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal?>("TrashPerKm")
+                        .HasColumnName("trash_per_km")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal?>("TrashPerKmOnRiver")
+                        .HasColumnName("trash_per_km_on_river")
+                        .HasColumnType("numeric");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EndPoint")
+                        .HasName("campaign_end_point")
+                        .HasAnnotation("Npgsql:IndexMethod", "gist");
+
+                    b.HasIndex("StartPoint")
+                        .HasName("campaign_start_point")
+                        .HasAnnotation("Npgsql:IndexMethod", "gist");
+
+                    b.ToTable("campaign","bi");
+                });
+
+            modelBuilder.Entity("Data.SchemaMigrator.Models.Campaign_Bi_Temp", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasColumnType("uuid");
+
+                    b.Property<int?>("AvgSpeed")
+                        .HasColumnName("avg_speed")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("Createdon")
+                        .HasColumnName("createdon")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<double?>("DistanceOnRiver")
+                        .HasColumnName("distance_on_river")
+                        .HasColumnType("double precision");
+
+                    b.Property<TimeSpan?>("Duration")
+                        .HasColumnName("duration")
+                        .HasColumnType("interval");
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnName("end_date")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Geometry>("EndPoint")
+                        .HasColumnName("end_point")
+                        .HasColumnType("geometry");
+
+                    b.Property<double?>("EndPointDistanceSea")
+                        .HasColumnName("end_point_distance_sea")
+                        .HasColumnType("double precision");
+
+                    b.Property<Guid?>("IdRefModelFk")
+                        .HasColumnName("id_ref_model_fk")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("IdRefUserFk")
+                        .HasColumnName("id_ref_user_fk")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool?>("Isaidriven")
+                        .HasColumnName("isaidriven")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Locomotion")
+                        .HasColumnName("locomotion")
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("PipelineId")
+                        .HasColumnName("pipeline_id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Remark")
+                        .HasColumnName("remark")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Riverside")
+                        .HasColumnName("riverside")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnName("start_date")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Geometry>("StartPoint")
                         .HasColumnName("start_point")
@@ -380,20 +470,25 @@ namespace Data.SchemaMigrator.Migrations
                         .HasColumnName("trash_count")
                         .HasColumnType("integer");
 
+                    b.Property<decimal?>("TrashPerKm")
+                        .HasColumnName("trash_per_km")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal?>("TrashPerKmOnRiver")
+                        .HasColumnName("trash_per_km_on_river")
+                        .HasColumnType("numeric");
+
                     b.HasKey("Id");
 
                     b.HasIndex("EndPoint")
                         .HasName("campaign_end_point")
                         .HasAnnotation("Npgsql:IndexMethod", "gist");
 
-                    b.HasIndex("IdRefCampaignFk")
-                        .HasName("campaign_id_ref_campaign_fk");
-
                     b.HasIndex("StartPoint")
                         .HasName("campaign_start_point")
                         .HasAnnotation("Npgsql:IndexMethod", "gist");
 
-                    b.ToTable("campaign","bi");
+                    b.ToTable("campaign","bi_temp");
                 });
 
             modelBuilder.Entity("Data.SchemaMigrator.Models.Campaign_Campaign", b =>
@@ -404,17 +499,13 @@ namespace Data.SchemaMigrator.Migrations
                         .HasColumnType("uuid")
                         .HasDefaultValueSql("uuid_generate_v4()");
 
-                    b.Property<string>("BlobName")
-                        .HasColumnName("blob_name")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ContainerUrl")
-                        .HasColumnName("container_url")
-                        .HasColumnType("text");
-
                     b.Property<DateTime?>("Createdon")
                         .HasColumnName("createdon")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<bool?>("HasBeenComputed")
+                        .HasColumnName("has_been_computed")
+                        .HasColumnType("boolean");
 
                     b.Property<Guid?>("IdRefModelFk")
                         .HasColumnName("id_ref_model_fk")
@@ -453,88 +544,6 @@ namespace Data.SchemaMigrator.Migrations
                     b.ToTable("campaign","campaign");
                 });
 
-            modelBuilder.Entity("Data.SchemaMigrator.Models.ChefLieu", b =>
-                {
-                    b.Property<Geometry>("Geometry")
-                        .HasColumnName("geometry")
-                        .HasColumnType("geometry");
-
-                    b.Property<string>("Id")
-                        .HasColumnName("id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("InseeCom")
-                        .HasColumnName("insee_com")
-                        .HasColumnType("text");
-
-                    b.Property<string>("NomChf")
-                        .HasColumnName("nom_chf")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Statut")
-                        .HasColumnName("statut")
-                        .HasColumnType("text");
-
-                    b.ToTable("chef_lieu","raw_data");
-                });
-
-            modelBuilder.Entity("Data.SchemaMigrator.Models.Commune", b =>
-                {
-                    b.Property<string>("CodeEpci")
-                        .HasColumnName("code_epci")
-                        .HasColumnType("text");
-
-                    b.Property<Geometry>("Geometry")
-                        .HasColumnName("geometry")
-                        .HasColumnType("geometry");
-
-                    b.Property<string>("Id")
-                        .HasColumnName("id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("InseeArr")
-                        .HasColumnName("insee_arr")
-                        .HasColumnType("text");
-
-                    b.Property<string>("InseeCom")
-                        .HasColumnName("insee_com")
-                        .HasColumnType("text");
-
-                    b.Property<string>("InseeDep")
-                        .HasColumnName("insee_dep")
-                        .HasColumnType("text");
-
-                    b.Property<string>("InseeReg")
-                        .HasColumnName("insee_reg")
-                        .HasColumnType("text");
-
-                    b.Property<string>("NomCom")
-                        .HasColumnName("nom_com")
-                        .HasColumnType("text");
-
-                    b.Property<string>("NomComM")
-                        .HasColumnName("nom_com_m")
-                        .HasColumnType("text");
-
-                    b.Property<string>("NomDep")
-                        .HasColumnName("nom_dep")
-                        .HasColumnType("text");
-
-                    b.Property<string>("NomReg")
-                        .HasColumnName("nom_reg")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Population")
-                        .HasColumnName("population")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Statut")
-                        .HasColumnName("statut")
-                        .HasColumnType("text");
-
-                    b.ToTable("commune","raw_data");
-                });
-
             modelBuilder.Entity("Data.SchemaMigrator.Models.Country", b =>
                 {
                     b.Property<int>("Id")
@@ -550,6 +559,10 @@ namespace Data.SchemaMigrator.Migrations
                     b.Property<DateTime?>("Createdon")
                         .HasColumnName("createdon")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("FeatureCollection")
+                        .HasColumnName("feature_collection")
+                        .HasColumnType("jsonb");
 
                     b.Property<string>("Name")
                         .HasColumnName("name")
@@ -574,108 +587,6 @@ namespace Data.SchemaMigrator.Migrations
                         .HasAnnotation("Npgsql:IndexMethod", "gist");
 
                     b.ToTable("country","referential");
-                });
-
-            modelBuilder.Entity("Data.SchemaMigrator.Models.CoursDEau", b =>
-                {
-                    b.Property<string>("CodeHydro")
-                        .HasColumnName("code_hydro")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Comment")
-                        .HasColumnName("comment")
-                        .HasColumnType("text");
-
-                    b.Property<string>("DateApp")
-                        .HasColumnName("date_app")
-                        .HasColumnType("text");
-
-                    b.Property<string>("DateConf")
-                        .HasColumnName("date_conf")
-                        .HasColumnType("text");
-
-                    b.Property<string>("DateCreat")
-                        .HasColumnName("date_creat")
-                        .HasColumnType("text");
-
-                    b.Property<string>("DateMaj")
-                        .HasColumnName("date_maj")
-                        .HasColumnType("text");
-
-                    b.Property<Geometry>("Geometry")
-                        .HasColumnName("geometry")
-                        .HasColumnType("geometry");
-
-                    b.Property<string>("Id")
-                        .HasColumnName("id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("IdSource")
-                        .HasColumnName("id_source")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Importance")
-                        .HasColumnName("importance")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Maree")
-                        .HasColumnName("maree")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Permanent")
-                        .HasColumnName("permanent")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Source")
-                        .HasColumnName("source")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Statut")
-                        .HasColumnName("statut")
-                        .HasColumnType("text");
-
-                    b.Property<string>("StatutTop")
-                        .HasColumnName("statut_top")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Toponyme")
-                        .HasColumnName("toponyme")
-                        .HasColumnType("text");
-
-                    b.HasIndex("Geometry")
-                        .HasName("raw_data_cours_d_eau_geometry")
-                        .HasAnnotation("Npgsql:IndexMethod", "gist");
-
-                    b.ToTable("cours_d_eau","raw_data");
-                });
-
-            modelBuilder.Entity("Data.SchemaMigrator.Models.Departement", b =>
-                {
-                    b.Property<Geometry>("Geometry")
-                        .HasColumnName("geometry")
-                        .HasColumnType("geometry");
-
-                    b.Property<string>("Id")
-                        .HasColumnName("id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("InseeDep")
-                        .HasColumnName("insee_dep")
-                        .HasColumnType("text");
-
-                    b.Property<string>("InseeReg")
-                        .HasColumnName("insee_reg")
-                        .HasColumnType("text");
-
-                    b.Property<string>("NomDep")
-                        .HasColumnName("nom_dep")
-                        .HasColumnType("text");
-
-                    b.HasIndex("Geometry")
-                        .HasName("raw_data_departement_geometry")
-                        .HasAnnotation("Npgsql:IndexMethod", "gist");
-
-                    b.ToTable("departement","raw_data");
                 });
 
             modelBuilder.Entity("Data.SchemaMigrator.Models.Department", b =>
@@ -729,96 +640,6 @@ namespace Data.SchemaMigrator.Migrations
                     b.ToTable("department","referential");
                 });
 
-            modelBuilder.Entity("Data.SchemaMigrator.Models.DetailHydrographique", b =>
-                {
-                    b.Property<string>("DateApp")
-                        .HasColumnName("date_app")
-                        .HasColumnType("text");
-
-                    b.Property<string>("DateConf")
-                        .HasColumnName("date_conf")
-                        .HasColumnType("text");
-
-                    b.Property<string>("DateCreat")
-                        .HasColumnName("date_creat")
-                        .HasColumnType("text");
-
-                    b.Property<string>("DateMaj")
-                        .HasColumnName("date_maj")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Etat")
-                        .HasColumnName("etat")
-                        .HasColumnType("text");
-
-                    b.Property<Geometry>("Geometry")
-                        .HasColumnName("geometry")
-                        .HasColumnType("geometry");
-
-                    b.Property<string>("Id")
-                        .HasColumnName("id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("IdSource")
-                        .HasColumnName("id_source")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Importance")
-                        .HasColumnName("importance")
-                        .HasColumnType("text");
-
-                    b.Property<string>("NatDetail")
-                        .HasColumnName("nat_detail")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Nature")
-                        .HasColumnName("nature")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PrecPlani")
-                        .HasColumnName("prec_plani")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Source")
-                        .HasColumnName("source")
-                        .HasColumnType("text");
-
-                    b.Property<string>("StatutTop")
-                        .HasColumnName("statut_top")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Toponyme")
-                        .HasColumnName("toponyme")
-                        .HasColumnType("text");
-
-                    b.ToTable("detail_hydrographique","raw_data");
-                });
-
-            modelBuilder.Entity("Data.SchemaMigrator.Models.Epci", b =>
-                {
-                    b.Property<string>("CodeEpci")
-                        .HasColumnName("code_epci")
-                        .HasColumnType("text");
-
-                    b.Property<Geometry>("Geometry")
-                        .HasColumnName("geometry")
-                        .HasColumnType("geometry");
-
-                    b.Property<string>("Id")
-                        .HasColumnName("id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("NomEpci")
-                        .HasColumnName("nom_epci")
-                        .HasColumnType("text");
-
-                    b.Property<string>("TypeEpci")
-                        .HasColumnName("type_epci")
-                        .HasColumnType("text");
-
-                    b.ToTable("epci","raw_data");
-                });
-
             modelBuilder.Entity("Data.SchemaMigrator.Models.Etl_Log", b =>
                 {
                     b.Property<Guid>("Id")
@@ -828,6 +649,10 @@ namespace Data.SchemaMigrator.Migrations
                     b.Property<Guid>("CampaignId")
                         .HasColumnName("campaign_id")
                         .HasColumnType("uuid");
+
+                    b.Property<string>("Container")
+                        .HasColumnName("container")
+                        .HasColumnType("text");
 
                     b.Property<double?>("ElapsedTime")
                         .HasColumnName("elapsed_time")
@@ -869,7 +694,8 @@ namespace Data.SchemaMigrator.Migrations
 
                     b.HasIndex("CampaignId");
 
-                    b.HasIndex("MediaId");
+                    b.HasIndex("MediaId")
+                        .HasName("IX_etl_media_id");
 
                     b.ToTable("etl","logs");
                 });
@@ -891,6 +717,7 @@ namespace Data.SchemaMigrator.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Context")
+                        .HasColumnName("context")
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedOn")
@@ -902,6 +729,7 @@ namespace Data.SchemaMigrator.Migrations
                         .HasColumnType("text");
 
                     b.Property<Guid>("IdCreatorFk")
+                        .HasColumnName("id_creator_fk")
                         .HasColumnType("uuid");
 
                     b.Property<string>("ImageQuality")
@@ -914,86 +742,10 @@ namespace Data.SchemaMigrator.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdCreatorFk");
+                    b.HasIndex("IdCreatorFk")
+                        .HasName("IX_images_for_labelling_IdCreatorFk");
 
                     b.ToTable("images_for_labelling","label");
-                });
-
-            modelBuilder.Entity("Data.SchemaMigrator.Models.LimiteTerreMer", b =>
-                {
-                    b.Property<string>("CodeHydro")
-                        .HasColumnName("code_hydro")
-                        .HasColumnType("text");
-
-                    b.Property<string>("CodePays")
-                        .HasColumnName("code_pays")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Comment")
-                        .HasColumnName("comment")
-                        .HasColumnType("text");
-
-                    b.Property<string>("DateApp")
-                        .HasColumnName("date_app")
-                        .HasColumnType("text");
-
-                    b.Property<string>("DateConf")
-                        .HasColumnName("date_conf")
-                        .HasColumnType("text");
-
-                    b.Property<string>("DateCreat")
-                        .HasColumnName("date_creat")
-                        .HasColumnType("text");
-
-                    b.Property<string>("DateMaj")
-                        .HasColumnName("date_maj")
-                        .HasColumnType("text");
-
-                    b.Property<Geometry>("Geometry")
-                        .HasColumnName("geometry")
-                        .HasColumnType("geometry");
-
-                    b.Property<string>("Id")
-                        .HasColumnName("id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("IdSource")
-                        .HasColumnName("id_source")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Niveau")
-                        .HasColumnName("niveau")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Origine")
-                        .HasColumnName("origine")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PrecPlani")
-                        .HasColumnName("prec_plani")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Source")
-                        .HasColumnName("source")
-                        .HasColumnType("text");
-
-                    b.Property<string>("SrcCoord")
-                        .HasColumnName("src_coord")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Statut")
-                        .HasColumnName("statut")
-                        .HasColumnType("text");
-
-                    b.Property<string>("TypeLimit")
-                        .HasColumnName("type_limit")
-                        .HasColumnType("text");
-
-                    b.HasIndex("Geometry")
-                        .HasName("raw_data_limite_terre_mer_geometry")
-                        .HasAnnotation("Npgsql:IndexMethod", "gist");
-
-                    b.ToTable("limite_terre_mer","raw_data");
                 });
 
             modelBuilder.Entity("Data.SchemaMigrator.Models.LimitsLandSea", b =>
@@ -1058,14 +810,9 @@ namespace Data.SchemaMigrator.Migrations
                         .HasColumnName("id")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Blobname")
+                    b.Property<string>("BlobUrl")
                         .IsRequired()
-                        .HasColumnName("blobname")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Containerurl")
-                        .IsRequired()
-                        .HasColumnName("containerurl")
+                        .HasColumnName("blob_url")
                         .HasColumnType("text");
 
                     b.Property<string>("Createdby")
@@ -1098,10 +845,6 @@ namespace Data.SchemaMigrator.Migrations
                     b.Property<DateTime?>("Time")
                         .HasColumnName("time")
                         .HasColumnType("timestamp without time zone");
-
-                    b.Property<int>("Version")
-                        .HasColumnName("version")
-                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -1159,219 +902,29 @@ namespace Data.SchemaMigrator.Migrations
                     b.ToTable("municipality","referential");
                 });
 
-            modelBuilder.Entity("Data.SchemaMigrator.Models.NoeudHydrographique", b =>
+            modelBuilder.Entity("Data.SchemaMigrator.Models.Pipelines", b =>
                 {
-                    b.Property<string>("Categorie")
-                        .HasColumnName("categorie")
-                        .HasColumnType("text");
-
-                    b.Property<string>("CodeHydro")
-                        .HasColumnName("code_hydro")
-                        .HasColumnType("text");
-
-                    b.Property<string>("CodePays")
-                        .HasColumnName("code_pays")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Comment")
-                        .HasColumnName("comment")
-                        .HasColumnType("text");
-
-                    b.Property<string>("DateApp")
-                        .HasColumnName("date_app")
-                        .HasColumnType("text");
-
-                    b.Property<string>("DateConf")
-                        .HasColumnName("date_conf")
-                        .HasColumnType("text");
-
-                    b.Property<string>("DateCreat")
-                        .HasColumnName("date_creat")
-                        .HasColumnType("text");
-
-                    b.Property<string>("DateMaj")
-                        .HasColumnName("date_maj")
-                        .HasColumnType("text");
-
-                    b.Property<Geometry>("Geometry")
-                        .HasColumnName("geometry")
-                        .HasColumnType("geometry");
-
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnName("id")
-                        .HasColumnType("text");
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("uuid_generate_v4()");
 
-                    b.Property<string>("IdCeAmon")
-                        .HasColumnName("id_ce_amon")
-                        .HasColumnType("text");
+                    b.Property<bool?>("CampaignHasBeenComputed")
+                        .HasColumnName("campaign_has_been_computed")
+                        .HasColumnType("boolean");
 
-                    b.Property<string>("IdCeAval")
-                        .HasColumnName("id_ce_aval")
-                        .HasColumnType("text");
+                    b.Property<Guid>("CampaignId")
+                        .HasColumnName("campaign_id")
+                        .HasColumnType("uuid");
 
-                    b.Property<string>("IdSource")
-                        .HasColumnName("id_source")
-                        .HasColumnType("text");
+                    b.Property<bool?>("RiverHasBeenComputed")
+                        .HasColumnName("river_has_been_computed")
+                        .HasColumnType("boolean");
 
-                    b.Property<string>("PrecAlti")
-                        .HasColumnName("prec_alti")
-                        .HasColumnType("text");
+                    b.HasKey("Id");
 
-                    b.Property<string>("PrecPlani")
-                        .HasColumnName("prec_plani")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Source")
-                        .HasColumnName("source")
-                        .HasColumnType("text");
-
-                    b.Property<string>("SrcAlti")
-                        .HasColumnName("src_alti")
-                        .HasColumnType("text");
-
-                    b.Property<string>("SrcCoord")
-                        .HasColumnName("src_coord")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Statut")
-                        .HasColumnName("statut")
-                        .HasColumnType("text");
-
-                    b.Property<string>("StatutTop")
-                        .HasColumnName("statut_top")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Toponyme")
-                        .HasColumnName("toponyme")
-                        .HasColumnType("text");
-
-                    b.HasIndex("Geometry")
-                        .HasName("raw_data_noeud_hydrographique_geometry")
-                        .HasAnnotation("Npgsql:IndexMethod", "gist");
-
-                    b.ToTable("noeud_hydrographique","raw_data");
-                });
-
-            modelBuilder.Entity("Data.SchemaMigrator.Models.PlanDEau", b =>
-                {
-                    b.Property<string>("CodeHydro")
-                        .HasColumnName("code_hydro")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Comment")
-                        .HasColumnName("comment")
-                        .HasColumnType("text");
-
-                    b.Property<string>("DateApp")
-                        .HasColumnName("date_app")
-                        .HasColumnType("text");
-
-                    b.Property<string>("DateConf")
-                        .HasColumnName("date_conf")
-                        .HasColumnType("text");
-
-                    b.Property<string>("DateCreat")
-                        .HasColumnName("date_creat")
-                        .HasColumnType("text");
-
-                    b.Property<string>("DateMaj")
-                        .HasColumnName("date_maj")
-                        .HasColumnType("text");
-
-                    b.Property<Geometry>("Geometry")
-                        .HasColumnName("geometry")
-                        .HasColumnType("geometry");
-
-                    b.Property<string>("HautMax")
-                        .HasColumnName("haut_max")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Id")
-                        .HasColumnName("id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("IdSource")
-                        .HasColumnName("id_source")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Importance")
-                        .HasColumnName("importance")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Maree")
-                        .HasColumnName("maree")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ModeZMoy")
-                        .HasColumnName("mode_z_moy")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Nature")
-                        .HasColumnName("nature")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ObtHtMax")
-                        .HasColumnName("obt_ht_max")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Permanent")
-                        .HasColumnName("permanent")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PrecZMoy")
-                        .HasColumnName("prec_z_moy")
-                        .HasColumnType("text");
-
-                    b.Property<string>("RefZMoy")
-                        .HasColumnName("ref_z_moy")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Source")
-                        .HasColumnName("source")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Statut")
-                        .HasColumnName("statut")
-                        .HasColumnType("text");
-
-                    b.Property<string>("StatutTop")
-                        .HasColumnName("statut_top")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Toponyme")
-                        .HasColumnName("toponyme")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ZMoy")
-                        .HasColumnName("z_moy")
-                        .HasColumnType("text");
-
-                    b.ToTable("plan_d_eau","raw_data");
-                });
-
-            modelBuilder.Entity("Data.SchemaMigrator.Models.Region", b =>
-                {
-                    b.Property<Geometry>("Geometry")
-                        .HasColumnName("geometry")
-                        .HasColumnType("geometry");
-
-                    b.Property<string>("Id")
-                        .HasColumnName("id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("InseeReg")
-                        .HasColumnName("insee_reg")
-                        .HasColumnType("text");
-
-                    b.Property<string>("NomReg")
-                        .HasColumnName("nom_reg")
-                        .HasColumnType("text");
-
-                    b.HasIndex("Geometry")
-                        .HasName("raw_data_region_geometry")
-                        .HasAnnotation("Npgsql:IndexMethod", "gist");
-
-                    b.ToTable("region","raw_data");
+                    b.ToTable("pipelines","bi_temp");
                 });
 
             modelBuilder.Entity("Data.SchemaMigrator.Models.River_Bi", b =>
@@ -1426,6 +979,54 @@ namespace Data.SchemaMigrator.Migrations
                     b.ToTable("river","bi");
                 });
 
+            modelBuilder.Entity("Data.SchemaMigrator.Models.River_Bi_Temp", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<double?>("CountTrash")
+                        .HasColumnName("count_trash")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("CountUniqueTrash")
+                        .HasColumnName("count_unique_trash")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("DistanceMonitored")
+                        .HasColumnName("distance_monitored")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("Length")
+                        .HasColumnName("length")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("Name")
+                        .HasColumnName("name")
+                        .HasColumnType("text");
+
+                    b.Property<Geometry>("TheGeom")
+                        .HasColumnName("the_geom")
+                        .HasColumnType("geometry");
+
+                    b.Property<Geometry>("TheGeomMonitored")
+                        .HasColumnName("the_geom_monitored")
+                        .HasColumnType("geometry");
+
+                    b.Property<decimal?>("TrashPerKm")
+                        .HasColumnName("trash_per_km")
+                        .HasColumnType("numeric");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .HasName("bi_temp_river_name");
+
+                    b.ToTable("river","bi_temp");
+                });
+
             modelBuilder.Entity("Data.SchemaMigrator.Models.River_Referential", b =>
                 {
                     b.Property<int>("Id")
@@ -1449,6 +1050,10 @@ namespace Data.SchemaMigrator.Migrations
                     b.Property<DateTime?>("Createdon")
                         .HasColumnName("createdon")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("FeatureCollection")
+                        .HasColumnName("feature_collection")
+                        .HasColumnType("jsonb");
 
                     b.Property<int?>("IdRefCountryFk")
                         .HasColumnName("id_ref_country_fk")
@@ -1543,123 +1148,6 @@ namespace Data.SchemaMigrator.Migrations
                     b.ToTable("state","referential");
                 });
 
-            modelBuilder.Entity("Data.SchemaMigrator.Models.SurfaceHydrographique", b =>
-                {
-                    b.Property<string>("CodeHydro")
-                        .HasColumnName("code_hydro")
-                        .HasColumnType("text");
-
-                    b.Property<string>("CodePays")
-                        .HasColumnName("code_pays")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Comment")
-                        .HasColumnName("comment")
-                        .HasColumnType("text");
-
-                    b.Property<string>("DateApp")
-                        .HasColumnName("date_app")
-                        .HasColumnType("text");
-
-                    b.Property<string>("DateConf")
-                        .HasColumnName("date_conf")
-                        .HasColumnType("text");
-
-                    b.Property<string>("DateCreat")
-                        .HasColumnName("date_creat")
-                        .HasColumnType("text");
-
-                    b.Property<string>("DateMaj")
-                        .HasColumnName("date_maj")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Etat")
-                        .HasColumnName("etat")
-                        .HasColumnType("text");
-
-                    b.Property<Geometry>("Geometry")
-                        .HasColumnName("geometry")
-                        .HasColumnType("geometry");
-
-                    b.Property<string>("Id")
-                        .HasColumnName("id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("IdCEau")
-                        .HasColumnName("id_c_eau")
-                        .HasColumnType("text");
-
-                    b.Property<string>("IdEntTr")
-                        .HasColumnName("id_ent_tr")
-                        .HasColumnType("text");
-
-                    b.Property<string>("IdPEau")
-                        .HasColumnName("id_p_eau")
-                        .HasColumnType("text");
-
-                    b.Property<string>("IdSource")
-                        .HasColumnName("id_source")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Nature")
-                        .HasColumnName("nature")
-                        .HasColumnType("text");
-
-                    b.Property<string>("NomCEau")
-                        .HasColumnName("nom_c_eau")
-                        .HasColumnType("text");
-
-                    b.Property<string>("NomEntTr")
-                        .HasColumnName("nom_ent_tr")
-                        .HasColumnType("text");
-
-                    b.Property<string>("NomPEau")
-                        .HasColumnName("nom_p_eau")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Origine")
-                        .HasColumnName("origine")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Persistanc")
-                        .HasColumnName("persistanc")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PosSol")
-                        .HasColumnName("pos_sol")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PrecAlti")
-                        .HasColumnName("prec_alti")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PrecPlani")
-                        .HasColumnName("prec_plani")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Salinite")
-                        .HasColumnName("salinite")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Source")
-                        .HasColumnName("source")
-                        .HasColumnType("text");
-
-                    b.Property<string>("SrcAlti")
-                        .HasColumnName("src_alti")
-                        .HasColumnType("text");
-
-                    b.Property<string>("SrcCoord")
-                        .HasColumnName("src_coord")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Statut")
-                        .HasColumnName("statut")
-                        .HasColumnType("text");
-
-                    b.ToTable("surface_hydrographique","raw_data");
-                });
-
             modelBuilder.Entity("Data.SchemaMigrator.Models.Test", b =>
                 {
                     b.Property<int?>("B")
@@ -1676,96 +1164,6 @@ namespace Data.SchemaMigrator.Migrations
                         .HasColumnType("text");
 
                     b.ToTable("test2");
-                });
-
-            modelBuilder.Entity("Data.SchemaMigrator.Models.ToponymieHydrographie", b =>
-                {
-                    b.Property<string>("Classe")
-                        .HasColumnName("classe")
-                        .HasColumnType("text");
-
-                    b.Property<string>("DateTop")
-                        .HasColumnName("date_top")
-                        .HasColumnType("text");
-
-                    b.Property<Geometry>("Geometry")
-                        .HasColumnName("geometry")
-                        .HasColumnType("geometry");
-
-                    b.Property<string>("Graphie")
-                        .HasColumnName("graphie")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Id")
-                        .HasColumnName("id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Nature")
-                        .HasColumnName("nature")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Source")
-                        .HasColumnName("source")
-                        .HasColumnType("text");
-
-                    b.Property<string>("StatutTop")
-                        .HasColumnName("statut_top")
-                        .HasColumnType("text");
-
-                    b.ToTable("toponymie_hydrographie","raw_data");
-                });
-
-            modelBuilder.Entity("Data.SchemaMigrator.Models.Traces", b =>
-                {
-                    b.Property<double?>("CampaignId")
-                        .HasColumnName("campaign_id")
-                        .HasColumnType("double precision");
-
-                    b.Property<double?>("Elevation")
-                        .HasColumnName("elevation")
-                        .HasColumnType("double precision");
-
-                    b.Property<string>("File")
-                        .HasColumnName("file")
-                        .HasColumnType("text");
-
-                    b.Property<double?>("Latitude")
-                        .HasColumnName("latitude")
-                        .HasColumnType("double precision");
-
-                    b.Property<string>("Locomotion")
-                        .HasColumnName("locomotion")
-                        .HasColumnType("text");
-
-                    b.Property<double?>("Longitude")
-                        .HasColumnName("longitude")
-                        .HasColumnType("double precision");
-
-                    b.Property<string>("Method")
-                        .HasColumnName("method")
-                        .HasColumnType("text");
-
-                    b.Property<string>("River")
-                        .HasColumnName("river")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Riverside")
-                        .HasColumnName("riverside")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Time")
-                        .HasColumnName("time")
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserFirstName")
-                        .HasColumnName("user_first_name")
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserLastName")
-                        .HasColumnName("user_last_name")
-                        .HasColumnType("text");
-
-                    b.ToTable("traces","raw_data");
                 });
 
             modelBuilder.Entity("Data.SchemaMigrator.Models.TrajectoryPointRiver", b =>
@@ -1785,10 +1183,6 @@ namespace Data.SchemaMigrator.Migrations
                         .HasColumnName("createdon")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<double>("DistanceRiverTrajectoryPoint")
-                        .HasColumnName("distance_river_trajectory_point")
-                        .HasColumnType("double precision");
-
                     b.Property<Guid>("IdRefCampaignFk")
                         .HasColumnName("id_ref_campaign_fk")
                         .HasColumnType("uuid");
@@ -1804,11 +1198,6 @@ namespace Data.SchemaMigrator.Migrations
                     b.Property<int?>("Importance")
                         .HasColumnName("importance")
                         .HasColumnType("integer");
-
-                    b.Property<Geometry>("ProjectionTrajectoryPointRiverTheGeom")
-                        .IsRequired()
-                        .HasColumnName("projection_trajectory_point_river_the_geom")
-                        .HasColumnType("geometry");
 
                     b.Property<string>("RiverName")
                         .HasColumnName("river_name")
@@ -1826,10 +1215,63 @@ namespace Data.SchemaMigrator.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdRefTrajectoryPointFk")
-                        .HasName("trajectory_point_river_id_ref_trajectory_point_fk");
-
                     b.ToTable("trajectory_point_river","bi");
+                });
+
+            modelBuilder.Entity("Data.SchemaMigrator.Models.TrajectoryPointRiver_Bi_Temp", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<Geometry>("ClosestPointTheGeom")
+                        .IsRequired()
+                        .HasColumnName("closest_point_the_geom")
+                        .HasColumnType("geometry");
+
+                    b.Property<DateTime?>("Createdon")
+                        .HasColumnName("createdon")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("IdRefCampaignFk")
+                        .HasColumnName("id_ref_campaign_fk")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("IdRefRiverFk")
+                        .HasColumnName("id_ref_river_fk")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("IdRefTrajectoryPointFk")
+                        .HasColumnName("id_ref_trajectory_point_fk")
+                        .HasColumnType("uuid");
+
+                    b.Property<int?>("Importance")
+                        .HasColumnName("importance")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid?>("PipelineId")
+                        .HasColumnName("pipeline_id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("RiverName")
+                        .HasColumnName("river_name")
+                        .HasColumnType("text");
+
+                    b.Property<Geometry>("RiverTheGeom")
+                        .IsRequired()
+                        .HasColumnName("river_the_geom")
+                        .HasColumnType("geometry");
+
+                    b.Property<Geometry>("TrajectoryPointTheGeom")
+                        .IsRequired()
+                        .HasColumnName("trajectory_point_the_geom")
+                        .HasColumnType("geometry");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("trajectory_point_river","bi_temp");
                 });
 
             modelBuilder.Entity("Data.SchemaMigrator.Models.TrajectoryPoint_Bi", b =>
@@ -1881,6 +1323,59 @@ namespace Data.SchemaMigrator.Migrations
                     b.ToTable("trajectory_point","bi");
                 });
 
+            modelBuilder.Entity("Data.SchemaMigrator.Models.TrajectoryPoint_Bi_Temp", b =>
+                {
+                    b.Property<DateTime?>("Createdon")
+                        .HasColumnName("createdon")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<double?>("Distance")
+                        .HasColumnName("distance")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("Elevation")
+                        .HasColumnName("elevation")
+                        .HasColumnType("double precision");
+
+                    b.Property<Guid?>("Id")
+                        .HasColumnName("id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("IdRefCampaignFk")
+                        .HasColumnName("id_ref_campaign_fk")
+                        .HasColumnType("uuid");
+
+                    b.Property<double?>("Lat")
+                        .HasColumnName("lat")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("Lon")
+                        .HasColumnName("lon")
+                        .HasColumnType("double precision");
+
+                    b.Property<Guid?>("PipelineId")
+                        .HasColumnName("pipeline_id")
+                        .HasColumnType("uuid");
+
+                    b.Property<double?>("Speed")
+                        .HasColumnName("speed")
+                        .HasColumnType("double precision");
+
+                    b.Property<Geometry>("TheGeom")
+                        .HasColumnName("the_geom")
+                        .HasColumnType("geometry");
+
+                    b.Property<DateTime?>("Time")
+                        .HasColumnName("time")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<TimeSpan?>("TimeDiff")
+                        .HasColumnName("time_diff")
+                        .HasColumnType("interval");
+
+                    b.ToTable("trajectory_point","bi_temp");
+                });
+
             modelBuilder.Entity("Data.SchemaMigrator.Models.TrajectoryPoint_Campaign", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1892,10 +1387,6 @@ namespace Data.SchemaMigrator.Migrations
                     b.Property<DateTime?>("Createdon")
                         .HasColumnName("createdon")
                         .HasColumnType("timestamp without time zone");
-
-                    b.Property<double?>("Distance")
-                        .HasColumnName("distance")
-                        .HasColumnType("double precision");
 
                     b.Property<double?>("Elevation")
                         .HasColumnName("elevation")
@@ -1924,10 +1415,6 @@ namespace Data.SchemaMigrator.Migrations
                     b.Property<DateTime?>("Time")
                         .HasColumnName("time")
                         .HasColumnType("timestamp without time zone");
-
-                    b.Property<TimeSpan?>("TimeDiff")
-                        .HasColumnName("time_diff")
-                        .HasColumnType("interval");
 
                     b.HasKey("Id");
 
@@ -1977,11 +1464,6 @@ namespace Data.SchemaMigrator.Migrations
                         .HasColumnName("importance")
                         .HasColumnType("integer");
 
-                    b.Property<Geometry>("ProjectionTrashRiverTheGeom")
-                        .IsRequired()
-                        .HasColumnName("projection_trash_river_the_geom")
-                        .HasColumnType("geometry");
-
                     b.Property<string>("RiverName")
                         .HasColumnName("river_name")
                         .HasColumnType("text");
@@ -2005,6 +1487,70 @@ namespace Data.SchemaMigrator.Migrations
                     b.ToTable("trash_river","bi");
                 });
 
+            modelBuilder.Entity("Data.SchemaMigrator.Models.TrashRiver_Bi_Temp", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<Geometry>("ClosestPointTheGeom")
+                        .IsRequired()
+                        .HasColumnName("closest_point_the_geom")
+                        .HasColumnType("geometry");
+
+                    b.Property<DateTime?>("Createdon")
+                        .HasColumnName("createdon")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<double>("DistanceRiverTrash")
+                        .HasColumnName("distance_river_trash")
+                        .HasColumnType("double precision");
+
+                    b.Property<Guid>("IdRefCampaignFk")
+                        .HasColumnName("id_ref_campaign_fk")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("IdRefRiverFk")
+                        .HasColumnName("id_ref_river_fk")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("IdRefTrashFk")
+                        .HasColumnName("id_ref_trash_fk")
+                        .HasColumnType("uuid");
+
+                    b.Property<int?>("Importance")
+                        .HasColumnName("importance")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid?>("PipelineId")
+                        .HasColumnName("pipeline_id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("RiverName")
+                        .HasColumnName("river_name")
+                        .HasColumnType("text");
+
+                    b.Property<Geometry>("RiverTheGeom")
+                        .IsRequired()
+                        .HasColumnName("river_the_geom")
+                        .HasColumnType("geometry");
+
+                    b.Property<Geometry>("TrashTheGeom")
+                        .IsRequired()
+                        .HasColumnName("trash_the_geom")
+                        .HasColumnType("geometry");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClosestPointTheGeom")
+                        .HasName("trash_river_closest_point_the_geom")
+                        .HasAnnotation("Npgsql:IndexMethod", "gist");
+
+                    b.ToTable("trash_river","bi_temp");
+                });
+
             modelBuilder.Entity("Data.SchemaMigrator.Models.TrashType", b =>
                 {
                     b.Property<int>("Id")
@@ -2013,19 +1559,11 @@ namespace Data.SchemaMigrator.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<string>("Brand")
-                        .HasColumnName("brand")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Type")
-                        .HasColumnName("type")
+                    b.Property<string>("Name")
+                        .HasColumnName("name")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Type")
-                        .IsUnique()
-                        .HasName("trash_type_type_key");
 
                     b.ToTable("trash_type","campaign");
                 });
@@ -2038,76 +1576,25 @@ namespace Data.SchemaMigrator.Migrations
                         .HasColumnType("uuid")
                         .HasDefaultValueSql("uuid_generate_v4()");
 
-                    b.Property<string>("BrandType")
-                        .HasColumnName("brand_type")
+                    b.Property<string>("CountryCode")
+                        .HasColumnName("country_code")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CountryName")
+                        .HasColumnName("country_name")
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("Createdon")
                         .HasColumnName("createdon")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<double?>("Elevation")
-                        .HasColumnName("elevation")
-                        .HasColumnType("double precision");
-
-                    b.Property<string[]>("IdRefCampaignFk")
-                        .HasColumnName("id_ref_campaign_fk")
-                        .HasColumnType("text[]");
-
-                    b.Property<string[]>("IdRefImageFk")
-                        .HasColumnName("id_ref_image_fk")
-                        .HasColumnType("text[]");
-
-                    b.Property<string[]>("IdRefModelFk")
-                        .HasColumnName("id_ref_model_fk")
-                        .HasColumnType("text[]");
-
-                    b.Property<int>("IdRefTrashTypeFk")
-                        .HasColumnName("id_ref_trash_type_fk")
-                        .HasColumnType("integer");
-
-                    b.Property<double?>("Lat")
-                        .HasColumnName("lat")
-                        .HasColumnType("double precision");
-
-                    b.Property<double?>("Lon")
-                        .HasColumnName("lon")
-                        .HasColumnType("double precision");
-
-                    b.Property<double?>("Precision")
-                        .HasColumnName("precision")
-                        .HasColumnType("double precision");
-
-                    b.Property<Geometry>("TheGeom")
-                        .HasColumnName("the_geom")
-                        .HasColumnType("geometry");
-
-                    b.Property<DateTime[]>("Time")
-                        .HasColumnName("time")
-                        .HasColumnType("timestamp without time zone[]");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdRefTrashTypeFk");
-
-                    b.ToTable("trash","bi");
-                });
-
-            modelBuilder.Entity("Data.SchemaMigrator.Models.Trash_Campaign", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasColumnType("uuid")
-                        .HasDefaultValueSql("uuid_generate_v4()");
-
-                    b.Property<string>("BrandType")
-                        .HasColumnName("brand_type")
+                    b.Property<string>("DepartmentCode")
+                        .HasColumnName("department_code")
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("Createdon")
-                        .HasColumnName("createdon")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<string>("DepartmentName")
+                        .HasColumnName("department_name")
+                        .HasColumnType("text");
 
                     b.Property<double?>("Elevation")
                         .HasColumnName("elevation")
@@ -2137,6 +1624,174 @@ namespace Data.SchemaMigrator.Migrations
                         .HasColumnName("lon")
                         .HasColumnType("double precision");
 
+                    b.Property<string>("MunicipalityCode")
+                        .HasColumnName("municipality_code")
+                        .HasColumnType("text");
+
+                    b.Property<string>("MunicipalityName")
+                        .HasColumnName("municipality_name")
+                        .HasColumnType("text");
+
+                    b.Property<double?>("Precision")
+                        .HasColumnName("precision")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("StateCode")
+                        .HasColumnName("state_code")
+                        .HasColumnType("text");
+
+                    b.Property<string>("StateName")
+                        .HasColumnName("state_name")
+                        .HasColumnType("text");
+
+                    b.Property<Geometry>("TheGeom")
+                        .HasColumnName("the_geom")
+                        .HasColumnType("geometry");
+
+                    b.Property<DateTime?>("Time")
+                        .HasColumnName("time")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TheGeom")
+                        .HasName("bi_trash_the_geom");
+
+                    b.ToTable("trash","bi");
+                });
+
+            modelBuilder.Entity("Data.SchemaMigrator.Models.Trash_Bi_Temp", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("uuid_generate_v4()");
+
+                    b.Property<string>("CountryCode")
+                        .HasColumnName("country_code")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CountryName")
+                        .HasColumnName("country_name")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("Createdon")
+                        .HasColumnName("createdon")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("DepartmentCode")
+                        .HasColumnName("department_code")
+                        .HasColumnType("text");
+
+                    b.Property<string>("DepartmentName")
+                        .HasColumnName("department_name")
+                        .HasColumnType("text");
+
+                    b.Property<double?>("Elevation")
+                        .HasColumnName("elevation")
+                        .HasColumnType("double precision");
+
+                    b.Property<Guid>("IdRefCampaignFk")
+                        .HasColumnName("id_ref_campaign_fk")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("IdRefImageFk")
+                        .HasColumnName("id_ref_media_fk")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("IdRefModelFk")
+                        .HasColumnName("id_ref_model_fk")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("IdRefTrashTypeFk")
+                        .HasColumnName("id_ref_trash_type_fk")
+                        .HasColumnType("integer");
+
+                    b.Property<double?>("Lat")
+                        .HasColumnName("lat")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("Lon")
+                        .HasColumnName("lon")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("MunicipalityCode")
+                        .HasColumnName("municipality_code")
+                        .HasColumnType("text");
+
+                    b.Property<string>("MunicipalityName")
+                        .HasColumnName("municipality_name")
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("PipelineId")
+                        .HasColumnName("pipeline_id")
+                        .HasColumnType("uuid");
+
+                    b.Property<double?>("Precision")
+                        .HasColumnName("precision")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("StateCode")
+                        .HasColumnName("state_code")
+                        .HasColumnType("text");
+
+                    b.Property<string>("StateName")
+                        .HasColumnName("state_name")
+                        .HasColumnType("text");
+
+                    b.Property<Geometry>("TheGeom")
+                        .HasColumnName("the_geom")
+                        .HasColumnType("geometry");
+
+                    b.Property<DateTime?>("Time")
+                        .HasColumnName("time")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TheGeom")
+                        .HasName("bi_trash_the_geom");
+
+                    b.ToTable("trash","bi_temp");
+                });
+
+            modelBuilder.Entity("Data.SchemaMigrator.Models.Trash_Campaign", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("uuid_generate_v4()");
+
+                    b.Property<DateTime?>("Createdon")
+                        .HasColumnName("createdon")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<double?>("Elevation")
+                        .HasColumnName("elevation")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("Frame2Box")
+                        .HasColumnName("frame_2_box")
+                        .HasColumnType("jsonb");
+
+                    b.Property<Guid>("IdRefCampaignFk")
+                        .HasColumnName("id_ref_campaign_fk")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("IdRefImageFk")
+                        .HasColumnName("id_ref_image_fk")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("IdRefModelFk")
+                        .HasColumnName("id_ref_model_fk")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("IdRefTrashTypeFk")
+                        .HasColumnName("id_ref_trash_type_fk")
+                        .HasColumnType("integer");
+
                     b.Property<double?>("Precision")
                         .HasColumnName("precision")
                         .HasColumnType("double precision");
@@ -2157,240 +1812,13 @@ namespace Data.SchemaMigrator.Migrations
 
                     b.HasIndex("IdRefModelFk");
 
-                    b.HasIndex("IdRefTrashTypeFk")
-                        .HasName("IX_trash_id_ref_trash_type_fk1");
+                    b.HasIndex("IdRefTrashTypeFk");
 
                     b.HasIndex("TheGeom")
                         .HasName("trash_the_geom")
                         .HasAnnotation("Npgsql:IndexMethod", "gist");
 
                     b.ToTable("trash","campaign");
-                });
-
-            modelBuilder.Entity("Data.SchemaMigrator.Models.Trash_RawData", b =>
-                {
-                    b.Property<double?>("CampaignId")
-                        .HasColumnName("campaign_id")
-                        .HasColumnType("double precision");
-
-                    b.Property<double?>("Elevation")
-                        .HasColumnName("elevation")
-                        .HasColumnType("double precision");
-
-                    b.Property<string>("File")
-                        .HasColumnName("file")
-                        .HasColumnType("text");
-
-                    b.Property<double?>("Latitude")
-                        .HasColumnName("latitude")
-                        .HasColumnType("double precision");
-
-                    b.Property<string>("Locomotion")
-                        .HasColumnName("locomotion")
-                        .HasColumnType("text");
-
-                    b.Property<double?>("Longitude")
-                        .HasColumnName("longitude")
-                        .HasColumnType("double precision");
-
-                    b.Property<string>("Method")
-                        .HasColumnName("method")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Object")
-                        .HasColumnName("object")
-                        .HasColumnType("text");
-
-                    b.Property<string>("River")
-                        .HasColumnName("river")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Riverside")
-                        .HasColumnName("riverside")
-                        .HasColumnType("text");
-
-                    b.Property<Geometry>("TheGeom")
-                        .HasColumnName("the_geom")
-                        .HasColumnType("geometry");
-
-                    b.Property<string>("Time")
-                        .HasColumnName("time")
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserFirstName")
-                        .HasColumnName("user_first_name")
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserLastName")
-                        .HasColumnName("user_last_name")
-                        .HasColumnType("text");
-
-                    b.ToTable("trash","raw_data");
-                });
-
-            modelBuilder.Entity("Data.SchemaMigrator.Models.TronconHydrographique", b =>
-                {
-                    b.Property<string>("Bras")
-                        .HasColumnName("bras")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ClaOrdre")
-                        .HasColumnName("cla_ordre")
-                        .HasColumnType("text");
-
-                    b.Property<string>("CodeCarth")
-                        .HasColumnName("code_carth")
-                        .HasColumnType("text");
-
-                    b.Property<string>("CodeHydro")
-                        .HasColumnName("code_hydro")
-                        .HasColumnType("text");
-
-                    b.Property<string>("CodePays")
-                        .HasColumnName("code_pays")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Comment")
-                        .HasColumnName("comment")
-                        .HasColumnType("text");
-
-                    b.Property<string>("DateApp")
-                        .HasColumnName("date_app")
-                        .HasColumnType("text");
-
-                    b.Property<string>("DateConf")
-                        .HasColumnName("date_conf")
-                        .HasColumnType("text");
-
-                    b.Property<string>("DateCreat")
-                        .HasColumnName("date_creat")
-                        .HasColumnType("text");
-
-                    b.Property<string>("DateMaj")
-                        .HasColumnName("date_maj")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Delimit")
-                        .HasColumnName("delimit")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Etat")
-                        .HasColumnName("etat")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Fictif")
-                        .HasColumnName("fictif")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Fosse")
-                        .HasColumnName("fosse")
-                        .HasColumnType("text");
-
-                    b.Property<Geometry>("Geometry")
-                        .HasColumnName("geometry")
-                        .HasColumnType("geometry");
-
-                    b.Property<string>("Id")
-                        .HasColumnName("id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("IdCEau")
-                        .HasColumnName("id_c_eau")
-                        .HasColumnType("text");
-
-                    b.Property<string>("IdEntTr")
-                        .HasColumnName("id_ent_tr")
-                        .HasColumnType("text");
-
-                    b.Property<string>("IdSHydro")
-                        .HasColumnName("id_s_hydro")
-                        .HasColumnType("text");
-
-                    b.Property<string>("IdSource")
-                        .HasColumnName("id_source")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Largeur")
-                        .HasColumnName("largeur")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Nature")
-                        .HasColumnName("nature")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Navigabl")
-                        .HasColumnName("navigabl")
-                        .HasColumnType("text");
-
-                    b.Property<string>("NomCEau")
-                        .HasColumnName("nom_c_eau")
-                        .HasColumnType("text");
-
-                    b.Property<string>("NomEntTr")
-                        .HasColumnName("nom_ent_tr")
-                        .HasColumnType("text");
-
-                    b.Property<string>("NumOrdre")
-                        .HasColumnName("num_ordre")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Origine")
-                        .HasColumnName("origine")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PerOrdre")
-                        .HasColumnName("per_ordre")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Persistanc")
-                        .HasColumnName("persistanc")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PosSol")
-                        .HasColumnName("pos_sol")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PrecAlti")
-                        .HasColumnName("prec_alti")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PrecPlani")
-                        .HasColumnName("prec_plani")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ResCoulan")
-                        .HasColumnName("res_coulan")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Salinite")
-                        .HasColumnName("salinite")
-                        .HasColumnType("text");
-
-                    b.Property<string>("SensEcoul")
-                        .HasColumnName("sens_ecoul")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Source")
-                        .HasColumnName("source")
-                        .HasColumnType("text");
-
-                    b.Property<string>("SrcAlti")
-                        .HasColumnName("src_alti")
-                        .HasColumnType("text");
-
-                    b.Property<string>("SrcCoord")
-                        .HasColumnName("src_coord")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Statut")
-                        .HasColumnName("statut")
-                        .HasColumnType("text");
-
-                    b.HasIndex("Geometry")
-                        .HasName("raw_data_troncon_hydrographique_geometry")
-                        .HasAnnotation("Npgsql:IndexMethod", "gist");
-
-                    b.ToTable("troncon_hydrographique","raw_data");
                 });
 
             modelBuilder.Entity("Data.SchemaMigrator.Models.User", b =>
@@ -2454,43 +1882,15 @@ namespace Data.SchemaMigrator.Migrations
                     b.HasIndex("Lastname")
                         .HasName("user_lastname");
 
-                    b.HasIndex("Firstname", "Lastname")
-                        .IsUnique()
-                        .HasName("user_firstname_lastname_key");
-
                     b.ToTable("user","campaign");
-                });
-
-            modelBuilder.Entity("Data.SchemaMigrator.Models.Bi_Log", b =>
-                {
-                    b.HasOne("Data.SchemaMigrator.Models.Campaign_Campaign", "BiLogs_Campaign_CampaignFKNavigation")
-                        .WithMany("Bi_Logs")
-                        .HasForeignKey("CampaignId")
-                        .HasConstraintName("bi_log_id_ref_campaign_campaign_fkey")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Data.SchemaMigrator.Models.BoundingBoxes", b =>
                 {
-                    b.HasOne("Data.SchemaMigrator.Models.User", "Creator")
-                        .WithMany("UserBoundingBoxesNavigation")
-                        .HasForeignKey("IdCreatorFk")
-                        .HasConstraintName("id_creator_fk")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Data.SchemaMigrator.Models.ImagesForLabelling", "ImageForLabelling")
                         .WithMany("ImagesForLabellingBoundingBoxesNavigation")
                         .HasForeignKey("IdRefImagesForLabelling")
                         .HasConstraintName("id_ref_images_for_labelling_fk")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Data.SchemaMigrator.Models.TrashType", "TrashType")
-                        .WithMany("TrashTypeBoundingBoxesNavigation")
-                        .HasForeignKey("IdRefTrashTypeFk")
-                        .HasConstraintName("id_ref_trash_type_fk")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -2521,24 +1921,7 @@ namespace Data.SchemaMigrator.Migrations
                     b.HasOne("Data.SchemaMigrator.Models.Campaign_Campaign", "EtlLogs_Campaign_CampaignFKNavigation")
                         .WithMany("Etl_Logs")
                         .HasForeignKey("CampaignId")
-                        .HasConstraintName("etl_log_id_ref_campaign_campaign_fkey")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Data.SchemaMigrator.Models.Media", "EtlLogs_MediaFKNavigation")
-                        .WithMany("EtlLogs")
-                        .HasForeignKey("MediaId")
-                        .HasConstraintName("etl_log_id_ref_media_fkey")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Data.SchemaMigrator.Models.ImagesForLabelling", b =>
-                {
-                    b.HasOne("Data.SchemaMigrator.Models.User", "Creator")
-                        .WithMany("UserImagesForLabellings")
-                        .HasForeignKey("IdCreatorFk")
-                        .HasConstraintName("id_creator_fk")
+                        .HasConstraintName("fk_campaign_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -2597,15 +1980,6 @@ namespace Data.SchemaMigrator.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Data.SchemaMigrator.Models.Trash_Bi", b =>
-                {
-                    b.HasOne("Data.SchemaMigrator.Models.TrashType", "IdRefTrashTypeFkNavigation")
-                        .WithMany("Trash")
-                        .HasForeignKey("IdRefTrashTypeFk")
-                        .HasConstraintName("trash_id_ref_trash_type_fk_fkey")
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Data.SchemaMigrator.Models.Trash_Campaign", b =>
                 {
                     b.HasOne("Data.SchemaMigrator.Models.Campaign_Campaign", "IdRefCampaignFkNavigation")
@@ -2623,12 +1997,6 @@ namespace Data.SchemaMigrator.Migrations
                         .WithMany("Trash1")
                         .HasForeignKey("IdRefModelFk")
                         .HasConstraintName("trash_id_ref_model_fk_fkey");
-
-                    b.HasOne("Data.SchemaMigrator.Models.TrashType", "IdRefTrashTypeFkNavigation")
-                        .WithMany("Trash1")
-                        .HasForeignKey("IdRefTrashTypeFk")
-                        .HasConstraintName("trash_id_ref_trash_type_fk_fkey")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

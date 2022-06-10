@@ -8,8 +8,6 @@ namespace Data.SchemaMigrator.Models
         public User()
         {
             Campaigns_Campaign = new HashSet<Campaign_Campaign>();
-            UserImagesForLabellings = new HashSet<ImagesForLabelling>();
-            UserBoundingBoxesNavigation = new HashSet<BoundingBoxes>();
         }
 
         public Guid Id { get; set; }
@@ -26,7 +24,5 @@ namespace Data.SchemaMigrator.Models
         public string Nickname { get; set; }
 
         public virtual ICollection<Campaign_Campaign> Campaigns_Campaign { get; set; }
-        public virtual ICollection<ImagesForLabelling> UserImagesForLabellings { get; set; }
-        public virtual ICollection<BoundingBoxes> UserBoundingBoxesNavigation { get; set; }
     }
 }

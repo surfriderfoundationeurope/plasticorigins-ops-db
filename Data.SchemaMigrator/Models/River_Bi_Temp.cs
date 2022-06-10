@@ -4,7 +4,7 @@ using NetTopologySuite.Geometries;
 
 namespace Data.SchemaMigrator.Models
 {
-    public partial class River_Bi
+    public partial class River_Bi_Temp
     {
         public string Name { get; set; }
         public Geometry TheGeom { get; set; }

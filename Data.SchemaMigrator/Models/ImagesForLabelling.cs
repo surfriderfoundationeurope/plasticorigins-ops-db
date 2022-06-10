@@ -18,8 +18,6 @@ namespace Data.SchemaMigrator.Models
         public string Context { get; set; }
         public string ContainerUrl { get; set; }
         public string BlobName { get; set; }
-
-        public virtual User Creator { get; set; }
         public virtual ICollection<BoundingBoxes> ImagesForLabellingBoundingBoxesNavigation { get; set; }
 
     }

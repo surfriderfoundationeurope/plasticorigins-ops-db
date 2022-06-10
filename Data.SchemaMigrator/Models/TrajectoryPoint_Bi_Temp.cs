@@ -4,7 +4,7 @@ using NetTopologySuite.Geometries;
 
 namespace Data.SchemaMigrator.Models
 {
-    public partial class TrajectoryPoint_Bi
+    public partial class TrajectoryPoint_Bi_Temp
     {
         public Guid? Id { get; set; }
         public Geometry TheGeom { get; set; }
@@ -17,5 +17,6 @@ namespace Data.SchemaMigrator.Models
         public double? Lat { get; set; }
         public double? Lon { get; set; }
         public DateTime? Createdon { get; set; }
+        public Guid? PipelineId { get; set; }
     }
 }

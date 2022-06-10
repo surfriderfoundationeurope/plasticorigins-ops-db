@@ -4,7 +4,7 @@ using NetTopologySuite.Geometries;
 
 namespace Data.SchemaMigrator.Models
 {
-    public partial class CampaignRiver
+    public partial class CampaignRiver_Bi_Temp
     {
         public int Id { get; set; }
         public Guid? IdRefCampaignFk { get; set; }
@@ -15,5 +15,6 @@ namespace Data.SchemaMigrator.Models
         public DateTime? Createdon { get; set; }
         public string? FeatureCollection { get; set; }
         public int? IdRefRiverFk { get; set; }
+        public Guid? PipelineId { get; set; }
     }
 }

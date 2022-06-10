@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using NetTopologySuite.Geometries;
 
@@ -17,6 +17,7 @@ namespace Data.SchemaMigrator.Models
         public int? IdRefCountryFk { get; set; }
         public string Bras { get; set; }
         public DateTime? Createdon { get; set; }
+        public string FeatureCollection { get; set; }
 
         public virtual Country IdRefCountryFkNavigation { get; set; }
     }

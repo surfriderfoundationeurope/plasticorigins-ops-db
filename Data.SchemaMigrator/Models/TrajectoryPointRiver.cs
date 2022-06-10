@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using NetTopologySuite.Geometries;
 
@@ -13,8 +13,6 @@ namespace Data.SchemaMigrator.Models
         public Geometry TrajectoryPointTheGeom { get; set; }
         public Geometry RiverTheGeom { get; set; }
         public Geometry ClosestPointTheGeom { get; set; }
-        public double DistanceRiverTrajectoryPoint { get; set; }
-        public Geometry ProjectionTrajectoryPointRiverTheGeom { get; set; }
         public int? Importance { get; set; }
         public string RiverName { get; set; }
         public DateTime? Createdon { get; set; }
