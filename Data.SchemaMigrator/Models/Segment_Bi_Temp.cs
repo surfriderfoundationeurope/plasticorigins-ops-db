@@ -13,6 +13,10 @@ namespace Data.SchemaMigrator.Models
         public Geometry TheGeomMonitored { get; set; }
         public decimal? TrashPerKm { get; set; }
         public int? NbCampaign { get; set; }
+         public double? CountTrashRiver { get; set; }
+        public double? DistanceMonitoredRiver { get; set; }
+        public decimal? TrashPerKmRiver { get; set; }
+        public int? NbCampaignRiver { get; set; }
         public Geometry TheGeom { get; set; }
         public DateTime? Createdon { get; set; }
     }

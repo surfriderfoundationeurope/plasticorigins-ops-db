@@ -794,13 +794,23 @@ namespace Data.SchemaMigrator.Models
 
                 entity.Property(e => e.DistanceMonitored).HasColumnName("distance_monitored");
 
-                entity.Property(e => e.TheGeomMonitored).HasColumnName("the_geom_monitored");
-
                 entity.Property(e => e.TrashPerKm)
                     .HasColumnName("trash_per_km")
                     .HasColumnType("numeric");
 
                 entity.Property(e => e.NbCampaign).HasColumnName("nb_campaign");
+
+                entity.Property(e => e.CountTrashRiver).HasColumnName("count_trash_river");
+
+                entity.Property(e => e.DistanceMonitoredRiver).HasColumnName("distance_monitored_river");
+
+                entity.Property(e => e.TrashPerKmRiver)
+                    .HasColumnName("trash_per_km_river")
+                    .HasColumnType("numeric");
+
+                entity.Property(e => e.NbCampaignRiver).HasColumnName("nb_campaign_river");
+
+                entity.Property(e => e.TheGeomMonitored).HasColumnName("the_geom_monitored");
 
                  entity.Property(e => e.TheGeom)
                     .HasColumnName("the_geom");
@@ -831,8 +841,6 @@ namespace Data.SchemaMigrator.Models
 
                 entity.Property(e => e.DistanceMonitored).HasColumnName("distance_monitored");
 
-                entity.Property(e => e.TheGeomMonitored).HasColumnName("the_geom_monitored");
-
                 entity.Property(e => e.TrashPerKm)
                     .HasColumnName("trash_per_km")
                     .HasColumnType("numeric");
@@ -840,8 +848,20 @@ namespace Data.SchemaMigrator.Models
 
                 entity.Property(e => e.NbCampaign).HasColumnName("nb_campaign");
 
+                entity.Property(e => e.CountTrashRiver).HasColumnName("count_trash_river");
+
+                entity.Property(e => e.DistanceMonitoredRiver).HasColumnName("distance_monitored_river");
+
+                entity.Property(e => e.TrashPerKmRiver)
+                    .HasColumnName("trash_per_km_river")
+                    .HasColumnType("numeric");
+
+                entity.Property(e => e.NbCampaignRiver).HasColumnName("nb_campaign_river");
+
                 entity.Property(e => e.TheGeom)
                     .HasColumnName("the_geom");
+
+                entity.Property(e => e.TheGeomMonitored).HasColumnName("the_geom_monitored");
 
                 entity.Property(e => e.Createdon).HasColumnName("createdon");
                 

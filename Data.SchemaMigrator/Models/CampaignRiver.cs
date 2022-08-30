@@ -14,6 +14,6 @@ namespace Data.SchemaMigrator.Models
         public decimal? TrashPerKm { get; set; }
         public Geometry TheGeom { get; set; }
         public DateTime? Createdon { get; set; }
-        public string? FeatureCollection { get; set; }
+        public string FeatureCollection { get; set; }
     }
 }
