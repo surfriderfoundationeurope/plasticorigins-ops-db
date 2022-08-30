@@ -33,7 +33,10 @@ namespace Data.SchemaMigrator.Models
         public virtual DbSet<Pipelines> Pipelines { get; set; }
         public virtual DbSet<River_Bi> River_Bi { get; set; }
         public virtual DbSet<River_Bi_Temp> River_Bi_Temp { get; set; }
-        public virtual DbSet<River_Referential> River_Campaign { get; set; }
+        public virtual DbSet<River_Referential> River_Referential { get; set; }
+         public virtual DbSet<Segment_Bi> Segment_Bi { get; set; }
+        public virtual DbSet<Segment_Bi_Temp> Segment_Bi_Temp { get; set; }
+        public virtual DbSet<Segment_Referential> Segment_Campaign { get; set; }
         public virtual DbSet<State> State { get; set; }
         public virtual DbSet<Test> Test { get; set; }
         public virtual DbSet<Test2> Test2 { get; set; }
@@ -110,6 +113,9 @@ namespace Data.SchemaMigrator.Models
                     .HasName("campaign_start_point")
                     .HasMethod("gist");
 
+                entity.HasIndex(e => e.Id)
+                    .HasName("campaign_id");
+
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.AvgSpeed).HasColumnName("avg_speed");
@@ -138,9 +144,7 @@ namespace Data.SchemaMigrator.Models
 
                 entity.Property(e => e.StartPoint).HasColumnName("start_point");
 
-                entity.Property(e => e.TotalDistance).HasColumnName("total_distance");
-
-                entity.Property(e => e.DistanceOnRiver).HasColumnName("distance_on_river");
+                entity.Property(e => e.Distance).HasColumnName("distance");
 
                 entity.Property(e => e.TrashCount).HasColumnName("trash_count");
 
@@ -148,23 +152,13 @@ namespace Data.SchemaMigrator.Models
                     .HasColumnName("trash_per_km")
                     .HasColumnType("numeric");
 
-                entity.Property(e => e.TrashPerKmOnRiver)
-                    .HasColumnName("trash_per_km_on_river")
-                    .HasColumnType("numeric");
+                entity.Property(e => e.TheGeom).HasColumnName("the_geom");
 
             });
 
             modelBuilder.Entity<Campaign_Bi_Temp>(entity =>
             {
                 entity.ToTable("campaign", "bi_temp");
-
-                entity.HasIndex(e => e.EndPoint)
-                    .HasName("campaign_end_point")
-                    .HasMethod("gist");
-
-                entity.HasIndex(e => e.StartPoint)
-                    .HasName("campaign_start_point")
-                    .HasMethod("gist");
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
@@ -198,21 +192,15 @@ namespace Data.SchemaMigrator.Models
 
                 entity.Property(e => e.StartPointDistanceSea).HasColumnName("start_point_distance_sea");
 
-                entity.Property(e => e.TotalDistance).HasColumnName("total_distance");
-
-                entity.Property(e => e.DistanceOnRiver).HasColumnName("distance_on_river");
+                entity.Property(e => e.Distance).HasColumnName("distance");
 
                 entity.Property(e => e.TrashCount).HasColumnName("trash_count");
-
-                entity.Property(e => e.PipelineId).HasColumnName("pipeline_id");
 
                 entity.Property(e => e.TrashPerKm)
                     .HasColumnName("trash_per_km")
                     .HasColumnType("numeric");
 
-                entity.Property(e => e.TrashPerKmOnRiver)
-                    .HasColumnName("trash_per_km_on_river")
-                    .HasColumnType("numeric");
+                entity.Property(e => e.TheGeom).HasColumnName("the_geom");
 
             });
 
@@ -264,6 +252,12 @@ namespace Data.SchemaMigrator.Models
             {
                 entity.ToTable("campaign_river", "bi");
 
+                entity.HasIndex(e => e.IdRefCampaignFk);
+
+                entity.HasIndex(e => e.TheGeom)
+                    .HasName("campaign_river_the_geom")
+                    .HasMethod("gist");
+
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Createdon).HasColumnName("createdon");
@@ -271,25 +265,29 @@ namespace Data.SchemaMigrator.Models
                 entity.Property(e => e.Distance)
                     .HasColumnName("distance")
                     .HasColumnType("numeric");
+                
+                entity.Property(e => e.TrashCount).HasColumnName("trash_count");
 
-                entity.Property(e => e.RiverName).HasColumnName("river_name");
+                entity.Property(e => e.TrashPerKm)
+                    .HasColumnName("trash_per_km")
+                    .HasColumnType("numeric");
 
                 entity.Property(e => e.TheGeom).HasColumnName("the_geom");
 
-                entity.Property(e => e.TheGeomRaw).HasColumnName("the_geom_raw");
+                entity.Property(e => e.IdRefRiverFk).HasColumnName("id_ref_river_fk");
+
+                entity.Property(e => e.IdRefCampaignFk).HasColumnName("id_ref_campaign_fk");
 
                 entity.Property(e => e.FeatureCollection)
                     .HasColumnName("feature_collection")
                     .HasColumnType("jsonb");
-                
-                entity.Property(e => e.IdRefRiverFk).HasColumnName("id_ref_river_fk");
-
-                entity.Property(e => e.IdRefCampaignFk).HasColumnName("id_ref_campaign_fk");
             });
 
             modelBuilder.Entity<CampaignRiver_Bi_Temp>(entity =>
             {
                 entity.ToTable("campaign_river", "bi_temp");
+
+                entity.HasIndex(e => e.IdRefCampaignFk);
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id");
@@ -299,22 +297,18 @@ namespace Data.SchemaMigrator.Models
                 entity.Property(e => e.Distance)
                     .HasColumnName("distance")
                     .HasColumnType("numeric");
+                
+                entity.Property(e => e.TrashCount).HasColumnName("trash_count");
 
-                entity.Property(e => e.RiverName).HasColumnName("river_name");
+                entity.Property(e => e.TrashPerKm)
+                    .HasColumnName("trash_per_km")
+                    .HasColumnType("numeric");
 
                 entity.Property(e => e.TheGeom).HasColumnName("the_geom");
 
-                entity.Property(e => e.TheGeomRaw).HasColumnName("the_geom_raw");
-
-                entity.Property(e => e.FeatureCollection)
-                    .HasColumnName("feature_collection")
-                    .HasColumnType("jsonb");
-                
                 entity.Property(e => e.IdRefRiverFk).HasColumnName("id_ref_river_fk");
 
                 entity.Property(e => e.IdRefCampaignFk).HasColumnName("id_ref_campaign_fk");
-
-                entity.Property(e => e.PipelineId).HasColumnName("pipeline_id");
             });
 
             modelBuilder.Entity<Country>(entity =>
@@ -628,19 +622,126 @@ namespace Data.SchemaMigrator.Models
             {
                 entity.ToTable("river", "referential");
 
-                entity.HasIndex(e => e.IdRefCountryFk);
-
-                entity.HasIndex(e => e.Importance)
-                    .HasName("river_importance");
-
-                entity.HasIndex(e => e.Name)
-                    .HasName("river_name");
+                entity.HasIndex(e => e.Id).HasName("river_id");
 
                 entity.HasIndex(e => e.TheGeom)
                     .HasName("river_the_geom")
                     .HasMethod("gist");
 
+                entity.HasIndex(e => e.Importance)
+                    .HasName("river_importance");
+
                 entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Code).HasColumnName("code");
+
+                entity.Property(e => e.Createdon).HasColumnName("createdon");
+
+                entity.Property(e => e.Name).HasColumnName("name");
+
+                entity.Property(e => e.Length).HasColumnName("length");
+
+                entity.Property(e => e.TheGeom)
+                    .IsRequired()
+                    .HasColumnName("the_geom");
+                
+                entity.Property(e => e.Importance).HasColumnName("importance");
+            });
+
+            modelBuilder.Entity<River_Bi>(entity =>
+            {
+                entity.ToTable("river", "bi");
+
+                entity.HasIndex(e => e.Id)
+                    .HasName("river_id");
+
+                entity.HasIndex(e => e.TheGeom)
+                    .HasName("river_the_geom")
+                    .HasMethod("gist");
+
+                entity.HasIndex(e => e.Importance)
+                    .HasName("river_bi_importance");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Importance).HasColumnName("importance");
+
+                entity.Property(e => e.CountTrash).HasColumnName("count_trash");
+
+                entity.Property(e => e.DistanceMonitored).HasColumnName("distance_monitored");
+
+                entity.Property(e => e.Name).HasColumnName("name");
+
+                entity.Property(e => e.TheGeomMonitored).HasColumnName("the_geom_monitored");
+
+                entity.Property(e => e.TrashPerKm)
+                    .HasColumnName("trash_per_km")
+                    .HasColumnType("numeric");
+                
+                entity.Property(e => e.NbCampaign).HasColumnName("nb_campaign");
+
+                 entity.Property(e => e.TheGeom)
+                    .HasColumnName("the_geom");
+
+                entity.Property(e => e.Createdon).HasColumnName("createdon");
+
+                entity.Property(e => e.FeatureCollection)
+                    .HasColumnName("feature_collection")
+                    .HasColumnType("jsonb");
+            });
+
+            modelBuilder.Entity<River_Bi_Temp>(entity =>
+            {
+                entity.ToTable("river", "bi_temp");
+
+                
+                entity.HasIndex(e => e.Id)
+                    .HasName("bi_temp_river_id");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Importance).HasColumnName("importance");
+
+                entity.Property(e => e.CountTrash).HasColumnName("count_trash");
+
+                entity.Property(e => e.DistanceMonitored).HasColumnName("distance_monitored");
+
+                entity.Property(e => e.Name).HasColumnName("name");
+
+                entity.Property(e => e.TheGeomMonitored).HasColumnName("the_geom_monitored");
+
+                entity.Property(e => e.TrashPerKm)
+                    .HasColumnName("trash_per_km")
+                    .HasColumnType("numeric");
+
+                entity.Property(e => e.NbCampaign).HasColumnName("nb_campaign");
+
+                 entity.Property(e => e.TheGeom)
+                    .HasColumnName("the_geom");
+
+                entity.Property(e => e.Createdon).HasColumnName("createdon");
+
+            });
+
+            modelBuilder.Entity<Segment_Referential>(entity =>
+            {
+                entity.ToTable("segment", "referential");
+
+                entity.HasIndex(e => e.IdRefCountryFk);
+                entity.HasIndex(e => e.IdRefRiverFk);
+
+                entity.HasIndex(e => e.Id).HasName("segment_id");
+
+                entity.HasIndex(e => e.Importance)
+                    .HasName("segment_importance");
+
+                entity.HasIndex(e => e.TheGeom)
+                    .HasName("segment_the_geom")
+                    .HasMethod("gist");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.IdRefRiverFk).HasColumnName("id_ref_river_fk");
 
                 entity.Property(e => e.Bras).HasColumnName("bras");
 
@@ -654,7 +755,9 @@ namespace Data.SchemaMigrator.Models
 
                 entity.Property(e => e.Importance).HasColumnName("importance");
 
-                entity.Property(e => e.Name).HasColumnName("name");
+                entity.Property(e => e.StrahlerRank).HasColumnName("strahler_rank");
+
+                entity.Property(e => e.Length).HasColumnName("length");
 
                 entity.Property(e => e.Nature).HasColumnName("nature");
 
@@ -664,74 +767,87 @@ namespace Data.SchemaMigrator.Models
                     .IsRequired()
                     .HasColumnName("the_geom");
                 
+
+                entity.HasOne(d => d.IdRefCountryFkNavigation)
+                    .WithMany(p => p.Segment)
+                    .HasForeignKey(d => d.IdRefCountryFk)
+                    .HasConstraintName("segment_id_ref_country_fk_fkey");
+
+                entity.HasOne(d => d.IdRefRiverFkNavigation)
+                    .WithMany(p => p.Segment)
+                    .HasForeignKey(d => d.IdRefRiverFk)
+                    .HasConstraintName("segment_id_ref_river_fk_fkey");
+            });
+
+            modelBuilder.Entity<Segment_Bi_Temp>(entity =>
+            {
+                entity.ToTable("segment", "bi_temp");
+                
+                entity.HasIndex(e => e.Id)
+                    .HasName("bi_temp_segment_id");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Importance).HasColumnName("importance");
+
+                entity.Property(e => e.CountTrash).HasColumnName("count_trash");
+
+                entity.Property(e => e.DistanceMonitored).HasColumnName("distance_monitored");
+
+                entity.Property(e => e.TheGeomMonitored).HasColumnName("the_geom_monitored");
+
+                entity.Property(e => e.TrashPerKm)
+                    .HasColumnName("trash_per_km")
+                    .HasColumnType("numeric");
+
+                entity.Property(e => e.NbCampaign).HasColumnName("nb_campaign");
+
+                 entity.Property(e => e.TheGeom)
+                    .HasColumnName("the_geom");
+
+                entity.Property(e => e.Createdon).HasColumnName("createdon");
+
+            });
+
+            modelBuilder.Entity<Segment_Bi>(entity =>
+            {
+                entity.ToTable("segment", "bi");
+                
+                entity.HasIndex(e => e.Id)
+                    .HasName("bi_segment_id");
+                
+                entity.HasIndex(e => e.Importance)
+                    .HasName("bi_segment_importance");
+                
+                entity.HasIndex(e => e.TheGeom)
+                .HasName("segment_the_geom")
+                .HasMethod("gist");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Importance).HasColumnName("importance");
+
+                entity.Property(e => e.CountTrash).HasColumnName("count_trash");
+
+                entity.Property(e => e.DistanceMonitored).HasColumnName("distance_monitored");
+
+                entity.Property(e => e.TheGeomMonitored).HasColumnName("the_geom_monitored");
+
+                entity.Property(e => e.TrashPerKm)
+                    .HasColumnName("trash_per_km")
+                    .HasColumnType("numeric");
+                
+
+                entity.Property(e => e.NbCampaign).HasColumnName("nb_campaign");
+
+                entity.Property(e => e.TheGeom)
+                    .HasColumnName("the_geom");
+
+                entity.Property(e => e.Createdon).HasColumnName("createdon");
+                
                 entity.Property(e => e.FeatureCollection)
                     .HasColumnName("feature_collection")
                     .HasColumnType("jsonb");
-
-                entity.HasOne(d => d.IdRefCountryFkNavigation)
-                    .WithMany(p => p.River)
-                    .HasForeignKey(d => d.IdRefCountryFk)
-                    .HasConstraintName("river_id_ref_country_fk_fkey");
-            });
-
-            modelBuilder.Entity<River_Bi>(entity =>
-            {
-                entity.ToTable("river", "bi");
-
-                entity.HasIndex(e => e.Name)
-                    .HasName("river_name");
-
-                entity.HasIndex(e => e.TheGeom)
-                    .HasName("river_the_geom")
-                    .HasMethod("gist");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.CountTrash).HasColumnName("count_trash");
-
-                entity.Property(e => e.CountUniqueTrash).HasColumnName("count_unique_trash");
-
-                entity.Property(e => e.DistanceMonitored).HasColumnName("distance_monitored");
-
-                entity.Property(e => e.Length).HasColumnName("length");
-
-                entity.Property(e => e.Name).HasColumnName("name");
-
-                entity.Property(e => e.TheGeom).HasColumnName("the_geom");
-
-                entity.Property(e => e.TheGeomMonitored).HasColumnName("the_geom_monitored");
-
-                entity.Property(e => e.TrashPerKm)
-                    .HasColumnName("trash_per_km")
-                    .HasColumnType("numeric");
-            });
-
-            modelBuilder.Entity<River_Bi_Temp>(entity =>
-            {
-                entity.ToTable("river", "bi_temp");
-
-                entity.HasIndex(e => e.Name)
-                    .HasName("bi_temp_river_name");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.CountTrash).HasColumnName("count_trash");
-
-                entity.Property(e => e.CountUniqueTrash).HasColumnName("count_unique_trash");
-
-                entity.Property(e => e.DistanceMonitored).HasColumnName("distance_monitored");
-
-                entity.Property(e => e.Length).HasColumnName("length");
-
-                entity.Property(e => e.Name).HasColumnName("name");
-
-                entity.Property(e => e.TheGeom).HasColumnName("the_geom");
-
-                entity.Property(e => e.TheGeomMonitored).HasColumnName("the_geom_monitored");
-
-                entity.Property(e => e.TrashPerKm)
-                    .HasColumnName("trash_per_km")
-                    .HasColumnType("numeric");
             });
 
             modelBuilder.Entity<State>(entity =>
@@ -795,8 +911,6 @@ namespace Data.SchemaMigrator.Models
             {
                 entity.ToTable("trajectory_point", "campaign");
 
-                entity.HasIndex(e => e.IdRefCampaignFk);
-
                 entity.HasIndex(e => e.TheGeom)
                     .HasName("trajectory_point_the_geom")
                     .HasMethod("gist");
@@ -834,6 +948,8 @@ namespace Data.SchemaMigrator.Models
 
                 entity.ToTable("trajectory_point", "bi");
 
+                entity.HasIndex(e => e.IdRefCampaignFk);
+
                 entity.Property(e => e.Createdon).HasColumnName("createdon");
 
                 entity.Property(e => e.Distance).HasColumnName("distance");
@@ -863,6 +979,10 @@ namespace Data.SchemaMigrator.Models
 
                 entity.ToTable("trajectory_point", "bi_temp");
 
+                entity.HasIndex(e => e.IdRefCampaignFk);
+
+                entity.HasIndex(e => e.Id);
+
                 entity.Property(e => e.Createdon).HasColumnName("createdon");
 
                 entity.Property(e => e.Distance).HasColumnName("distance");
@@ -884,53 +1004,47 @@ namespace Data.SchemaMigrator.Models
                 entity.Property(e => e.Time).HasColumnName("time");
 
                 entity.Property(e => e.TimeDiff).HasColumnName("time_diff");
-
-                entity.Property(e => e.PipelineId).HasColumnName("pipeline_id");
             });
 
             modelBuilder.Entity<TrajectoryPointRiver>(entity =>
             {
                 entity.ToTable("trajectory_point_river", "bi");
 
+                entity.HasIndex(e => e.IdRefCampaignFk);
+
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.ClosestPointTheGeom)
-                    .IsRequired()
-                    .HasColumnName("closest_point_the_geom");
+                entity.Property(e => e.TheGeom).HasColumnName("the_geom");
 
                 entity.Property(e => e.Createdon).HasColumnName("createdon");
 
                 entity.Property(e => e.IdRefCampaignFk).HasColumnName("id_ref_campaign_fk");
 
+                entity.Property(e => e.IdRefSegmentFk).HasColumnName("id_ref_segment_fk");
+
                 entity.Property(e => e.IdRefRiverFk).HasColumnName("id_ref_river_fk");
 
                 entity.Property(e => e.IdRefTrajectoryPointFk).HasColumnName("id_ref_trajectory_point_fk");
 
-                entity.Property(e => e.Importance).HasColumnName("importance");
-
-                entity.Property(e => e.RiverName).HasColumnName("river_name");
-
-                entity.Property(e => e.RiverTheGeom)
-                    .IsRequired()
-                    .HasColumnName("river_the_geom");
-
-                entity.Property(e => e.TrajectoryPointTheGeom)
-                    .IsRequired()
-                    .HasColumnName("trajectory_point_the_geom");
+                entity.Property(e => e.Time).HasColumnName("time");
             });
 
             modelBuilder.Entity<TrajectoryPointRiver_Bi_Temp>(entity =>
             {
                 entity.ToTable("trajectory_point_river", "bi_temp");
 
+                entity.HasIndex(e => e.IdRefCampaignFk);
+
+                entity.HasIndex(e => e.IdRefRiverFk);
+
                 entity.Property(e => e.Id)
                     .HasColumnName("id");
 
-                entity.Property(e => e.ClosestPointTheGeom)
-                    .IsRequired()
-                    .HasColumnName("closest_point_the_geom");
+                entity.Property(e => e.TheGeom).HasColumnName("the_geom");
 
                 entity.Property(e => e.Createdon).HasColumnName("createdon");
+
+                entity.Property(e => e.IdRefSegmentFk).HasColumnName("id_ref_segment_fk");
 
                 entity.Property(e => e.IdRefCampaignFk).HasColumnName("id_ref_campaign_fk");
 
@@ -938,19 +1052,7 @@ namespace Data.SchemaMigrator.Models
 
                 entity.Property(e => e.IdRefTrajectoryPointFk).HasColumnName("id_ref_trajectory_point_fk");
 
-                entity.Property(e => e.Importance).HasColumnName("importance");
-
-                entity.Property(e => e.RiverName).HasColumnName("river_name");
-
-                entity.Property(e => e.RiverTheGeom)
-                    .IsRequired()
-                    .HasColumnName("river_the_geom");
-
-                entity.Property(e => e.TrajectoryPointTheGeom)
-                    .IsRequired()
-                    .HasColumnName("trajectory_point_the_geom");
-                
-                entity.Property(e => e.PipelineId).HasColumnName("pipeline_id");
+                entity.Property(e => e.Time).HasColumnName("time");
             });
 
             modelBuilder.Entity<Trash_Bi>(entity =>
@@ -960,6 +1062,10 @@ namespace Data.SchemaMigrator.Models
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
                     .HasDefaultValueSql("uuid_generate_v4()");
+
+                entity.HasIndex(e => e.IdRefCampaignFk);
+
+                entity.HasIndex(e => e.Id);
 
                 entity.Property(e => e.Createdon).HasColumnName("createdon");
 
@@ -1003,6 +1109,10 @@ namespace Data.SchemaMigrator.Models
                     .HasColumnName("id")
                     .HasDefaultValueSql("uuid_generate_v4()");
 
+                entity.HasIndex(e => e.IdRefCampaignFk);
+
+                entity.HasIndex(e => e.Id);
+
                 entity.Property(e => e.Createdon).HasColumnName("createdon");
 
                 entity.Property(e => e.Elevation).HasColumnName("elevation");
@@ -1035,15 +1145,11 @@ namespace Data.SchemaMigrator.Models
                 entity.Property(e => e.CountryName).HasColumnName("country_name");
 
                 entity.HasIndex(e => e.TheGeom).HasName("bi_trash_the_geom");
-
-                entity.Property(e => e.PipelineId).HasColumnName("pipeline_id");
             });
 
             modelBuilder.Entity<Trash_Campaign>(entity =>
             {
                 entity.ToTable("trash", "campaign");
-
-                entity.HasIndex(e => e.IdRefCampaignFk);
 
                 entity.HasIndex(e => e.IdRefImageFk);
 
@@ -1102,77 +1208,62 @@ namespace Data.SchemaMigrator.Models
             {
                 entity.ToTable("trash_river", "bi");
 
-                entity.HasIndex(e => e.ClosestPointTheGeom)
-                    .HasName("trash_river_closest_point_the_geom")
+                entity.HasIndex(e => e.IdRefCampaignFk);
+
+                entity.HasIndex(e => e.IdRefTrashFk);
+
+                entity.HasIndex(e => e.Id);
+
+                entity.HasIndex(e => e.TheGeom)
+                    .HasName("trash_river_the_geom")
                     .HasMethod("gist");
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.ClosestPointTheGeom)
-                    .IsRequired()
-                    .HasColumnName("closest_point_the_geom");
+                entity.Property(e => e.TheGeom).HasColumnName("the_geom");
 
                 entity.Property(e => e.Createdon).HasColumnName("createdon");
 
-                entity.Property(e => e.DistanceRiverTrash).HasColumnName("distance_river_trash");
-
                 entity.Property(e => e.IdRefCampaignFk).HasColumnName("id_ref_campaign_fk");
+
+                entity.Property(e => e.IdRefSegmentFk).HasColumnName("id_ref_segment_fk");
 
                 entity.Property(e => e.IdRefRiverFk).HasColumnName("id_ref_river_fk");
 
                 entity.Property(e => e.IdRefTrashFk).HasColumnName("id_ref_trash_fk");
-
-                entity.Property(e => e.Importance).HasColumnName("importance");
-
-                entity.Property(e => e.RiverName).HasColumnName("river_name");
-
-                entity.Property(e => e.RiverTheGeom)
-                    .IsRequired()
-                    .HasColumnName("river_the_geom");
-
-                entity.Property(e => e.TrashTheGeom)
-                    .IsRequired()
-                    .HasColumnName("trash_the_geom");
+                
+                entity.Property(e => e.FeatureCollection)
+                    .HasColumnName("feature_collection")
+                    .HasColumnType("jsonb");
             });
                 
             modelBuilder.Entity<TrashRiver_Bi_Temp>(entity =>
             {
                 entity.ToTable("trash_river", "bi_temp");
 
-                entity.HasIndex(e => e.ClosestPointTheGeom)
-                    .HasName("trash_river_closest_point_the_geom")
-                    .HasMethod("gist");
+                entity.HasIndex(e => e.IdRefCampaignFk);
+
+                entity.HasIndex(e => e.IdRefRiverFk);
+
+                entity.HasIndex(e => e.IdRefSegmentFk);
+
+                entity.HasIndex(e => e.Id);
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id");
 
-                entity.Property(e => e.ClosestPointTheGeom)
-                    .IsRequired()
-                    .HasColumnName("closest_point_the_geom");
+                entity.Property(e => e.TheGeom).HasColumnName("the_geom");
 
                 entity.Property(e => e.Createdon).HasColumnName("createdon");
 
-                entity.Property(e => e.DistanceRiverTrash).HasColumnName("distance_river_trash");
-
                 entity.Property(e => e.IdRefCampaignFk).HasColumnName("id_ref_campaign_fk");
+
+                entity.Property(e => e.IdRefSegmentFk).HasColumnName("id_ref_segment_fk");
 
                 entity.Property(e => e.IdRefRiverFk).HasColumnName("id_ref_river_fk");
 
                 entity.Property(e => e.IdRefTrashFk).HasColumnName("id_ref_trash_fk");
 
-                entity.Property(e => e.Importance).HasColumnName("importance");
-
-                entity.Property(e => e.PipelineId).HasColumnName("pipeline_id");
-
-                entity.Property(e => e.RiverName).HasColumnName("river_name");
-
-                entity.Property(e => e.RiverTheGeom)
-                    .IsRequired()
-                    .HasColumnName("river_the_geom");
-
-                entity.Property(e => e.TrashTheGeom)
-                    .IsRequired()
-                    .HasColumnName("trash_the_geom");
             });
 
             modelBuilder.Entity<TrashType>(entity =>

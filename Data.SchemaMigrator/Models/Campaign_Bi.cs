@@ -17,13 +17,12 @@ namespace Data.SchemaMigrator.Models
         public DateTime? EndDate { get; set; }
         public Geometry StartPoint { get; set; }
         public Geometry EndPoint { get; set; }
-        public double? TotalDistance { get; set; }
-        public double? DistanceOnRiver { get; set; }
+        public double? Distance { get; set; }
         public int? AvgSpeed { get; set; }
         public TimeSpan? Duration { get; set; }
         public int? TrashCount { get; set; }
         public decimal? TrashPerKm { get; set; }
-        public decimal? TrashPerKmOnRiver { get; set; }
+        public Geometry TheGeom { get; set; }
         public DateTime? Createdon { get; set; }
     }
 }

@@ -8,12 +8,12 @@ namespace Data.SchemaMigrator.Models
     {
         public int Id { get; set; }
         public Guid? IdRefCampaignFk { get; set; }
-        public string RiverName { get; set; }
+        public int IdRefRiverFk { get; set; }
         public decimal? Distance { get; set; }
+        public int? TrashCount { get; set; }
+        public decimal? TrashPerKm { get; set; }
         public Geometry TheGeom { get; set; }
-        public Geometry TheGeomRaw  { get; set; }
         public DateTime? Createdon { get; set; }
         public string? FeatureCollection { get; set; }
-        public int? IdRefRiverFk { get; set; }
     }
 }

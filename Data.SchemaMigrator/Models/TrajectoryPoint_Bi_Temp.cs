@@ -17,6 +17,5 @@ namespace Data.SchemaMigrator.Models
         public double? Lat { get; set; }
         public double? Lon { get; set; }
         public DateTime? Createdon { get; set; }
-        public Guid? PipelineId { get; set; }
     }
 }

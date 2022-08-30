@@ -26,6 +26,5 @@ namespace Data.SchemaMigrator.Models
         public string CountryCode { get; set; }
         public string CountryName { get; set; }
         public DateTime? Createdon { get; set; }
-        public Guid? PipelineId { get; set; }
     }
 }

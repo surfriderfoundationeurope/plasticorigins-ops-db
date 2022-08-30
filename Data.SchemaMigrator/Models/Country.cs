@@ -9,7 +9,7 @@ namespace Data.SchemaMigrator.Models
         public Country()
         {
             LimitsLandSea = new HashSet<LimitsLandSea>();
-            River = new HashSet<River_Referential>();
+            Segment = new HashSet<Segment_Referential>();
             State = new HashSet<State>();
         }
 
@@ -21,7 +21,7 @@ namespace Data.SchemaMigrator.Models
         public string FeatureCollection { get; set; }
 
         public virtual ICollection<LimitsLandSea> LimitsLandSea { get; set; }
-        public virtual ICollection<River_Referential> River { get; set; }
+        public virtual ICollection<Segment_Referential> Segment { get; set; }
         public virtual ICollection<State> State { get; set; }
     }
 }
