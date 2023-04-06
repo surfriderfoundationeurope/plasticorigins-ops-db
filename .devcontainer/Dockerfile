@@ -5,6 +5,7 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
      && apt-get -y install --no-install-recommends postgresql-client
 
 ENV PATH $PATH:/home/vscode/.dotnet:/home/vscode/.dotnet/tools
+ENV PGPASSWORD postgres
 
 RUN su vscode -c "dotnet tool install --global dotnet-ef"
      
