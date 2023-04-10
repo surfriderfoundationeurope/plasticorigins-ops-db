@@ -23,7 +23,7 @@ namespace Data.SchemaMigrator.Migrations
                 .Annotation("Npgsql:PostgresExtension:pg_buffercache", ",,")
                 .Annotation("Npgsql:PostgresExtension:pg_stat_statements", ",,")
                 .Annotation("Npgsql:PostgresExtension:pgcrypto", ",,")
-                .Annotation("Npgsql:PostgresExtension:pgrouting", ",,")
+                // .Annotation("Npgsql:PostgresExtension:pgrouting", ",,")
                 .Annotation("Npgsql:PostgresExtension:postgis", ",,")
                 .Annotation("Npgsql:PostgresExtension:postgis_topology", ",,")
                 .Annotation("Npgsql:PostgresExtension:uuid-ossp", ",,");

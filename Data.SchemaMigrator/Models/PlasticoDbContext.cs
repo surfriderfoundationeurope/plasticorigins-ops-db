@@ -67,7 +67,7 @@ namespace Data.SchemaMigrator.Models
             modelBuilder.HasPostgresExtension("pg_buffercache")
                 .HasPostgresExtension("pg_stat_statements")
                 .HasPostgresExtension("pgcrypto")
-                .HasPostgresExtension("pgrouting")
+                // .HasPostgresExtension("pgrouting")
                 .HasPostgresExtension("postgis")
                 .HasPostgresExtension("postgis_topology")
                 .HasPostgresExtension("uuid-ossp");
