@@ -281,6 +281,8 @@ namespace Data.SchemaMigrator.Models
                 entity.Property(e => e.FeatureCollection)
                     .HasColumnName("feature_collection")
                     .HasColumnType("jsonb");
+                
+                entity.Property(e => e.Disabled).HasColumnName("disabled");
             });
 
             modelBuilder.Entity<CampaignRiver_Bi_Temp>(entity =>
@@ -1334,6 +1336,8 @@ namespace Data.SchemaMigrator.Models
                 entity.Property(e => e.Yearofbirth)
                     .HasColumnName("yearofbirth")
                     .HasColumnType("date");
+
+                entity.Property(e => e.CGUValidatedDate).HasColumnName("cguvalidateddate");
             });
 
             modelBuilder.Entity<ImagesForLabelling>(entity =>

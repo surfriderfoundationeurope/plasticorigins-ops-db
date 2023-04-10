@@ -22,6 +22,7 @@ namespace Data.SchemaMigrator.Models
         public DateTime? Createdon { get; set; }
         public DateTime? LastLoggedOn { get; set; }
         public string Nickname { get; set; }
+        public DateTime? CGUValidatedDate { get; set; }
 
         public virtual ICollection<Campaign_Campaign> Campaigns_Campaign { get; set; }
     }

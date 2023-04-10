@@ -15,5 +15,6 @@ namespace Data.SchemaMigrator.Models
         public Geometry TheGeom { get; set; }
         public DateTime? Createdon { get; set; }
         public string FeatureCollection { get; set; }
+        public bool? Disabled { get; set; }
     }
 }
