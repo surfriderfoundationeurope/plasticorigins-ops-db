@@ -4,6 +4,7 @@ using System.Collections;
 using Data.SchemaMigrator.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetTopologySuite.Geometries;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -13,9 +14,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.SchemaMigrator.Migrations
 {
     [DbContext(typeof(PlasticoDbContext))]
-    partial class PlasticoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230424124729_userCguAndCampaignBi")]
+    partial class userCguAndCampaignBi
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
