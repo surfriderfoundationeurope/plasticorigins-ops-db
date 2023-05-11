@@ -68,9 +68,9 @@ Following scripts have been used to generate user accesses :
 
 ```plsql
 CREATE ROLE r_reader NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;
-GRANT USAGE ON SCHEMA public, campaign, bi, referential to r_reader;
-GRANT SELECT ON ALL TABLES IN SCHEMA public, campaign, bi, referential to r_reader;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public, campaign, bi, referential GRANT SELECT ON TABLES TO r_reader;
+GRANT USAGE ON SCHEMA public, campaign, bi, referential to r_reader, logs;
+GRANT SELECT ON ALL TABLES IN SCHEMA public, campaign, bi, referential to r_reader, logs;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public, campaign, bi, referential, logs GRANT SELECT ON TABLES TO r_reader;
 CREATE ROLE g_reader NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;
 GRANT r_reader to g_reader;
 CREATE ROLE reader_user WITH LOGIN ;
@@ -81,9 +81,9 @@ GRANT g_reader TO reader_user;
 
 ```plsql
 CREATE ROLE r_writer NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;
-GRANT USAGE ON SCHEMA public, campaign, bi, referential to r_writer;
-GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public, campaign, bi, referential to r_writer;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public, campaign, bi, referential GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO r_writer;
+GRANT USAGE ON SCHEMA public, campaign, bi, referential, logs to r_writer;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public, campaign, bi, referential, logs to r_writer;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public, campaign, bi, referential, logs GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO r_writer;
 CREATE ROLE g_writer NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;
 GRANT r_writer to g_writer;
 CREATE ROLE writer_user WITH LOGIN ;
@@ -95,9 +95,9 @@ GRANT g_writer TO writer_user;
 
 ```plsql
 CREATE ROLE r_manager NOSUPERUSER INHERIT NOREPLICATION;
-GRANT USAGE ON SCHEMA public, campaign, bi, referential to r_manager;
-GRANT ALL ON ALL TABLES IN SCHEMA public, campaign, bi, referential to r_manager;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public, campaign, bi, referential GRANT ALL ON TABLES TO r_manager;
+GRANT USAGE ON SCHEMA public, campaign, bi, referential, logs to r_manager;
+GRANT ALL ON ALL TABLES IN SCHEMA public, campaign, bi, referential, logs to r_manager;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public, campaign, bi, referential, logs GRANT ALL ON TABLES TO r_manager;
 CREATE ROLE g_manager NOSUPERUSER INHERIT NOREPLICATION;
 GRANT r_manager to g_manager;
 CREATE ROLE manager_user WITH LOGIN ;
