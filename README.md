@@ -13,6 +13,7 @@ Several extension need to be installed on our PostGre SQL database :
 * postgis
 * postgis_topology
 * pg_routing
+
 # Database description
 ## How to edit the database/tables/columns?
 Create a new git branch (never work directly on master)
@@ -200,3 +201,12 @@ Special thanks to all our [Contributors](https://github.com/orgs/surfriderfounda
 ## License
 
 We’re using the `MIT` License. For more details, check [`LICENSE`](https://github.com/surfriderfoundationeurope/plasticorigins-ops-db/blob/master/LICENSE) file.
+
+# Azure Deployment
+
+You can use [shell.azure.com](https://shell.azure.com) to execute the following commands: 
+
+```bash
+git clone https://github.com/surfriderfoundationeurope/plasticorigins-ops-db.git
+./plasticorigins-ops-db/infrastructure/deploy-prod.sh
+```
