@@ -1,4 +1,4 @@
-#!bin/sh
+#!/bin/bash
 
 # Declare a resource group variable
 export RESOURCE_GROUP_NAME=rg-plastico-database-fra-prod
