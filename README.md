@@ -70,8 +70,8 @@ Following scripts have been used to generate user access and bi table permission
 
 ```sql
 CREATE ROLE r_reader NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;
-GRANT USAGE ON SCHEMA public, campaign, bi, referential to r_reader, logs;
-GRANT SELECT ON ALL TABLES IN SCHEMA public, campaign, bi, referential to r_reader, logs;
+GRANT USAGE ON SCHEMA public, campaign, bi, referential, logs to r_reader;
+GRANT SELECT ON ALL TABLES IN SCHEMA public, campaign, bi, referential, logs to r_reader;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public, campaign, bi, referential, logs GRANT SELECT ON TABLES TO r_reader;
 CREATE ROLE g_reader NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;
 GRANT r_reader to g_reader;
@@ -129,6 +129,7 @@ GRANT g_manager TO manager_user;
   <summary>Changing the owner of bi and bi temp to po_writer_pipeline </summary>
 
 ```sql
+GRANT po_writer_pipeline to po_admin_prod;
 ALTER SCHEMA bi_temp OWNER TO po_writer_pipeline;
 ALTER TABLE bi_temp.campaign OWNER TO po_writer_pipeline;
 ALTER TABLE bi_temp.campaign_river OWNER TO po_writer_pipeline;
