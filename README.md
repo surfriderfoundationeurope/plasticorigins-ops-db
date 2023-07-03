@@ -61,16 +61,18 @@ For more details, check `Plastic Origins database documentation` file.
 | Role name            | PRIVILEGES  | Group name       | Users            |
 |  ----------------| ---------------  | -------- | -------- |
 |r_reader | SELECT | g_reader |reader_user|
-| r_writer| SELECT, INSERT, UPDATE, DELETE | g_writer |writer_user|
+| r_writer| SELECT, INSERT, UPDATE, DELETE | g_writer |writer_user, po_writer_pipeline|
 | r_manager| ALL | g_manager |manager_user|
 
-Following scripts have been used to generate user accesses : 
+Following scripts have been used to generate user access and bi table permissions : 
+<details>
+  <summary>User access</summary>
 
-```plsql
+```sql
 CREATE ROLE r_reader NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;
-GRANT USAGE ON SCHEMA public, campaign, bi, referential to r_reader;
-GRANT SELECT ON ALL TABLES IN SCHEMA public, campaign, bi, referential to r_reader;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public, campaign, bi, referential GRANT SELECT ON TABLES TO r_reader;
+GRANT USAGE ON SCHEMA public, campaign, bi, referential, logs to r_reader;
+GRANT SELECT ON ALL TABLES IN SCHEMA public, campaign, bi, referential, logs to r_reader;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public, campaign, bi, referential, logs GRANT SELECT ON TABLES TO r_reader;
 CREATE ROLE g_reader NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;
 GRANT r_reader to g_reader;
 CREATE ROLE reader_user WITH LOGIN ;
@@ -79,25 +81,28 @@ ALTER ROLE reader_user VALID UNTIL 'infinity' ;
 GRANT g_reader TO reader_user;
 ```
 
-```plsql
+```sql
 CREATE ROLE r_writer NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;
-GRANT USAGE ON SCHEMA public, campaign, bi, referential to r_writer;
-GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public, campaign, bi, referential to r_writer;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public, campaign, bi, referential GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO r_writer;
+GRANT USAGE ON SCHEMA public, campaign, bi, bi_temp, referential, logs to r_writer;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public, campaign, bi, bi_temp, referential, logs to r_writer;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public, campaign, bi, bi_temp, referential, logs GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO r_writer;
 CREATE ROLE g_writer NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;
 GRANT r_writer to g_writer;
 CREATE ROLE writer_user WITH LOGIN ;
 ALTER ROLE writer_user WITH PASSWORD '****' ;
 ALTER ROLE writer_user VALID UNTIL 'infinity' ;
 GRANT g_writer TO writer_user;
+CREATE ROLE po_writer_pipeline WITH LOGIN PASSWORD '****';
+ALTER ROLE po_writer_pipeline VALID UNTIL 'infinity' ;
+GRANT g_writer TO po_writer_pipeline;
 ```
 
 
-```plsql
+```sql
 CREATE ROLE r_manager NOSUPERUSER INHERIT NOREPLICATION;
-GRANT USAGE ON SCHEMA public, campaign, bi, referential to r_manager;
-GRANT ALL ON ALL TABLES IN SCHEMA public, campaign, bi, referential to r_manager;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public, campaign, bi, referential GRANT ALL ON TABLES TO r_manager;
+GRANT USAGE ON SCHEMA public, campaign, bi, bi_temp, referential, logs to r_manager;
+GRANT ALL ON ALL TABLES IN SCHEMA public, campaign, bi, bi_temp, referential, logs to r_manager;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public, campaign, bi, bi_temp, referential, logs GRANT ALL ON TABLES TO r_manager;
 CREATE ROLE g_manager NOSUPERUSER INHERIT NOREPLICATION;
 GRANT r_manager to g_manager;
 CREATE ROLE manager_user WITH LOGIN ;
@@ -105,7 +110,51 @@ ALTER ROLE manager_user WITH PASSWORD '****' ;
 ALTER ROLE manager_user VALID UNTIL 'infinity' ;
 GRANT g_manager TO manager_user;
 ```
+```sql
+CREATE ROLE r_manager NOSUPERUSER INHERIT NOREPLICATION;
+GRANT USAGE ON SCHEMA public, campaign, bi, bi_temp, referential, logs to r_manager;
+GRANT ALL ON ALL TABLES IN SCHEMA public, campaign, bi, bi_temp, referential, logs to r_manager;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public, campaign, bi, bi_temp, referential, logs GRANT ALL ON TABLES TO r_manager;
+CREATE ROLE g_manager NOSUPERUSER INHERIT NOREPLICATION;
+GRANT r_manager to g_manager;
+CREATE ROLE manager_user WITH LOGIN ;
+ALTER ROLE manager_user WITH PASSWORD '****' ;
+ALTER ROLE manager_user VALID UNTIL 'infinity' ;
+GRANT g_manager TO manager_user;
+```
+</details>
 
+
+<details>
+  <summary>Changing the owner of bi and bi temp to po_writer_pipeline </summary>
+
+```sql
+GRANT po_writer_pipeline to po_admin_prod;
+ALTER SCHEMA bi_temp OWNER TO po_writer_pipeline;
+ALTER TABLE bi_temp.campaign OWNER TO po_writer_pipeline;
+ALTER TABLE bi_temp.campaign_river OWNER TO po_writer_pipeline;
+ALTER TABLE bi_temp.pipelines OWNER TO po_writer_pipeline;
+ALTER TABLE bi_temp.pipeline_to_compute OWNER TO po_writer_pipeline;
+ALTER TABLE bi_temp.river OWNER TO po_writer_pipeline;
+ALTER TABLE bi_temp.segment OWNER TO po_writer_pipeline;
+ALTER TABLE bi_temp.trajectory_point OWNER TO po_writer_pipeline;
+ALTER TABLE bi_temp.trajectory_point_river OWNER TO po_writer_pipeline;
+ALTER TABLE bi_temp.trash OWNER TO po_writer_pipeline;
+ALTER TABLE bi_temp.trash_river OWNER TO po_writer_pipeline;
+
+ALTER SCHEMA bi OWNER TO po_writer_pipeline;
+ALTER TABLE bi.campaign OWNER TO po_writer_pipeline;
+ALTER TABLE bi.campaign_river OWNER TO po_writer_pipeline;
+ALTER TABLE bi.river OWNER TO po_writer_pipeline;
+ALTER TABLE bi.segment OWNER TO po_writer_pipeline;
+ALTER TABLE bi.trajectory_point OWNER TO po_writer_pipeline;
+ALTER TABLE bi.trajectory_point_river OWNER TO po_writer_pipeline;
+ALTER TABLE bi.trash OWNER TO po_writer_pipeline;
+ALTER TABLE bi.trash_river OWNER TO po_writer_pipeline;
+```
+</details>
+
+  
 ### Installation
 <!--- TODO: It's a code block illustrating how to install. Include any system-specific information needed for installation. If there are multiple versions which the user may interface with, an updating section would be useful. Add Dependencies subsection if there are unusual dependencies or dependencies that must be manually installed.--->
 
@@ -194,6 +243,7 @@ It's great to have you here! We welcome any help and thank you in advance for yo
 If you experience any problems, please don't hesitate to ping:
 <!--- Need to check the full list of Maintainers and their GIThub contacts -->
 * [@ChristopheHvd](https://github.com/ChristopheHvd)
+* [@charlesollion](https://github.com/charlesollion)
 
 Special thanks to all our [Contributors](https://github.com/orgs/surfriderfoundationeurope/people).
 
