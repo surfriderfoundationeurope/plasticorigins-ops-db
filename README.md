@@ -97,31 +97,47 @@ ALTER ROLE po_writer_pipeline VALID UNTIL 'infinity' ;
 GRANT g_writer TO po_writer_pipeline;
 ```
 
+```sql
+CREATE ROLE r_manager NOSUPERUSER INHERIT NOREPLICATION;
+GRANT USAGE ON SCHEMA public, campaign, bi, bi_temp, referential, logs to r_manager;
+GRANT ALL ON ALL TABLES IN SCHEMA public, campaign, bi, bi_temp, referential, logs to r_manager;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public, campaign, bi, bi_temp, referential, logs GRANT ALL ON TABLES TO r_manager;
+CREATE ROLE g_manager NOSUPERUSER INHERIT NOREPLICATION;
+GRANT r_manager to g_manager;
+CREATE ROLE manager_user WITH LOGIN ;
+ALTER ROLE manager_user WITH PASSWORD '****' ;
+ALTER ROLE manager_user VALID UNTIL 'infinity' ;
+GRANT g_manager TO manager_user;
+```
+```sql
+CREATE ROLE r_manager NOSUPERUSER INHERIT NOREPLICATION;
+GRANT USAGE ON SCHEMA public, campaign, bi, bi_temp, referential, logs to r_manager;
+GRANT ALL ON ALL TABLES IN SCHEMA public, campaign, bi, bi_temp, referential, logs to r_manager;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public, campaign, bi, bi_temp, referential, logs GRANT ALL ON TABLES TO r_manager;
+CREATE ROLE g_manager NOSUPERUSER INHERIT NOREPLICATION;
+GRANT r_manager to g_manager;
+CREATE ROLE manager_user WITH LOGIN ;
+ALTER ROLE manager_user WITH PASSWORD '****' ;
+ALTER ROLE manager_user VALID UNTIL 'infinity' ;
+GRANT g_manager TO manager_user;
+```
 
-```sql
-CREATE ROLE r_manager NOSUPERUSER INHERIT NOREPLICATION;
-GRANT USAGE ON SCHEMA public, campaign, bi, bi_temp, referential, logs to r_manager;
-GRANT ALL ON ALL TABLES IN SCHEMA public, campaign, bi, bi_temp, referential, logs to r_manager;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public, campaign, bi, bi_temp, referential, logs GRANT ALL ON TABLES TO r_manager;
-CREATE ROLE g_manager NOSUPERUSER INHERIT NOREPLICATION;
-GRANT r_manager to g_manager;
-CREATE ROLE manager_user WITH LOGIN ;
-ALTER ROLE manager_user WITH PASSWORD '****' ;
-ALTER ROLE manager_user VALID UNTIL 'infinity' ;
-GRANT g_manager TO manager_user;
+Creation of API user
+sql
 ```
-```sql
-CREATE ROLE r_manager NOSUPERUSER INHERIT NOREPLICATION;
-GRANT USAGE ON SCHEMA public, campaign, bi, bi_temp, referential, logs to r_manager;
-GRANT ALL ON ALL TABLES IN SCHEMA public, campaign, bi, bi_temp, referential, logs to r_manager;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public, campaign, bi, bi_temp, referential, logs GRANT ALL ON TABLES TO r_manager;
-CREATE ROLE g_manager NOSUPERUSER INHERIT NOREPLICATION;
-GRANT r_manager to g_manager;
-CREATE ROLE manager_user WITH LOGIN ;
-ALTER ROLE manager_user WITH PASSWORD '****' ;
-ALTER ROLE manager_user VALID UNTIL 'infinity' ;
-GRANT g_manager TO manager_user;
+CREATE ROLE popublicapi WITH 
+        NOSUPERUSER
+        NOCREATEDB
+        NOCREATEROLE
+        INHERIT
+        LOGIN
+        NOREPLICATION
+        NOBYPASSRLS
+        CONNECTION LIMIT -1;
+ALTER ROLE writer_user WITH PASSWORD '***';
+GRANT writer_user TO popublicapi;
 ```
+
 </details>
 
 
@@ -151,6 +167,9 @@ ALTER TABLE bi.trajectory_point OWNER TO po_writer_pipeline;
 ALTER TABLE bi.trajectory_point_river OWNER TO po_writer_pipeline;
 ALTER TABLE bi.trash OWNER TO po_writer_pipeline;
 ALTER TABLE bi.trash_river OWNER TO po_writer_pipeline;
+
+ALTER SCHEMA logs OWNER po_writer_pipeline;
+ALTER TABLE logs.etl OWNER TO po_writer_pipeline;
 ```
 </details>
 
