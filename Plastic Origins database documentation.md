@@ -6,8 +6,8 @@
 
 | | |
 |:-|:-|
-|**Host** | pgdb-plastico-dev.postgres.database.azure.com |
-|**Database** | plastico-dev|
+|**Host** | pgdb-plastico-prod-fras.postgres.database.azure.com |
+|**Database** | plastico-prod |
 | **DBMS**| PostgreSQL|
 
 This is a documentation of this database created in [DBeaver Community](https://dbeaver.io/).
@@ -195,8 +195,11 @@ BI schema holds aggregated data about the campaigns and tracked rivers.
 | river_name                                 | text        |           |           | River name                                                   |
 | distance                                   | numeric     | meters    |           | Distance monitored on each river                             |
 | the_geom                                   | geometry    |           |           | GPS coordinates for river segment/track                      |
-| createdon                                  | timestamp   |date       |           |                                                              |			
-| id_ref_river_fk                            | int4        |foreign key|           | River ID                                                     |			
+| createdon                                  | timestamp   |date       |           |                                                              |		
+| id_ref_river_fk                            | int4        |foreign key|           | River ID                                                     |	
+| trash_count                            | int4        |integer|           | River ID                                                     |	
+| trash_per_km                            | int4        |numeric|           | River ID                                                     |	
+| disabled                            | int4        |yes/no|           | Script that disabled campaign with poor quality data                                                    |	
 
 </details>
 
