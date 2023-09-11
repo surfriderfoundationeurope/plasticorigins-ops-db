@@ -197,9 +197,9 @@ BI schema holds aggregated data about the campaigns and tracked rivers.
 | the_geom                                   | geometry    |           |           | GPS coordinates for river segment/track                      |
 | createdon                                  | timestamp   |date       |           |                                                              |		
 | id_ref_river_fk                            | int4        |foreign key|           | River ID                                                     |	
-| trash_count                            | int4        |integer|           | River ID                                                     |	
-| trash_per_km                            | int4        |numeric|           | River ID                                                     |	
-| disabled                            | int4        |yes/no|           | Script that disabled campaign with poor quality data                                                    |	
+| trash_count                                | int4        |integer    |           | River ID                                                     |	
+| trash_per_km                               | int4        |numeric    |           | River ID                                                     |	
+| disabled                                   | int4        |yes/no     |           | Script or manually disabled campaign with poor quality data  |	
 
 </details>
 
